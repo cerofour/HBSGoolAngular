@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+/* Active state styles for each variant */
+button[class*="bg-primary"].active {
+  box-shadow: 0 0 0 2px var(--color-primary);
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+button[class*="bg-secondary"].active {
+  box-shadow: 0 0 0 2px var(--color-secondary);
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 2px;
+}
+
+button[class*="bg-danger"].active {
+  box-shadow: 0 0 0 2px var(--color-danger);
+  outline: 2px solid var(--color-danger);
+  outline-offset: 2px;
+}
+
+button[class*="bg-gray-200"].active {
+  @apply ring-gray-500 ring-2 ring-offset-2;
+}
+
+/* Disabled state */
+button[class*="bg-gray-400"] {
+  @apply cursor-not-allowed opacity-60;
+}
+
+button[class*="bg-gray-400"]:hover {
+  @apply scale-100 bg-gray-400;
+}
