@@ -1,0 +1,27 @@
+:root {
+	--hbs-blue: #0b74b7;
+}
+
+/* Page background and base */
+body {
+	background-color: #f9fafb; /* gray-50 */
+}
+
+/* Small utility for card images to keep consistent aspect */
+.card-image {
+	object-fit: cover;
+}
+
+/* Disabled cancel button explicit style (in case Tailwind not applied) */
+.btn-disabled {
+	background-color: #e5e7eb; /* gray-300 */
+	color: #6b7280; /* gray-500 */
+	cursor: not-allowed;
+}
+
+/* Nav / footer branding helper */
+.brand-badge {
+	background-color: var(--hbs-blue);
+	color: white;
+	font-weight: 700;
+}
