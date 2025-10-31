@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'neutral' | 'disabled';
@@ -9,8 +9,9 @@ export type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'neutral' | 'di
   template: `
     <button 
       [class]="getButtonClasses()"
+      [type]="type()"
       [class.active]="isActive"
-      [disabled]="variant === 'disabled'"
+      [disabled]="variant() === 'disabled' || disabled()"
       (click)="onClick()"
       (mousedown)="setActive(true)"
       (mouseup)="setActive(false)"
@@ -22,14 +23,15 @@ export type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'neutral' | 'di
   styleUrl: './button.css',
 })
 export class Button {
-  @Input() variant: ButtonVariant = 'primary';
-  @Input() disabled: boolean = false;
-  @Output() click = new EventEmitter<void>();
+  variant   = input<ButtonVariant>('primary');
+  disabled  = input<boolean>(false);
+  type      = input<string>('');
+  click     = output<void>();
   
   isActive: boolean = false;
 
   onClick(): void {
-    if (this.variant !== 'disabled' && !this.disabled) {
+    if (this.variant() !== 'disabled' && !this.disabled()) {
       this.click.emit();
     }
   }
@@ -41,7 +43,7 @@ export class Button {
   getButtonClasses(): string {
     const baseClasses = 'px-4 py-2 rounded-md font-medium transition-all duration-200 ease-in-out transform focus:outline-none focus:ring-2 focus:ring-offset-2';
     
-    const variantClasses = {
+    const variantClasses: Record<ButtonVariant, string> = {
       primary: 'bg-primary text-white hover:bg-primary-hard hover:scale-105 focus:ring-primary',
       secondary: 'bg-secondary text-white hover:bg-secondary-dark hover:scale-105 focus:ring-secondary',
       danger: 'bg-danger text-white hover:bg-danger-dark hover:scale-105 focus:ring-danger',
@@ -51,6 +53,6 @@ export class Button {
 
     const activeClasses = this.isActive ? 'ring-2 ring-offset-2' : '';
     
-    return `${baseClasses} ${variantClasses[this.variant]} ${activeClasses}`;
+    return `${baseClasses} ${variantClasses[this.variant()]} ${activeClasses}`;
   }
 }

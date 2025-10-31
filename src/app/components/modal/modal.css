@@ -1,0 +1,9 @@
+/* Estilos adicionales del modal */
+:host {
+  display: contents;
+}
+
+/* Asegura scroll cuando el contenido es muy largo */
+.fixed.inset-0 {
+  overflow-y: auto;
+}
