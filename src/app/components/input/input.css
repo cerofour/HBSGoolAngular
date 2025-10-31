@@ -1,0 +1,5 @@
+/* Estilos adicionales opcionales para el componente Input */
+/* Mantener el control de altura mínima del área clickeable */
+input {
+  min-height: 2.5rem;
+}

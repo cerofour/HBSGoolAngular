@@ -1,38 +1,9 @@
-<section class="p-6 w-full">
+<div class="app-container">
+  <app-navbar></app-navbar>
 
-  <h1 class="text-3xl font-bold mb-6">{{ title() }}</h1>
+  <main class="grow">
+    <router-outlet />
+  </main>
 
-  <h2 class="text-xl font-semibold mb-4">Demo: Botones con Variantes y Animaciones</h2>
-  <div class="flex gap-4 justify-between w-full mb-6">
-    <app-button variant="primary" (click)="handlePrimary()">
-      Botón Primary
-    </app-button>
-    
-    <app-button variant="secondary" (click)="handleSecondary()">
-      Botón Secondary
-    </app-button>
-    
-    <app-button variant="danger" (click)="handleDanger()">
-      Botón Danger
-    </app-button>
-    
-    <app-button variant="neutral" (click)="handleNeutral()">
-      Botón Neutral
-    </app-button>
-    
-    <app-button variant="disabled">
-      Botón Disabled
-    </app-button>
-  </div>
-
-  <div class="text-sm text-gray-600">
-    <p><strong>Instrucciones:</strong></p>
-    <ul class="list-disc list-inside mt-2 space-y-1">
-      <li>Pasa el mouse sobre los botones para ver la animación de hover</li>
-      <li>Haz clic y mantén presionado para ver el estado activo con outline</li>
-      <li>Los botones funcionales mostrarán mensajes en la consola</li>
-    </ul>
-  </div>
-</section>
-
-<router-outlet />
+  <app-footer></app-footer>
+</div>
