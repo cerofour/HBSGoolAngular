@@ -3,15 +3,15 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 export interface Reservation {
-  idReservation: number;
-  userId?: number;
+  idReservacion: number;
+  usuarioId?: number;
   canchaId: number;
-  cashierId?: number;
-  startTime: Date;
+  cajeroId?: number;
+  tiempoInicio: string;
   dni: string;
-  duration: string;
-  totalPrice: number;
-  reservationStatus: string;
+  duracion: string;
+  precioTotal: number;
+  estadoReservacion: string;
 }
 
 export interface ReservationAsUserResult {
@@ -159,7 +159,7 @@ export class ReservationService {
 
   getHeader(): HttpHeaders {
     return new HttpHeaders({
-      'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsbGFjc2FodWFuZ2EuYnVxdWVAZ21haWwuY29tIiwiaWF0IjoxNzYxNDY5NDg2LCJleHAiOjE3NjE0NzMwODZ9.I38FhQmzvCpdNN-3A7COmRjH8MLtLv3WYWzA6zMxKhI',
+      'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsbGFjc2FodWFuZ2EuYnVxdWVAZ21haWwuY29tIiwiaWF0IjoxNzYxOTM2MjIwLCJleHAiOjE3NjE5Mzk4MjB9.TKdqFFH-gXACgY3ol1bqcdIoMxgiY5MeiRN1GNbr8SE',
       //'Content-Type': 'application/json'
     });
   }

@@ -1,0 +1,113 @@
+::ng-deep .e-schedule .e-toolbar .e-active-view .e-tbar-btn-text,
+::ng-deep .e-schedule .e-toolbar .e-active-view .e-tbar-btn-text:hover {
+  color: var(--color-primary) !important;
+}
+
+::ng-deep .e-schedule .e-toolbar .e-active-view {
+  border-bottom: 2px solid var(--color-primary) !important;
+}
+
+::ng-deep .e-schedule .e-toolbar .e-tbar-btn:hover .e-tbar-btn-text {
+  color: var(--color-primary) !important;
+}
+
+::ng-deep .e-schedule .e-toolbar .e-icons {
+  color: var(--color-primary) !important;
+}
+
+::ng-deep .e-schedule .e-appointment {
+  background-color: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+  color: #fff !important;
+  border-radius: 0.5rem !important;
+}
+
+::ng-deep .e-schedule .e-appointment:hover {
+  background-color: var(--color-primary-hard) !important;
+  border-color: var(--color-primary-hard) !important;
+}
+
+::ng-deep .e-schedule .e-appointment.e-selected {
+  background-color: var(--color-primary-hard) !important;
+  border-color: var(--color-primary-hard) !important;
+  color: #fff !important;
+}
+
+/* --- Personalizar el contenedor del popup --- */
+::ng-deep .e-quick-popup-wrapper {
+  border-radius: 0.75rem !important;
+  overflow: hidden !important;
+}
+
+/* --- Encabezado del popup (donde sale el título del evento) --- */
+::ng-deep .e-quick-popup-wrapper .e-popup-header {
+  background-color: var(--color-primary) !important;
+  color: #fff !important;
+  padding: 0.5rem 1rem !important;
+}
+
+/* --- Contenido del popup (detalles del evento) --- */
+::ng-deep .e-quick-popup-wrapper .e-popup-content {
+  background-color: #fff !important;
+  color: #333 !important;
+  padding: 0.75rem 1rem !important;
+}
+
+/* --- Botones (Editar, Eliminar, etc.) --- */
+::ng-deep .e-quick-popup-wrapper .e-event-popup .e-event-edit,
+::ng-deep .e-quick-popup-wrapper .e-event-popup .e-event-delete {
+  background-color: var(--color-primary-hard) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 0.5rem !important;
+  padding: 0.3rem 0.75rem !important;
+}
+
+::ng-deep .e-quick-popup-wrapper .e-event-popup .e-event-edit:hover,
+::ng-deep .e-quick-popup-wrapper .e-event-popup .e-event-delete:hover {
+  background-color: var(--color-primary) !important;
+}
+
+
+/* --- Estilo para el día seleccionado (el círculo) --- */
+::ng-deep .e-calendar .e-content td.e-selected span.e-day,
+::ng-deep .e-calendar .e-content td.e-selected:hover span.e-day {
+  background-color: var(--color-primary) !important;
+  color: #fff !important;
+}
+
+
+/* Opción 2: Apunta al botón que contiene el texto "TODAY" (la más probable de funcionar) */
+::ng-deep .e-calendar .e-footer-container .e-btn.e-flat.e-today {
+  color: var(--color-primary) !important;
+}
+
+/* Asegura que el botón no tenga fondo ni sombra al hacer clic o al enfocarse */
+::ng-deep .e-calendar .e-footer-container .e-btn.e-flat.e-today:focus,
+::ng-deep .e-calendar .e-footer-container .e-btn.e-flat.e-today:active {
+  background-color: transparent !important; 
+  box-shadow: none !important;             
+  color: var(--color-primary) !important;  
+}
+
+/* Opcional: Asegura que tampoco cambie de fondo al pasar el ratón (hover) */
+::ng-deep .e-calendar .e-footer-container .e-btn.e-flat.e-today:hover {
+  background-color: transparent !important;
+  color: var(--color-primary-hard) !important; 
+}
+
+::ng-deep .e-calendar .e-content td.e-selected span.e-day,
+::ng-deep .e-calendar .e-content td.e-selected:hover span.e-day {
+  background-color: var(--color-primary) !important;
+  color: #fff !important;
+  border-color: var(--color-primary) !important;
+}
+
+::ng-deep .e-calendar .e-content td.e-today:not(.e-selected) span.e-day {
+  color: var(--color-primary) !important;       
+  border-color: var(--color-primary) !important;
+  background-color: transparent !important;     
+}
+
+
+

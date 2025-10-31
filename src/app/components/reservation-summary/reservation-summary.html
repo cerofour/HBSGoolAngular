@@ -1,0 +1,35 @@
+<div class="max-w-sm mx-auto bg-white rounded-2xl overflow-hidden">
+
+  <span class="text-lg font-bold px-5">Resumen</span>
+
+  <div class="p-5">
+    <img [src]="imagen" alt="Cancha" class="w-full h-48 object-cover rounded-t-xl mb-4">
+
+    <h3 class="text-lg font-bold px-4">{{ canchaNombre ? canchaNombre : 'Cancha' }}</h3>
+
+    <div class="mt-2 space-y-1 text-sm px-4">
+      <div class="flex justify-between">
+        <span class="font-medium">Cancha:</span>
+        <span>{{ canchaNombre ? canchaNombre : '-' }}</span>
+      </div>
+      <div class="flex justify-between">
+        <span class="font-medium">Fecha:</span>
+        <span>{{ fecha ? fecha : '-' }}</span>
+      </div>
+      <div class="flex justify-between">
+        <span class="font-medium">Hora de Inicio:</span>
+        <span>{{ horaInicio ? horaInicio : '-' }}</span>
+      </div>
+      <div class="flex justify-between">
+        <span class="font-medium">Hora de Fin:</span>
+        <span>{{ horaFin ? horaFin : '-' }}</span>
+      </div>
+    </div>
+
+    <p class="mt-1 text-[var(--color-primary)] font-semibold px-4 flex justify-between">
+      Pago Total
+      <span class="text-[var(--color-primary)]">{{ pago ? ('S/ ' + pago.toFixed(2)) : '-' }}</span>
+    </p>
+  </div>
+
+</div>
