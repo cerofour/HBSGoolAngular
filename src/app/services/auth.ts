@@ -22,5 +22,6 @@ export class AuthService {
 
   private saveToken(token: string) {
     localStorage.setItem('jwtToken', token);
+    localStorage.setItem('loggedIn', '1');
   }
 }
