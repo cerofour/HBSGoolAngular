@@ -1,0 +1,14 @@
+<div class="modal-backdrop">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="close-title">
+    <h1 id="close-title" class="title">Cerrar Sesión</h1>
+    <p class="subtitle">¿Estás seguro de que deseas salir del sistema?</p>
+
+    <p class="instruction">Elija una opción</p>
+
+    <div class="button-row" role="group" aria-label="Opciones de cierre">
+      <button class="btn btn-red" (click)="onConfirmClose()">Cerrar sesión cajero</button>
+      <button class="btn btn-green" (click)="onLogoutOnly()">Solo desloguear</button>
+      <button class="btn btn-gray" (click)="onCancel()">Cancelar</button>
+    </div>
+  </div>
+</div>

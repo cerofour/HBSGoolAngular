@@ -2,6 +2,7 @@ import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Button } from './components/button/button';
 
+
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, Button],
