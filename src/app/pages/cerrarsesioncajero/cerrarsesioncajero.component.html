@@ -1,14 +1,14 @@
-<div class="modal-backdrop">
-  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="close-title">
-    <h1 id="close-title" class="title">Cerrar Sesión</h1>
-    <p class="subtitle">¿Estás seguro de que deseas salir del sistema?</p>
+<div class="fixed inset-0 flex items-center justify-center bg-black/40 z-1000">
+  <div class="bg-white p-6 rounded-xl w-90 max-w-full shadow-[0_12px_30px_rgba(0,0,0,0.12)] text-center" role="dialog" aria-modal="true" aria-labelledby="close-title">
+    <h1 id="close-title" class="font-bold text-[20px] mb-2 text-black">Cerrar Sesión</h1>
+    <p class="text-[13px] text-gray-500 mb-3">¿Estás seguro de que deseas salir del sistema?</p>
 
-    <p class="instruction">Elija una opción</p>
+    <p class="text-[14px] text-black text-left mb-3.5">Elija una opción</p>
 
-    <div class="button-row" role="group" aria-label="Opciones de cierre">
-      <button class="btn btn-red" (click)="onConfirmClose()">Cerrar sesión cajero</button>
-      <button class="btn btn-green" (click)="onLogoutOnly()">Solo desloguear</button>
-      <button class="btn btn-gray" (click)="onCancel()">Cancelar</button>
+    <div class="flex gap-3 justify-between items-center" role="group" aria-label="Opciones de cierre">
+      <app-button variant="danger" (click)="onConfirmClose()">Cerrar sesión cajero</app-button>
+      <app-button variant="secondary" (click)="onLogoutOnly()">Solo desloguear</app-button>
+      <app-button variant="neutral" (click)="onCancel()">Cancelar</app-button>
     </div>
-  </div>
+  </div>
 </div>

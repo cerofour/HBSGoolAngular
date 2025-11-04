@@ -1,13 +1,14 @@
+
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Button } from '../../components/button/button';
 
 @Component({
   selector: 'app-abrir-sesion-cajero',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, Button],
   templateUrl: './abrirsesioncajero.component.html',
-  styleUrls: ['./abrirsesioncajero.component.css']
 })
 export class AbrirSesionCajeroComponent {
   montoInicial: number | null = null;

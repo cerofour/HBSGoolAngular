@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Button } from '../../components/button/button';
 
 @Component({
   selector: 'app-cerrar-sesion-cajero',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, Button],
   templateUrl: './cerrarsesioncajero.component.html',
-  styleUrls: ['./cerrarsesioncajero.component.css']
 })
 export class CerrarSesionCajeroComponent {
   @Output() closed = new EventEmitter<void>();
