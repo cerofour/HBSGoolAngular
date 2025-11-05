@@ -1,16 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { SesionCajeroService } from './sesion-cajero.service';
+import { CajeroService } from './cajero.service';
 
-describe('SesionCajeroService', () => {
-  let service: SesionCajeroService;
+describe('CajeroService', () => {
+  let service: CajeroService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [SesionCajeroService],
+      providers: [CajeroService]
     });
-    service = TestBed.inject(SesionCajeroService);
+    service = TestBed.inject(CajeroService);
   });
 
   it('should be created', () => {
