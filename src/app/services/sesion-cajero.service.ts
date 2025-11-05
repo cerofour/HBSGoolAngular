@@ -18,6 +18,16 @@ export interface CierreCajeroResponse {
   montoReal: number;
 }
 
+
+export interface ResumenCaja {
+  cajeroId: number;
+  fechaApertura: string;
+  fechaCierre?: string | null;
+  montoInicial: number;
+  montoTeorico: number;
+  montoReal: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -31,5 +41,15 @@ export class SesionCajeroService {
       `${this.apiPath}/api/cajero/cierrecajero`, 
       data
     );
+  }
+ 
+  
+  getResumenCajas(cajeroId: number, fechaInicio?: string, fechaFin?: string): Observable<ResumenCaja[]> {
+    const params: any = { cajeroId };
+    if (fechaInicio) params.fechaInicio = fechaInicio;
+    if (fechaFin) params.fechaFin = fechaFin;
+
+    // ruta revisar
+    return this.http.get<ResumenCaja[]>(`${this.apiPath}/api/cajero/resumen`, { params });
   }
 }
