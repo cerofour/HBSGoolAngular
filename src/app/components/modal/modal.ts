@@ -1,4 +1,4 @@
-import { Component, HostListener, signal } from '@angular/core';
+import { Component, HostListener, input, signal } from '@angular/core';
 
 @Component({
   selector: 'app-modal',
@@ -13,8 +13,14 @@ import { Component, HostListener, signal } from '@angular/core';
         <!-- Modal dialog -->
         <div class="relative z-10 w-full max-w-lg mx-4 rounded-xl bg-white shadow-2xl border border-gray-200">
           <!-- Header -->
-          <div class="flex items-center justify-between px-4 py-3 rounded-t-xl bg-primary text-white">
-            <h3 class="text-lg font-semibold">Modal</h3>
+          <div class="flex items-center justify-between px-4 py-3 rounded-t-xl">
+
+			@if (title()) {
+            	<h3 class="text-lg font-semibold">{{title()}}</h3>
+			} @else {
+            	<h3 class="text-lg font-semibold">Información</h3>
+			}
+
             <button type="button" (click)="close()" class="p-1 rounded hover:bg-white/20 transition">
               <span aria-hidden="true">✕</span>
             </button>
@@ -41,6 +47,7 @@ import { Component, HostListener, signal } from '@angular/core';
 })
 export class Modal {
   // Signal de control de visibilidad
+  title = input('');
   isOpen = signal<boolean>(false);
 
   // Métodos públicos para abrir/cerrar desde el padre

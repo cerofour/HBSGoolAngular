@@ -41,18 +41,32 @@ export class Button {
   }
 
   getButtonClasses(): string {
-    const baseClasses = 'px-4 py-2 rounded-md font-medium transition-all duration-200 ease-in-out transform focus:outline-none focus:ring-2 focus:ring-offset-2';
-    
+    const isDisabled = this.variant() === 'disabled' || this.disabled();
+
+    const baseEnabled = 'px-4 py-2 rounded-md font-medium transition-all duration-200 ease-in-out transform focus:outline-none focus:ring-2 focus:ring-offset-2';
+    const baseDisabled = 'px-4 py-2 rounded-md font-medium cursor-not-allowed opacity-60';
+
     const variantClasses: Record<ButtonVariant, string> = {
       primary: 'bg-primary text-white hover:bg-primary-hard hover:scale-105 focus:ring-primary',
       secondary: 'bg-secondary text-white hover:bg-secondary-dark hover:scale-105 focus:ring-secondary',
       danger: 'bg-danger text-white hover:bg-danger-dark hover:scale-105 focus:ring-danger',
       neutral: 'bg-gray-200 text-gray-800 hover:bg-gray-300 hover:scale-105 focus:ring-gray-500',
-      disabled: 'bg-gray-400 text-gray-600 cursor-not-allowed opacity-60'
+      disabled: 'bg-gray-400 text-gray-600'
     };
 
-    const activeClasses = this.isActive ? 'ring-2 ring-offset-2' : '';
-    
-    return `${baseClasses} ${variantClasses[this.variant()]} ${activeClasses}`;
+    const activeRingByVariant: Record<Exclude<ButtonVariant, 'disabled'>, string> = {
+      primary: 'ring-primary',
+      secondary: 'ring-secondary',
+      danger: 'ring-danger',
+      neutral: 'ring-gray-500'
+    };
+
+    const activeClasses = this.isActive && !isDisabled
+      ? `ring-2 ring-offset-2 ${activeRingByVariant[this.variant() as Exclude<ButtonVariant, 'disabled'>]}`
+      : '';
+
+    const base = isDisabled ? baseDisabled : baseEnabled;
+
+    return `${base} ${variantClasses[this.variant()]} ${activeClasses}`;
   }
 }
