@@ -118,7 +118,6 @@ export class ReservationService {
 
   //ROLE: USER
   creationReservationAsUser(data: ReservationFormUser, file: File): Observable<ReservationAsUserResult> {
-
     const headers = this.getHeader();
     const formData = new FormData();
 
@@ -159,7 +158,7 @@ export class ReservationService {
 
   getHeader(): HttpHeaders {
     return new HttpHeaders({
-      'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsbGFjc2FodWFuZ2EuYnVxdWVAZ21haWwuY29tIiwiaWF0IjoxNzYxOTM2MjIwLCJleHAiOjE3NjE5Mzk4MjB9.TKdqFFH-gXACgY3ol1bqcdIoMxgiY5MeiRN1GNbr8SE',
+      'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsbGFjc2FodWFuZ2EuYnVxdWVAZ21haWwuY29tIiwiaWF0IjoxNzYyMzc0NDYyLCJleHAiOjE3NjIzNzgwNjJ9.QQprvVBC3BLf-tXRmwCpaUh_xSlRmdIl8BGGZIv61qw',
       //'Content-Type': 'application/json'
     });
   }

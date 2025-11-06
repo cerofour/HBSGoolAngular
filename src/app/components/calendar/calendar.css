@@ -1,10 +1,16 @@
+::ng-deep .e-schedule .e-toolbar {
+  background-color: #f8f9fa !important;
+  border-bottom: 2px solid var(--color-border-stroke) !important;
+}
+
 ::ng-deep .e-schedule .e-toolbar .e-active-view .e-tbar-btn-text,
 ::ng-deep .e-schedule .e-toolbar .e-active-view .e-tbar-btn-text:hover {
   color: var(--color-primary) !important;
+  font-weight: 600 !important;
 }
 
 ::ng-deep .e-schedule .e-toolbar .e-active-view {
-  border-bottom: 2px solid var(--color-primary) !important;
+  border-bottom: 3px solid var(--color-primary) !important;
 }
 
 ::ng-deep .e-schedule .e-toolbar .e-tbar-btn:hover .e-tbar-btn-text {
@@ -15,99 +21,174 @@
   color: var(--color-primary) !important;
 }
 
+::ng-deep .e-schedule .e-toolbar .e-icons:hover {
+  color: var(--color-primary-hard) !important;
+}
+
+/*  OCULTAR BOTÓN DE AGREGAR EVENTO  */
+::ng-deep .e-schedule .e-toolbar .e-add {
+  display: none !important;
+}
+
+/*  TÍTULO DEL CALENDARIO  */
+::ng-deep .e-schedule .e-date-header-wrap .e-schedule-toolbar .e-toolbar-item.e-date-range {
+  color: var(--color-primary) !important;
+  font-weight: 700 !important;
+  font-size: 1.1rem !important;
+}
+
+/*  EVENTOS/CITAS  */
 ::ng-deep .e-schedule .e-appointment {
   background-color: var(--color-primary) !important;
   border-color: var(--color-primary) !important;
   color: #fff !important;
   border-radius: 0.5rem !important;
+  font-weight: 500 !important;
+  transition: all 0.2s ease !important;
 }
 
 ::ng-deep .e-schedule .e-appointment:hover {
   background-color: var(--color-primary-hard) !important;
   border-color: var(--color-primary-hard) !important;
+  transform: scale(1.02) !important;
+  box-shadow: 0 2px 8px rgba(0, 129, 197, 0.3) !important;
 }
 
 ::ng-deep .e-schedule .e-appointment.e-selected {
   background-color: var(--color-primary-hard) !important;
   border-color: var(--color-primary-hard) !important;
   color: #fff !important;
+  box-shadow: 0 4px 12px rgba(0, 129, 197, 0.4) !important;
 }
 
-/* --- Personalizar el contenedor del popup --- */
+/*  POPUP DE QUICK INFO  */
 ::ng-deep .e-quick-popup-wrapper {
   border-radius: 0.75rem !important;
   overflow: hidden !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
 }
 
-/* --- Encabezado del popup (donde sale el título del evento) --- */
 ::ng-deep .e-quick-popup-wrapper .e-popup-header {
   background-color: var(--color-primary) !important;
   color: #fff !important;
-  padding: 0.5rem 1rem !important;
+  padding: 0.75rem 1rem !important;
+  font-weight: 600 !important;
 }
 
-/* --- Contenido del popup (detalles del evento) --- */
 ::ng-deep .e-quick-popup-wrapper .e-popup-content {
   background-color: #fff !important;
   color: #333 !important;
-  padding: 0.75rem 1rem !important;
+  padding: 1rem !important;
 }
 
-/* --- Botones (Editar, Eliminar, etc.) --- */
 ::ng-deep .e-quick-popup-wrapper .e-event-popup .e-event-edit,
 ::ng-deep .e-quick-popup-wrapper .e-event-popup .e-event-delete {
-  background-color: var(--color-primary-hard) !important;
+  background-color: var(--color-primary) !important;
   color: #fff !important;
   border: none !important;
   border-radius: 0.5rem !important;
-  padding: 0.3rem 0.75rem !important;
+  padding: 0.4rem 0.9rem !important;
+  font-weight: 500 !important;
+  transition: all 0.2s ease !important;
 }
 
 ::ng-deep .e-quick-popup-wrapper .e-event-popup .e-event-edit:hover,
 ::ng-deep .e-quick-popup-wrapper .e-event-popup .e-event-delete:hover {
-  background-color: var(--color-primary) !important;
+  background-color: var(--color-primary-hard) !important;
+  transform: translateY(-1px) !important;
 }
 
-
-/* --- Estilo para el día seleccionado (el círculo) --- */
-::ng-deep .e-calendar .e-content td.e-selected span.e-day,
-::ng-deep .e-calendar .e-content td.e-selected:hover span.e-day {
-  background-color: var(--color-primary) !important;
-  color: #fff !important;
-}
-
-
-/* Opción 2: Apunta al botón que contiene el texto "TODAY" (la más probable de funcionar) */
-::ng-deep .e-calendar .e-footer-container .e-btn.e-flat.e-today {
-  color: var(--color-primary) !important;
-}
-
-/* Asegura que el botón no tenga fondo ni sombra al hacer clic o al enfocarse */
-::ng-deep .e-calendar .e-footer-container .e-btn.e-flat.e-today:focus,
-::ng-deep .e-calendar .e-footer-container .e-btn.e-flat.e-today:active {
-  background-color: transparent !important; 
-  box-shadow: none !important;             
-  color: var(--color-primary) !important;  
-}
-
-/* Opcional: Asegura que tampoco cambie de fondo al pasar el ratón (hover) */
-::ng-deep .e-calendar .e-footer-container .e-btn.e-flat.e-today:hover {
-  background-color: transparent !important;
-  color: var(--color-primary-hard) !important; 
-}
-
+/*  CALENDARIO (DATEPICKER)  */
 ::ng-deep .e-calendar .e-content td.e-selected span.e-day,
 ::ng-deep .e-calendar .e-content td.e-selected:hover span.e-day {
   background-color: var(--color-primary) !important;
   color: #fff !important;
   border-color: var(--color-primary) !important;
+  border-radius: 50% !important;
 }
 
 ::ng-deep .e-calendar .e-content td.e-today:not(.e-selected) span.e-day {
-  color: var(--color-primary) !important;       
-  border-color: var(--color-primary) !important;
-  background-color: transparent !important;     
+  color: var(--color-primary) !important;
+  border: 2px solid var(--color-primary) !important;
+  background-color: transparent !important;
+  border-radius: 50% !important;
+  font-weight: 600 !important;
 }
 
+::ng-deep .e-calendar .e-footer-container .e-btn.e-flat.e-today {
+  color: var(--color-primary) !important;
+  font-weight: 600 !important;
+}
 
+::ng-deep .e-calendar .e-footer-container .e-btn.e-flat.e-today:hover {
+  background-color: rgba(0, 129, 197, 0.1) !important;
+  color: var(--color-primary-hard) !important;
+}
 
+::ng-deep .e-calendar .e-footer-container .e-btn.e-flat.e-today:focus,
+::ng-deep .e-calendar .e-footer-container .e-btn.e-flat.e-today:active {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  color: var(--color-primary) !important;
+}
+
+/*  ENCABEZADO DE DÍAS  */
+::ng-deep .e-schedule .e-header-cells {
+  background-color: #f8f9fa !important;
+  color: var(--color-primary) !important;
+  font-weight: 600 !important;
+  border-color: var(--color-border-stroke) !important;
+}
+
+/*  CELDAS DE HORA  */
+::ng-deep .e-schedule .e-time-cells {
+  color: #666 !important;
+  font-weight: 500 !important;
+}
+
+/*  FECHAS PASADAS  */
+::ng-deep .e-past-date {
+  background-color: #f5f5f5 !important;
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+}
+
+::ng-deep .e-past-date:hover {
+  background-color: #f5f5f5 !important;
+}
+
+/*  HOVER EN CELDAS  */
+::ng-deep .e-schedule .e-work-cells:hover:not(.e-past-date) {
+  background-color: rgba(0, 129, 197, 0.05) !important;
+}
+
+/*  BORDES Y SEPARADORES  */
+::ng-deep .e-schedule .e-vertical-view .e-day-wrapper .e-appointment {
+  border-left: 4px solid var(--color-primary-hard) !important;
+}
+
+::ng-deep .e-schedule .e-work-cells {
+  border-color: var(--color-border-stroke) !important;
+}
+
+/*  BOTONES DEL CALENDARIO  */
+::ng-deep .e-calendar .e-content td:hover span.e-day {
+  background-color: rgba(0, 129, 197, 0.1) !important;
+}
+
+/*  ANIMACIONES  */
+::ng-deep .e-schedule .e-appointment {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/*  RESPONSIVE  */
+@media (max-width: 768px) {
+  ::ng-deep .e-schedule .e-date-header-wrap .e-schedule-toolbar .e-toolbar-item.e-date-range {
+    font-size: 0.95rem !important;
+  }
+
+  ::ng-deep .e-schedule .e-appointment {
+    font-size: 0.85rem !important;
+  }
+}

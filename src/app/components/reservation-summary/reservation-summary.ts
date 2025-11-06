@@ -1,16 +1,38 @@
-import { Component, Input } from '@angular/core';
+import { Component, computed, Input, signal } from '@angular/core';
+import { ReservationFormCashier, ReservationFormUser } from '../../services/reservation/reservation.service';
+import { calculateEndTime, getDate, getTime } from '../../utils/general-utils';
 
 @Component({
   selector: 'app-reservation-summary',
   imports: [],
-  templateUrl: './reservation-summary.html',
-  styleUrl: './reservation-summary.css',
+  templateUrl: './reservation-summary.html'
 })
 export class ReservationSummary {
-  @Input() canchaNombre: string | null = null;
-  @Input() fecha: string | null = null;
-  @Input() horaInicio: string | null = null;
-  @Input() horaFin: string | null = null;
-  @Input() pago: number | null = null;
+  private _data = signal<(ReservationFormCashier | ReservationFormUser) & { totalPrice?: number } | null>(null);
+  @Input() set data(value: (ReservationFormCashier | ReservationFormUser) & { totalPrice?: number } | null) {
+    this._data.set(value);
+  }
   @Input() imagen = 'cancha.png';
+
+
+  get data(): (ReservationFormCashier | ReservationFormUser) & { totalPrice?: number } | null  {
+    return this._data();
+  }
+
+  date = computed(() => {
+    const d = this._data();
+    return d ? getDate(d.tiempoInicio) : null;
+  });
+
+  startTime = computed(() => {
+    const d = this._data();
+    return d ? getTime(d.tiempoInicio) : null;
+  });
+  
+  endHour = computed(() => {
+    const d = this._data();
+    return d ? getTime(calculateEndTime(d.tiempoInicio, d.duracion).toISOString()) : null;
+  });
+
+
 }
