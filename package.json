@@ -34,6 +34,7 @@
     "@syncfusion/ej2-angular-schedule": "^31.2.3",
     "@syncfusion/ej2-base": "^31.2.4",
     "@syncfusion/ej2-data": "^31.2.3",
+    "@netlify/angular-runtime": "^3.0.0",
     "@tailwindcss/postcss": "^4.1.16",
     "express": "^5.1.0",
     "postcss": "^8.5.6",
