@@ -8,6 +8,7 @@ import { ConfirmPayment } from '../../components/modals/confirm-payment/confirm-
 import { ReservationFormCashier, ReservationFormUser, ReservationService } from '../../services/reservation/reservation.service';
 import { ActivatedRoute } from '@angular/router';
 import { Button } from '../../components/button/button';
+import { AppStateService } from '../../services/app-state/app-state';
 
 @Component({
   selector: 'app-reservation-page',
@@ -26,13 +27,15 @@ export class ReservationPage {
   paymentAmount = signal<number>(0);
 
   canchaId!: number;
+  rol?: string;
 
+  private appState = inject(AppStateService);
   private reservationService = inject(ReservationService);
   private route = inject(ActivatedRoute);
 
   ngOnInit() {
     this.canchaId = Number(this.route.snapshot.paramMap.get('id'));
-    //TODO: verificar el rol y cambiar el moda del modal component = this.modalComponent = modalAdmin;
+    this.rol = this.appState.getUserProfile()?.rol;
   }
 
   handleReservationConfirmed(data: ReservationFormUser | ReservationFormCashier) {
@@ -82,11 +85,16 @@ export class ReservationPage {
   }
 
   handlePaymentUploaded() {
+    if(this.rol === undefined) return;
+
     if (this.reservationData() !== null && this.selectedImage !== null) {
-      //TODO: diferenciar si es user o cashier
-      this.reservationService.creationReservationAsUser(this.reservationData() as ReservationFormUser, this.selectedImage).subscribe();
-      //this.reservationService.creationReservationAsCashier(this.reservationData() as ReservationFormCashier, this.selectedImage).subscribe();
+      //TODO: arreglar ReservationFormCashier y ReservationFormUser
+      if(this.rol === 'ROLE_CASHIER')
+        this.reservationService.creationReservationAsCashier(this.reservationData() as ReservationFormCashier, this.selectedImage).subscribe();
+      else if (this.rol === 'ROLE_USER')
+        this.reservationService.creationReservationAsUser(this.reservationData() as ReservationFormUser, this.selectedImage).subscribe();
     }
+    
   }
 
   private resetReservationFlow() {

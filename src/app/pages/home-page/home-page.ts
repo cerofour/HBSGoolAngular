@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
-import { CANCHAS_EJEMPLO } from '../../components/card/card.example';
 import { HeroSection } from './hero-section';
 import { CanchasSection } from './canchas-section';
 import { InfoContactHero } from './info-contact-hero';
+import { CanchaInfo, CanchaService } from '../../services/cancha/cancha.service';
 
 @Component({
   selector: 'app-home-page',
@@ -12,5 +12,14 @@ import { InfoContactHero } from './info-contact-hero';
   styleUrl: './home-page.css',
 })
 export class HomePage {
-  canchas = CANCHAS_EJEMPLO;
+  private canchaService = inject(CanchaService);
+  canchas: CanchaInfo[] = []; 
+
+  ngOnInit() {
+    this.canchaService.getAllCanchas().subscribe({
+      next: (canchas) => this.canchas = canchas,
+      error: () => {}
+    });
+  }
+
 }

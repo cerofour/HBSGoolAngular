@@ -1,3 +1,9 @@
+import { UserProfile } from "./user-profile";
+
 export interface LoginResponse {
-	token: string;
+	auth: {
+		jwtToken: string,
+		expiration: string
+	},
+	profile: UserProfile
 }

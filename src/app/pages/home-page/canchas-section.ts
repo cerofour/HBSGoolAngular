@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CanchaCard } from '../../components/card/card';
+import { CanchaInfo } from '../../services/cancha/cancha.service';
 
 @Component({
   selector: 'app-home-canchas',
@@ -25,5 +26,5 @@ import { CanchaCard } from '../../components/card/card';
   `,
 })
 export class CanchasSection {
-  @Input({ required: true }) canchas!: any[];
+  @Input({ required: true }) canchas!: CanchaInfo[];
 }

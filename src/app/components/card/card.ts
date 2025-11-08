@@ -1,14 +1,7 @@
 import { Component, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonLink } from '../button-link/button-link';
-
-export interface CanchaInfo {
-  canchaId: number;
-  name: string;
-  description: string;
-  hourlyPrice: number;
-  canchaState: string;
-}
+import { CanchaInfo } from '../../services/cancha/cancha.service';
 
 @Component({
   selector: 'app-cancha-card',

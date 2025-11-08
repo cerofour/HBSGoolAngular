@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { ModalContainer } from '../modal-container/modal-container';
 import { ReservationFormCashier, ReservationFormUser } from '../../../services/reservation/reservation.service';
 import { combineDateAndTime, getPostgresInterval, getDate, getTime } from '../../../utils/general-utils';
-import { Cancha, CanchaService } from '../../../services/cancha/cancha.service';
+import { CanchaInfo, CanchaService } from '../../../services/cancha/cancha.service';
 
 export type modalType = 'user' | 'cashier';
 
@@ -21,7 +21,7 @@ export class ReservationModal {
   @Output() onConfirm = new EventEmitter<(ReservationFormCashier | ReservationFormUser) & { totalPrice?: number }>()
 
   form!: FormGroup;
-  canchas: Cancha[] = [];
+  canchas: CanchaInfo[] = [];
   totalPrice = signal(0);
   formattedDate = computed(() => getDate(this.data.tiempoInicio));
   formattedTime = computed(() => getTime(this.data.tiempoInicio));
@@ -35,7 +35,7 @@ export class ReservationModal {
   }
 
   calculateTotalPrice(): number {
-    const cancha: Cancha | undefined = this.canchas.find((e) => e.canchaId == this.data.canchaId);
+    const cancha: CanchaInfo | undefined = this.canchas.find((e) => e.canchaId == this.data.canchaId);
 
     if (cancha === undefined) return 0;
 

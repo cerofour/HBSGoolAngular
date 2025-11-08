@@ -18,11 +18,11 @@ export class AuthService {
   login(email: string, password: string): Observable<LoginResponse> {
 
     return this.http
-      .post<LoginResponse>(`${this.apiPath}/api/auth/login`, {username: email, password})
+      .post<LoginResponse>(`${this.apiPath}/api/auth/login`, {email: email, contrasena: password})
       .pipe(
         tap(res => {
-          this.saveToken(res.token);
-          this.lazyGetProfile(res.token);
+          this.saveToken(res.auth.jwtToken);
+          this.lazyGetProfile(res.auth.jwtToken);
         })
       )
   }

@@ -158,7 +158,6 @@ export class ReservationService {
 
   getHeader(): HttpHeaders {
     return new HttpHeaders({
-      'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsbGFjc2FodWFuZ2EuYnVxdWVAZ21haWwuY29tIiwiaWF0IjoxNzYyMzc0NDYyLCJleHAiOjE3NjIzNzgwNjJ9.QQprvVBC3BLf-tXRmwCpaUh_xSlRmdIl8BGGZIv61qw',
       //'Content-Type': 'application/json'
     });
   }
