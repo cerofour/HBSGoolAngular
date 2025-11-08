@@ -1,0 +1,11 @@
+<div class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+  <div class="bg-white rounded-2xl shadow-xl w-[90%] max-w-md p-6 relative">
+    <header class="flex justify-between items-center mb-4">
+      <h3 class="text-lg font-semibold text-gray-800">{{ title }}</h3>
+      <button (click)="onClose.emit()" class="text-gray-500 hover:text-gray-700 text-xl leading-none">
+        X
+      </button>
+    </header>
+    <ng-content></ng-content>
+  </div>
+</div>
