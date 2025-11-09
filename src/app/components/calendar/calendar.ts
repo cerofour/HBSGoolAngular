@@ -14,7 +14,7 @@ import {
   ScheduleComponent
 } from '@syncfusion/ej2-angular-schedule';
 import { Page, Reservation, ReservationFormCashier, ReservationFormUser, ReservationService } from '../../services/reservation/reservation.service';
-import { modalType, ReservationModal } from '../modals/reservation-cashier-modal/reservation-modal';
+import { modalType, ReservationModal } from '../modals/reservation-modal/reservation-modal';
 import { calculateEndTime } from '../../utils/general-utils';
 
 @Component({
@@ -78,7 +78,7 @@ export class Calendar {
   }
 
   loadEvents() {
-    this.reservation.getListReservationCashier().subscribe({
+    this.reservation.getListReservationCashier({canchaId: this.canchaId}).subscribe({
       next: (data: Page<Reservation>) => {
         this.eventData = data.content.map((event: Reservation, index: number) => ({
           Id: event.idReservacion ?? index + 1,
@@ -142,7 +142,7 @@ export class Calendar {
 
       if (eventData && eventData.Id) return;
 
-      const startTime = new Date(eventData.StartTime.toISOString());
+      const startTime = new Date(eventData.StartTime);
 
       const startHourNum = parseInt(this.startHour.split(':')[0]);
       const startMinNum = parseInt(this.startHour.split(':')[1]);
@@ -162,14 +162,14 @@ export class Calendar {
         this.userModalData.update(prev => ({
           ...prev,
           ...(this.initialModalData as Partial<ReservationFormUser>),
-          tiempoInicio: startTime.toISOString(),
+          tiempoInicio: this.toLocalISOString(startTime),
           availableHours
         } as ReservationFormUser));
       } else if (this.modalType === 'cashier') {
         this.cashierModalData.update(prev => ({
           ...prev,
           ...(this.initialModalData as Partial<ReservationFormCashier>),
-          tiempoInicio: startTime.toISOString(),
+          tiempoInicio: this.toLocalISOString(startTime),
           availableHours
         } as ReservationFormCashier));
       }
@@ -265,6 +265,12 @@ export class Calendar {
     const now = new Date();
     return date < now;
   }
+
+  public toLocalISOString = (d = new Date()) =>
+  new Date(d.getTime() - d.getTimezoneOffset() * 60000)
+    .toISOString()
+    .slice(0, -1);
+
 
   calculateEndTime = calculateEndTime;
 

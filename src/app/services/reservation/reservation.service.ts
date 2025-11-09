@@ -94,8 +94,7 @@ export class ReservationService {
   ): Observable<Page<Reservation>> {
 
     const params = this.buildParams({page, size, sort});
-    const headers = this.getHeader();
-    return this.http.get<Page<Reservation>>(`${this.apiURLBASE}/usuario`, { headers, params });
+    return this.http.get<Page<Reservation>>(`${this.apiURLBASE}/usuario`, { params });
   }
 
   //ROLE: ADMIN OR CASHIER
@@ -105,45 +104,40 @@ export class ReservationService {
   ): Observable<Page<Reservation>> {
 
     const params = this.buildParams({usuarioId, canchaId, estado, dni, page, size, sort});
-    const headers = this.getHeader();
-    return this.http.get<Page<Reservation>>(`${this.apiURLBASE}`, { headers, params });
+    return this.http.get<Page<Reservation>>(`${this.apiURLBASE}`, { params });
 
   }
 
   //ROLE: ADMIN OR CASHIER
   getByIdReservationCashier(id: number): Observable<Reservation> {
-    const headers = this.getHeader();
-    return this.http.get<Reservation>(`${this.apiURLBASE}/${id}`, { headers });
+    return this.http.get<Reservation>(`${this.apiURLBASE}/${id}`);
   }
 
   //ROLE: USER
   creationReservationAsUser(data: ReservationFormUser, file: File): Observable<ReservationAsUserResult> {
-    const headers = this.getHeader();
     const formData = new FormData();
 
     formData.append('data', new Blob([JSON.stringify(data)], { type: 'application/json'}));
     formData.append('evidencia', file, file.name);
 
-    return this.http.post<ReservationAsUserResult>(`${this.apiURLBASE}`, formData, { headers });
+    return this.http.post<ReservationAsUserResult>(`${this.apiURLBASE}`, formData);
 
   }
 
   //ROLE: ADMIN OR CASHIER
   creationReservationAsCashier(data: ReservationFormCashier, file: File): Observable<ReservationAsCashierResult> {
-    const headers = this.getHeader();
     const formData = new FormData();
 
     formData.append('data', new Blob([JSON.stringify(data)], { type: 'application/json'}));
     formData.append('evidencia', file, file.name);
 
-    return this.http.post<ReservationAsCashierResult>(`${this.apiURLBASE}/cajero`, formData, { headers });
+    return this.http.post<ReservationAsCashierResult>(`${this.apiURLBASE}/cajero`, formData);
 
   }
 
   //ROLE: ADMIN OR CASHIER
   cancelReservationCashier(id: number): Observable<null> {
-    const headers = this.getHeader();
-    return this.http.patch<null>(`${this.apiURLBASE}/${id}/cancelar`, { headers });
+    return this.http.patch<null>(`${this.apiURLBASE}/${id}/cancelar`, {  });
   }
 
   private buildParams(paramsObj: Record<string, any>): HttpParams {
@@ -154,12 +148,6 @@ export class ReservationService {
         params = params.set(key, value.toString());
 
     return params;
-  }
-
-  getHeader(): HttpHeaders {
-    return new HttpHeaders({
-      //'Content-Type': 'application/json'
-    });
   }
   
 }

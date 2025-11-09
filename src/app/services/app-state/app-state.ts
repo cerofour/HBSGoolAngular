@@ -1,6 +1,7 @@
 /* Manejo del estado global en Angular 20 */
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { UserProfile } from '../auth/user-profile';
+import { StorageService } from '../storage/storage.service';
 
 interface AppState {
   userProfile: UserProfile | undefined;
@@ -17,9 +18,14 @@ const initialState: AppState = {
 })
 export class AppStateService {
   private readonly appState = signal<AppState>(initialState)
+  private storage = inject(StorageService);
 
   public getUserProfile() {
     return this.appState().userProfile;
+  }
+
+  public getToken(): string | null {
+    return this.storage.getItem('jwtToken');
   }
 
   public getFullName() {

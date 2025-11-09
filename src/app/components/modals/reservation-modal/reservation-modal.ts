@@ -45,6 +45,8 @@ export class ReservationModal {
       return 0;
     }
 
+    console.log(getTime(this.data.tiempoInicio));
+
     const inicio = new Date(`1970-01-01T${getTime(this.data.tiempoInicio)}`);
     const fin = new Date(`1970-01-01T${this.data.duracion}:00`);
 
@@ -59,6 +61,7 @@ export class ReservationModal {
     if (!this.reservationForm.valid) return;
 
     const startTime: Date = new Date(this.data.tiempoInicio);
+    console.log(this.data.tiempoInicio);
     this.data.duracion = getPostgresInterval(startTime, combineDateAndTime(startTime, this.data.duracion));
     delete this.data.availableHours;
     const newData = { ...this.data, totalPrice: this.totalPrice() };

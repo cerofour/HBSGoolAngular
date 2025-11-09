@@ -34,7 +34,7 @@ export class ReservationPage {
   private route = inject(ActivatedRoute);
 
   ngOnInit() {
-    this.canchaId = Number(this.route.snapshot.paramMap.get('id'));
+    this.canchaId = Number(this.route.snapshot.paramMap.get('canchaId'));
     this.rol = this.appState.getUserProfile()?.rol;
   }
 

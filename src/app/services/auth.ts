@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject, signal } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 
 import { UserProfile } from './auth/user-profile';
 import { LoginResponse } from './auth/login-response';
 import { AppStateService } from './app-state/app-state';
+import { StorageService } from './storage/storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,8 @@ export class AuthService {
 
   private appState = inject(AppStateService);
   private http = inject(HttpClient);
+  private storage = inject(StorageService);
+
   private apiPath = "http://152.67.46.79:8080";
 
   login(email: string, password: string): Observable<LoginResponse> {
@@ -28,8 +31,8 @@ export class AuthService {
   }
 
   logout() {
-    localStorage.setItem('jwtToken', 'null');
-
+    this.storage.removeItem('jwtToken');
+    this.storage.removeItem('loggedIn');
     this.appState.logout();
   }
 
@@ -57,7 +60,7 @@ export class AuthService {
   }
 
   private saveToken(token: string) {
-    localStorage.setItem('jwtToken', token);
-    localStorage.setItem('loggedIn', '1');
+    this.storage.setItem('jwtToken', token);
+    this.storage.setItem('loggedIn', '1');
   }
 }
