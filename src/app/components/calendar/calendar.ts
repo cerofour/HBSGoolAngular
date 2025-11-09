@@ -41,7 +41,7 @@ export class Calendar {
   @Input() modalType: modalType = 'user';
   @Input() modalTitle: string = 'Nueva Reservación';
   @Input() initialModalData?: Partial<ReservationFormUser | ReservationFormCashier>;
-  @Input() canchaId!: number;
+  @Input({ required: true }) canchaId!: number;
   @Output() reservationConfirmed = new EventEmitter<any>();
 
   private reservation = inject(ReservationService);
@@ -56,7 +56,7 @@ export class Calendar {
   };
 
   public userModalData = signal<ReservationFormUser>({
-    canchaId: 1,
+    canchaId: this.canchaId,
     tiempoInicio: '',
     dni: '',
     duracion: '',
@@ -65,7 +65,7 @@ export class Calendar {
   });
 
   public cashierModalData = signal<ReservationFormCashier>({
-    canchaId: 1,
+    canchaId: this.canchaId,
     tiempoInicio: '',
     dni: '',
     duracion: '',

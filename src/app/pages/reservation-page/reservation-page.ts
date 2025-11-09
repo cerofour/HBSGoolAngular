@@ -16,6 +16,9 @@ import { AppStateService } from '../../services/app-state/app-state';
   templateUrl: './reservation-page.html'
 })
 export class ReservationPage {
+  private appState = inject(AppStateService);
+  private reservationService = inject(ReservationService);
+  private route = inject(ActivatedRoute);
 
   confirmed = signal(false);
   showModalConfirmed = signal(false);
@@ -26,16 +29,13 @@ export class ReservationPage {
   reservationData = signal<(ReservationFormUser | ReservationFormCashier) & {totalPrice?: number} | null>(null);
   paymentAmount = signal<number>(0);
 
-  canchaId!: number;
   rol?: string;
 
-  private appState = inject(AppStateService);
-  private reservationService = inject(ReservationService);
-  private route = inject(ActivatedRoute);
+  canchaId!: number;
 
   ngOnInit() {
-    this.canchaId = Number(this.route.snapshot.paramMap.get('canchaId'));
     this.rol = this.appState.getUserProfile()?.rol;
+    this.canchaId = Number(this.route.snapshot.paramMap.get('canchaId'));
   }
 
   handleReservationConfirmed(data: ReservationFormUser | ReservationFormCashier) {

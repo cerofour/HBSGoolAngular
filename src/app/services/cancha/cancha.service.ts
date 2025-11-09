@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -20,6 +20,10 @@ export class CanchaService {
 
   getAllCanchas(): Observable<CanchaInfo[]> {
     return this.http.get<CanchaInfo[]>(`${this.apiURLBASE}`);
+  }
+
+  getCanchaById(id: number): Observable<CanchaInfo> {
+    return this.http.get<CanchaInfo>(`${this.apiURLBASE}/${id}`)
   }
 
   //ROLE: ADMIN
