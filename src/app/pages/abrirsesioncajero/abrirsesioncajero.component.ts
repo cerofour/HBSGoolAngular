@@ -1,4 +1,4 @@
-import { Component, ViewChild, inject } from '@angular/core';
+import { Component, ViewChild, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Button } from '../../components/button/button';
@@ -14,31 +14,33 @@ import { SesionCajeroService } from '../../services/sesion-cajero.service';
 export class AbrirSesionCajeroComponent {
   @ViewChild('modal') modal!: Modal;
   montoInicial: number | null = null;
-  blockClose = true;
+  blockClose = signal(true);
   private sesionCajeroService = inject(SesionCajeroService);
+  submitting = false;
 
   // Abre el modal desde el padre (AdminDashboard)
   open() {
-    this.blockClose = true;
+    this.blockClose.set(true);
     this.modal?.open();
   }
 
   // Envía apertura de sesión de cajero
   abrirSesion() {
-    if (this.montoInicial === null || this.montoInicial < 0) {
+    if (this.submitting || this.montoInicial === null || this.montoInicial < 0) {
       return;
     }
+    this.submitting = true;
     this.sesionCajeroService
       .abrirSesionCajero(this.montoInicial)
       .subscribe({
         next: _ => {
-          this.blockClose = false;
+          this.blockClose.set(false);
           this.modal?.close();
         },
         error: _ => {
-          this.blockClose = true;
+          this.blockClose.set(true);
+          this.submitting = false;
         },
       });
   }
 }
-
