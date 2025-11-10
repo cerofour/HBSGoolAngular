@@ -1,9 +1,9 @@
-
-import { Component, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Button } from '../../components/button/button';
 import { Modal } from '../../components/modal/modal';
+import { SesionCajeroService } from '../../services/sesion-cajero.service';
 
 @Component({
   selector: 'app-abrir-sesion-cajero',
@@ -11,18 +11,34 @@ import { Modal } from '../../components/modal/modal';
   imports: [CommonModule, FormsModule, Button, Modal],
   templateUrl: './abrirsesioncajero.component.html',
 })
-export class AbrirSesionCajeroComponent implements AfterViewInit {
+export class AbrirSesionCajeroComponent {
   @ViewChild('modal') modal!: Modal;
   montoInicial: number | null = null;
+  blockClose = true;
+  private sesionCajeroService = inject(SesionCajeroService);
 
-  ngAfterViewInit() {
-    // Abrir el modal automáticamente al cargar el componente
+  // Abre el modal desde el padre (AdminDashboard)
+  open() {
+    this.blockClose = true;
     this.modal?.open();
   }
 
-  open() {
-    console.log('Abrir sesión cajero — montoInicial:', this.montoInicial);
-    // Cerrar el modal después de abrir la sesión
-    this.modal?.close();
+  // Envía apertura de sesión de cajero
+  abrirSesion() {
+    if (this.montoInicial === null || this.montoInicial < 0) {
+      return;
+    }
+    this.sesionCajeroService
+      .abrirSesionCajero(this.montoInicial)
+      .subscribe({
+        next: _ => {
+          this.blockClose = false;
+          this.modal?.close();
+        },
+        error: _ => {
+          this.blockClose = true;
+        },
+      });
   }
 }
+

@@ -52,6 +52,9 @@ export class AuthService {
     if (this.appState.getUserProfile() === undefined) {
       this.fetchMeProfile().subscribe({
         next: (profile) => {
+
+          console.log("Fetched user profile, " + JSON.stringify(profile));
+
           this.appState.updateUserProfile(profile);
           this.appState.updateIsLoggedIn(true);
         },

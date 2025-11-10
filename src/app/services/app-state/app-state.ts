@@ -1,15 +1,23 @@
 /* Manejo del estado global en Angular 20 */
-import { inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal, computed } from '@angular/core';
 import { StorageService } from '../storage/storage.service';
 import { LoginProfileResponse } from '../auth/login-response';
 
+export interface CashierSessionInfo {
+  sessionId: number;
+  initialMoneyAmount: number;
+  openingDate: string;
+}
+
 interface AppState {
   userProfile: LoginProfileResponse | undefined;
+  cashierSession: CashierSessionInfo | undefined;
   isLoggedIn: boolean;
 }
 
 const initialState: AppState = {
   userProfile: undefined,
+  cashierSession: undefined,
   isLoggedIn: false,
 };
 
@@ -45,11 +53,24 @@ export class AppStateService {
     this.appState.update(s => ({...s, userProfile: x}));
   }
 
+  public updateCashierSession(x: CashierSessionInfo) {
+    this.appState.update(s => ({...s, x}));
+  }
+
+  public getCashierSession() {
+    return this.appState().cashierSession;
+  }
+
   public updateIsLoggedIn(x: boolean) {
     this.appState.update(s => ({...s, isLoggedIn: x}));
   }
 
   public logout() {
     this.appState.update(s => ({...s, isLoggedIn: false, userProfile: undefined}));
+  }
+
+  // Signal pública (solo lectura) para reaccionar a cambios de perfil
+  public userProfileSignal() {
+    return computed(() => this.appState().userProfile);
   }
 }

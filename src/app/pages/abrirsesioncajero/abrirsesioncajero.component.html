@@ -1,4 +1,4 @@
-<app-modal #modal title="Iniciar Sesión de Cajero">
+<app-modal #modal title="Iniciar Sesión de Cajero" [preventClose]="blockClose">
   <div class="text-center">
     <p class="text-[13px] text-gray-500 mb-4">Inicie sesión de cajero</p>
 
@@ -8,6 +8,7 @@
         class="border border-gray-200 rounded-md px-2.5 py-2 w-36 text-right text-[14px]" />
     </div>
 
-    <app-button variant="primary" (click)="open()">Abrir sesión cajero</app-button>
+    <app-button variant="primary" (click)="abrirSesion()">Abrir sesión cajero</app-button>
   </div>
 </app-modal>
+

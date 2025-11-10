@@ -1,16 +1,15 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, share, tap } from 'rxjs';
 import { LastCashierSession } from './sesion-cajero/last-session';
 import { AppStateService } from './app-state/app-state';
-
+import { AbrirSesionCajeroResponse } from './sesion-cajero/abrir-sesion-response';
 
 export interface LogoutCashierRequest {
   sesionCajeroId: number;
-  fecha: string;       
+  fecha: string;
   montoReal: number;
 }
-
 
 export interface CierreCajeroResponse {
   idCierreCajero: number;
@@ -19,7 +18,6 @@ export interface CierreCajeroResponse {
   montoTeorico: number;
   montoReal: number;
 }
-
 
 export interface ResumenCaja {
   idCajero: number;
@@ -32,33 +30,57 @@ export interface ResumenCaja {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SesionCajeroService {
-
   private http = inject(HttpClient);
   private appState = inject(AppStateService);
-  private apiPath = 'http://152.67.46.79:8080'; 
+  private apiPath = 'http://152.67.46.79:8080';
 
   cerrarSesionCajero(data: LogoutCashierRequest): Observable<CierreCajeroResponse> {
-    return this.http.post<CierreCajeroResponse>(
-      `${this.apiPath}/api/cierre_cajero/`, 
-      data
+    return this.http.post<CierreCajeroResponse>(`${this.apiPath}/api/cierre_cajero/`, data);
+  }
+
+  getLastCashierSession(): Observable<LastCashierSession> {
+    console.log('Perfil de usuario en getlastcashiersession: ' + this.appState.getUserProfile());
+
+    return this.http.get<LastCashierSession>(
+      `${this.apiPath}/api/sesion_cajero/ultima?usuarioId=${
+        this.appState.getUserProfile()?.idUsuario
+      }`
     );
   }
- 
-  getLastCashierSession():Observable<LastCashierSession> {
-    return this.http.get<LastCashierSession>(
-      `${this.apiPath}/api/sesion_cajero/ultima?usuarioId=${this.appState.getUserProfile()?.idUsuario}`
-    )
-  }
-  
-  getResumenCajas(idCajero: number, fechaInicio?: string, fechaFin?: string): Observable<ResumenCaja[]> {
+
+  getResumenCajas(
+    idCajero: number,
+    fechaInicio?: string,
+    fechaFin?: string
+  ): Observable<ResumenCaja[]> {
     const params: any = { idCajero };
     if (fechaInicio) params.fechaInicio = fechaInicio;
     if (fechaFin) params.fechaFin = fechaFin;
 
     // ruta revisar
-    return this.http.get<ResumenCaja[]>(`${this.apiPath}/api/sesion_cajero/resumen`, { params } );
+    return this.http.get<ResumenCaja[]>(`${this.apiPath}/api/sesion_cajero/resumen`, { params });
+  }
+
+  abrirSesionCajero(montoInicial: number): Observable<AbrirSesionCajeroResponse> {
+    console.log(montoInicial);
+
+    return this.http.post<any>(`${this.apiPath}/api/sesion_cajero`, { initialMoney: montoInicial })
+      .pipe(
+        share(),
+        tap(res => {
+          this.saveSessionId(res);
+        })
+      );
+  }
+
+  saveSessionId(res: AbrirSesionCajeroResponse) {
+    this.appState.updateCashierSession({
+      initialMoneyAmount: res.montoInicial,
+      sessionId: res.idSesionCajero,
+      openingDate: res.fechaApertura
+    })
   }
 }
