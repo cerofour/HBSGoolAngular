@@ -1,6 +1,5 @@
-<div class="fixed inset-0 flex items-center justify-center bg-black/40 z-1000">
-  <div class="bg-white p-6 rounded-lg w-80 shadow-[0_10px_30px_rgba(0,0,0,0.12)] text-center" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-    <h1 id="modal-title" class="font-bold text-[20px] mb-2">Iniciar Sesión de Cajero</h1>
+<app-modal #modal title="Iniciar Sesión de Cajero">
+  <div class="text-center">
     <p class="text-[13px] text-gray-500 mb-4">Inicie sesión de cajero</p>
 
     <label class="block text-left text-[13px] mb-1.5 text-gray-700" for="monto">Monto de inicio</label>
@@ -11,4 +10,4 @@
 
     <app-button variant="primary" (click)="open()">Abrir sesión cajero</app-button>
   </div>
-</div>
+</app-modal>

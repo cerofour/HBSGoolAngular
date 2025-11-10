@@ -31,8 +31,14 @@ export class Login {
 
     this.authService.login(this.loginFormGroup.value.email ?? '', this.loginFormGroup.value.password ?? '')
       .subscribe({
-        next: _ => {
-          this.router.navigate(["/"])
+        next: res => {
+
+          if (res.profile.rol == "CASHIER" || res.profile.rol === "ADMIN") {
+            console.log("Cajero detectado");
+            this.router.navigate(["/admin/dashboard"]);
+          } else {
+            this.router.navigate(["/"])
+          }
         },
         error: _ => {
           this.modal?.open();

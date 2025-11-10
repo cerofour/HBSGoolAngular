@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SesionCajeroService, ResumenCaja } from '../../services/sesion-cajero.service';
 import { Button } from '../../components/button/button';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-listado-cajas',
@@ -12,24 +13,29 @@ import { Button } from '../../components/button/button';
 })
 export class ListadoCajasComponent implements OnInit {
 
+  route = inject(ActivatedRoute);
+
   fechaInicio: string = '';
   fechaFin: string = '';
   listadoCajas: ResumenCaja[] = [];
   cargando: boolean = false;
   errorMsg: string | null = null;
 
+  cajeroId!: number;
+
   constructor(private sesionCajeroService: SesionCajeroService) {}
 
   ngOnInit(): void {
+    this.cajeroId = Number(this.route.snapshot.paramMap.get('cajeroId'));
     this.obtenerListado();
   }
 
-  obtenerListado(cajeroId: number = 1): void {
+  obtenerListado(): void {
     this.errorMsg = null;
     this.cargando = true;
 
     this.sesionCajeroService
-      .getResumenCajas(cajeroId, this.fechaInicio, this.fechaFin)
+      .getResumenCajas(this.cajeroId, this.fechaInicio, this.fechaFin)
       .subscribe({
         next: (data) => {
           this.listadoCajas = data;

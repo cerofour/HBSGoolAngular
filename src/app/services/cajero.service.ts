@@ -25,6 +25,16 @@ export interface RegisterCashierResult {
   email: string;
 }
 
+export interface CashierSummary {
+  idCajero: number;
+  idUsuario: number;
+  nombreCompleto: string;
+  email: string;
+  dni: string;
+  celular: string;
+  activo: boolean;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -34,5 +44,9 @@ export class CajeroService {
 
   createCashier(data: RegisterRequestDTO): Observable<RegisterCashierResult> {
     return this.http.post<RegisterCashierResult>(`${this.apiPath}/api/cajero`, data);
+  }
+
+  getAllCashier(): Observable<CashierSummary[]> {
+    return this.http.get<CashierSummary[]>(`${this.apiPath}/api/cajero`);
   }
 }

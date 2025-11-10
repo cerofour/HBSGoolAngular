@@ -13,6 +13,9 @@ export const interceptor: HttpInterceptorFn = (
   next: HttpHandlerFn
 ): Observable<HttpEvent<any>> => {
   const appState = inject(AppStateService);
+
+  console.log("AppState: ", appState.getToken())
+
   const token = appState.getToken();
 
   if (token) {
