@@ -1,6 +1,7 @@
 import { Component, HostListener, inject, input, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AppStateService } from '../../services/app-state/app-state';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile-dropdown',
@@ -48,6 +49,40 @@ import { AppStateService } from '../../services/app-state/app-state';
         </div>
 
         <div class="p-2">
+          @if (userRole === 'USER') {
+          <button
+            type="button"
+            class="w-full text-left px-3 py-2 rounded-md hover:bg-gray-100 text-gray-700"
+            (click)="onMyReservations()"
+          >
+            Mis Reservaciones
+          </button>
+          }
+
+          @if (userRole === 'CASHIER' || userRole === 'ADMIN') {
+          <button
+            type="button"
+            class="w-full text-left px-3 py-2 rounded-md hover:bg-gray-100 text-gray-700"
+            (click)="onDashboard()"
+          >
+            Dashboard
+          </button>
+          <button
+            type="button"
+            class="w-full text-left px-3 py-2 rounded-md hover:bg-gray-100 text-gray-700"
+            (click)="onManageCashiers()"
+          >
+            Gestionar Cajeros
+          </button>
+          <button
+            type="button"
+            class="w-full text-left px-3 py-2 rounded-md hover:bg-gray-100 text-gray-700"
+            (click)="onReservations()"
+          >
+            Reservaciones
+          </button>
+          }
+
           <button
             type="button"
             class="w-full text-left px-3 py-2 rounded-md text-danger hover:bg-danger/10"
@@ -64,12 +99,17 @@ import { AppStateService } from '../../services/app-state/app-state';
 export class ProfileDropdownComponent {
 
   private readonly appStateService = inject(AppStateService);
+  private readonly router = inject(Router);
 
   userFirstName = this.appStateService.getUserProfile()?.nombre;
   userFullName = this.appStateService.getFullName();
   userRole = this.appStateService.getUserProfile()?.rol;
 
   requestLogout = output<void>();
+  requestMyReservations = output<void>();
+  requestDashboard = output<void>();
+  requestManageCashiers = output<void>();
+  requestReservations = output<void>();
 
   isOpen = signal(false);
 
@@ -83,6 +123,28 @@ export class ProfileDropdownComponent {
 
   onLogout(): void {
     this.requestLogout.emit();
+    this.close();
+  }
+
+  onMyReservations(): void {
+    this.requestMyReservations.emit();
+    this.close();
+  }
+
+  onDashboard(): void {
+    this.requestDashboard.emit();
+    this.router.navigate(['/admin', 'dashboard']);
+    this.close();
+  }
+
+  onManageCashiers(): void {
+    this.requestManageCashiers.emit();
+    this.router.navigate(['/admin', 'cajero']);
+    this.close();
+  }
+
+  onReservations(): void {
+    this.requestReservations.emit();
     this.close();
   }
 
