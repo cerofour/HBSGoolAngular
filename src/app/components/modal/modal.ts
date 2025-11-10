@@ -8,7 +8,7 @@ import { Component, HostListener, input, signal } from '@angular/core';
     @if (isOpen()) {
       <div class="fixed inset-0 z-50 flex items-center justify-center">
         <!-- Backdrop -->
-        <div class="absolute inset-0 bg-black/50" (click)="close()"></div>
+        <div class="absolute inset-0 bg-black/50" (click)="onBackdropClick()"></div>
 
         <!-- Modal dialog -->
         <div class="relative z-10 w-full max-w-lg mx-4 rounded-xl bg-white shadow-2xl border border-gray-200">
@@ -49,12 +49,14 @@ export class Modal {
   // Signal de control de visibilidad
   title = input('');
   isOpen = signal<boolean>(false);
+  preventClose = input<boolean>(false);
 
   // Métodos públicos para abrir/cerrar desde el padre
   open(): void { this.isOpen.set(true); }
-  close(): void { this.isOpen.set(false); }
+  close(): void { if (!this.preventClose()) this.isOpen.set(false); }
+  onBackdropClick(): void { if (!this.preventClose()) this.close(); }
 
   // Cerrar con tecla Escape
   @HostListener('document:keydown.escape')
-  handleEscape(): void { this.close(); }
+  handleEscape(): void { if (!this.preventClose()) this.close(); }
 }
