@@ -1,10 +1,10 @@
 /* Manejo del estado global en Angular 20 */
 import { inject, Injectable, signal } from '@angular/core';
-import { UserProfile } from '../auth/user-profile';
 import { StorageService } from '../storage/storage.service';
+import { LoginProfileResponse } from '../auth/login-response';
 
 interface AppState {
-  userProfile: UserProfile | undefined;
+  userProfile: LoginProfileResponse | undefined;
   isLoggedIn: boolean;
 }
 
@@ -34,14 +34,14 @@ export class AppStateService {
       return "Not logged in";
     }
 
-    return `${this.appState().userProfile?.fatherLastname} ${this.appState().userProfile?.motherLastname}, ${this.appState().userProfile?.name}`
+    return `${this.appState().userProfile?.apellidoPaterno} ${this.appState().userProfile?.apellidoMaterno}, ${this.appState().userProfile?.nombre}`
   }
 
   public isLoggedIn(): boolean {
     return this.appState().isLoggedIn;
   }
 
-  public updateUserProfile(x: UserProfile) {
+  public updateUserProfile(x: LoginProfileResponse) {
     this.appState.update(s => ({...s, userProfile: x}));
   }
 
