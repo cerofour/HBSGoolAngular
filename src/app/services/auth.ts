@@ -25,7 +25,7 @@ export class AuthService {
       .pipe(
         tap(res => {
           this.saveToken(res.auth.jwtToken);
-          this.lazyGetProfile(res.auth.jwtToken);
+          this.lazyGetProfile(res);
         })
       )
   }
@@ -39,23 +39,10 @@ export class AuthService {
   /**
    * Solicita el perfil de usuario basado solamente si el objeto userProfile es undefined.
    */
-  private lazyGetProfile(token: string) {
+  private lazyGetProfile(res: LoginResponse) {
     if (this.appState.getUserProfile() === undefined) {
-      this.http
-        .get<UserProfile>(`${this.apiPath}/api/auth/me`, {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        })
-        .subscribe({
-          next: (r: UserProfile) => {
-            this.appState.updateUserProfile(r);
-            this.appState.updateIsLoggedIn(true);
-          },
-          error: _ => {
-            // Silenciar o agregar manejo de errores según sea necesario
-          }
-        });
+      this.appState.updateUserProfile(res.profile);
+      this.appState.updateIsLoggedIn(true);
     }
   }
 
