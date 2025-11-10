@@ -16,6 +16,7 @@ import {
 import { Page, Reservation, ReservationFormCashier, ReservationFormUser, ReservationService } from '../../services/reservation/reservation.service';
 import { modalType, ReservationModal } from '../modals/reservation-modal/reservation-modal';
 import { calculateEndTime } from '../../utils/general-utils';
+import { CanchaInfo, CanchaService } from '../../services/cancha/cancha.service';
 
 @Component({
   selector: 'app-calendar',
@@ -45,6 +46,8 @@ export class Calendar {
   @Output() reservationConfirmed = new EventEmitter<any>();
 
   private reservation = inject(ReservationService);
+  private canchaService = inject(CanchaService);
+
   public showModal = signal(false);
   public selectedDate: Date = new Date();
   public eventData: Object[] = [];
@@ -55,30 +58,21 @@ export class Calendar {
     allowEditing: this.allowEditing,
   };
 
-  public userModalData = signal<ReservationFormUser>({
-    canchaId: this.canchaId,
-    tiempoInicio: '',
-    dni: '',
-    duracion: '',
-    montoInicial: 45,
-    medioPago: 'REMOTO',
-  });
-
-  public cashierModalData = signal<ReservationFormCashier>({
-    canchaId: this.canchaId,
-    tiempoInicio: '',
-    dni: '',
-    duracion: '',
-    medioPago: 'EFECTIVO'
-  });
+  canchaInfo: CanchaInfo | null = null;
+  startTime: string = '';
+  availableHours: string[] = [];
 
 
   ngOnInit() {
+    this.canchaService.getCanchaById(this.canchaId).subscribe({
+      next: (data) => this.canchaInfo = data,
+      error: () => {}
+    })
     this.loadEvents();
   }
 
   loadEvents() {
-    this.reservation.getListReservationCashier({canchaId: this.canchaId}).subscribe({
+    this.reservation.getListReservationCashier({canchaId: this.canchaId, size: 100}).subscribe({
       next: (data: Page<Reservation>) => {
         this.eventData = data.content.map((event: Reservation, index: number) => ({
           Id: event.idReservacion ?? index + 1,
@@ -140,6 +134,8 @@ export class Calendar {
       const eventData = args.data as any;
       args.cancel = true;
 
+      if(this.canchaInfo === null || this.canchaInfo === undefined) return;
+
       if (eventData && eventData.Id) return;
 
       const startTime = new Date(eventData.StartTime);
@@ -154,25 +150,11 @@ export class Calendar {
 
       if (this.isTimeSlotOccupied(startTime)) return;
 
-      const availableHours: string[] = this.getAvailableEndTimes(startTime);
+      this.availableHours = this.getAvailableEndTimes(startTime);
 
-      if (availableHours.length === 0) return;
+      if (this.availableHours.length === 0) return;
 
-      if (this.modalType === 'user') {
-        this.userModalData.update(prev => ({
-          ...prev,
-          ...(this.initialModalData as Partial<ReservationFormUser>),
-          tiempoInicio: this.toLocalISOString(startTime),
-          availableHours
-        } as ReservationFormUser));
-      } else if (this.modalType === 'cashier') {
-        this.cashierModalData.update(prev => ({
-          ...prev,
-          ...(this.initialModalData as Partial<ReservationFormCashier>),
-          tiempoInicio: this.toLocalISOString(startTime),
-          availableHours
-        } as ReservationFormCashier));
-      }
+      this.startTime = this.toLocalISOString(startTime);
 
       this.showModal.set(true);
     }

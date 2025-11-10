@@ -1,76 +1,90 @@
-<div class="flex flex-col lg:flex-row gap-6 lg:gap-8 xl:gap-10 w-full px-4 md:px-6 lg:px-8 xl:px-12 py-4 max-w-[1600px] mx-auto">
-    
+<div
+    class="flex flex-col lg:flex-row gap-6 lg:gap-8 xl:gap-10 w-full px-4 md:px-6 lg:px-8 xl:px-12 py-4 max-w-[1600px] mx-auto">
+
     <div class="w-full lg:w-[340px] xl:w-[380px] flex-shrink-0">
         <app-reservation-summary [data]="reservationData()">
         </app-reservation-summary>
     </div>
 
     <div class="flex-1 min-w-0">
-        
+
         @if(confirmed()) {
-            <div class="space-y-6">
-                <h2 class="text-xl md:text-2xl font-bold px-2">Métodos de Pago</h2>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 md:gap-6 xl:gap-7">
-                    <app-qr-payment-card />
-                    <app-transfer-payment-card />
-                    <app-payment-reminder-card />
+        <div class="space-y-6">
+            <h2 class="text-xl md:text-2xl font-bold px-2">Métodos de Pago</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 md:gap-6 xl:gap-7">
+                <app-qr-payment-card />
+                <app-transfer-payment-card />
+                <app-payment-reminder-card [totalPrice]="reservationData()?.totalPrice ?? 0" />
+            </div>
+
+            @if(reservationData() !== null && reservationData()!.medioPago === 'REMOTO') {
+            <form #paymentForm="ngForm"
+                class="bg-white border border-[var(--color-border-stroke)] rounded-2xl p-5 md:p-6 space-y-4">
+                <h3 class="text-lg font-bold mb-4">Detalles de Pago</h3>
+
+                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
+                    <span class="font-semibold text-sm md:text-base">Monto mínimo de pago</span>
+                    <input type="text" [placeholder]="`S/.${minPaymentAmount().toFixed(2)}`" disabled
+                        class="w-full sm:w-48 border border-[var(--color-border-stroke)] rounded-full px-4 py-2.5 focus:ring-2 focus:ring-blue-400 focus:outline-none placeholder:text-[#a6a6a6] placeholder:font-bold bg-gray-50" />
                 </div>
 
-                @if(reservationData() !== null && reservationData()!.medioPago === 'REMOTO') {
-                    <div class="bg-white border border-[var(--color-border-stroke)] rounded-2xl p-5 md:p-6 space-y-4">
-                        <h3 class="text-lg font-bold mb-4">Detalles de Pago</h3>
-                        
-                        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
-                            <span class="font-semibold text-sm md:text-base">Monto mínimo de pago</span>
-                            <input type="text" placeholder="S/45.00" disabled
-                                class="w-full sm:w-48 border border-[var(--color-border-stroke)] rounded-full px-4 py-2.5 focus:ring-2 focus:ring-blue-400 focus:outline-none placeholder:text-[#a6a6a6] placeholder:font-bold bg-gray-50" />
-                        </div>
-                        
-                        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
-                            <span class="font-semibold text-sm md:text-base">Monto a pagar</span>
-                            <input type="text" placeholder="S/45.00"
-                                class="w-full sm:w-48 border border-[var(--color-border-stroke)] rounded-full px-4 py-2.5 focus:ring-2 focus:ring-blue-400 focus:outline-none placeholder:font-bold" />
-                        </div>
-                        
-                        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
-                            <span class="font-semibold text-sm md:text-base">Subir evidencia de pago</span>
-                            <label
-                                class="flex justify-center items-center w-full sm:w-48 gap-2 border border-[var(--color-border-stroke)] rounded-full px-4 py-2.5 hover:bg-gray-50 transition-colors cursor-pointer">
-                                <input type="file" hidden accept="image/*" (change)="onFileSelected($event)" />
-                                <img src="file.svg" alt="Icono de pago" class="w-5 h-5" />
-                                <span class="font-medium">Subir Archivo</span>
-                            </label>
-                        </div>
+                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
+                    <span class="font-semibold text-sm md:text-base">Monto a pagar</span>
+                    <div class="w-full sm:w-48">
+                        <input type="number" step="0.01" [(ngModel)]="paymentAmount" name="paymentAmount"
+                            [min]="minPaymentAmount()" [max]="maxPaymentAmount()" required placeholder="Ingrese monto"
+                            class="w-full border border-[var(--color-border-stroke)] rounded-full px-4 py-2.5 focus:ring-2 focus:ring-blue-400 focus:outline-none placeholder:font-bold"
+                            [ngClass]="{
+                                        'border-red-500 focus:ring-red-400': paymentForm.submitted && !isPaymentAmountValid()
+                                    }" />
+                        @if(getPaymentError()) {
+                        <p class="text-red-500 text-xs mt-1 px-2">{{ getPaymentError() }}</p>
+                        }
                     </div>
-                } @else {
-                    <div class="flex justify-center md:justify-end pt-4">
-                        <app-button [variant]="'primary'" (click)="handlePaymentUploaded()">
-                            Confirmar Pago
-                        </app-button>
-                    </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
+                    <span class="font-semibold text-sm md:text-base">Subir evidencia de pago</span>
+                    <label
+                        class="flex justify-center items-center w-full sm:w-48 gap-2 border border-[var(--color-border-stroke)] rounded-full px-4 py-2.5 hover:bg-gray-50 transition-colors cursor-pointer"
+                        [ngClass]="{
+                                    'cursor-not-allowed opacity-50': !isPaymentAmountValid()
+                                }">
+                        <input type="file" hidden accept="image/*" (change)="onFileSelected($event)"
+                            [disabled]="!isPaymentAmountValid()" />
+                        <img src="file.svg" alt="Icono de pago" class="w-5 h-5" />
+                        <span class="font-medium">Subir Archivo</span>
+                    </label>
+                </div>
+
+                @if(paymentForm.submitted && !isPaymentAmountValid()) {
+                <p class="text-red-600 text-sm text-center pt-2">
+                    Por favor ingresa un monto válido antes de subir la evidencia.
+                </p>
                 }
+            </form>
+            } @else {
+            <div class="flex justify-center md:justify-end pt-4">
+                <app-button [variant]="'primary'" (click)="handlePaymentUploaded()">
+                    Confirmar Pago
+                </app-button>
             </div>
+            }
+        </div>
 
         } @else {
-            <div class="w-full">
-                <app-calendar 
-                    (reservationConfirmed)="handleReservationConfirmed($event)" 
-                    [readonly]="false"
-                    [modalType]="'cashier'" 
-                    [allowPastDates]="false" 
-                    [canchaId]="canchaId">
-                </app-calendar>
-            </div>
+        <div class="w-full">
+            <app-calendar (reservationConfirmed)="handleReservationConfirmed($event)" [readonly]="false"
+                [modalType]="rol === 'USER' ? 'user' : 'cashier'" [allowPastDates]="false" [canchaId]="canchaId">
+            </app-calendar>
+        </div>
         }
 
     </div>
 </div>
 
 @if (showModalConfirmed()) {
-    <app-confirm-payment 
-        [imageSrc]="previewImage" 
-        (onClose)="closeModal()"
-        (onConfirm)="handlePaymentUploaded()">
-    </app-confirm-payment>
+<app-confirm-payment [imageSrc]="previewImage" (onClose)="closeModal()" (onConfirm)="handlePaymentUploaded()">
+</app-confirm-payment>
 }

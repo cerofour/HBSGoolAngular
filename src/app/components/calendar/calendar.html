@@ -22,9 +22,11 @@
 
 @if (showModal()) {
   <app-reservation-modal 
-    [data]="cashierModalData()" 
+    [startTime]="startTime"
+    [cancha]="canchaInfo!"
+    [availableHours]="availableHours"
+    [modalType]="modalType"
     (onClose)="onClose()"
-    (onConfirm)="handleClose($event)" 
-    [modalType]="modalType">
+    (onConfirm)="handleClose($event)"> 
   </app-reservation-modal>
 }

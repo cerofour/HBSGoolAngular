@@ -125,11 +125,11 @@ export class ReservationService {
   }
 
   //ROLE: ADMIN OR CASHIER
-  creationReservationAsCashier(data: ReservationFormCashier, file: File): Observable<ReservationAsCashierResult> {
+  creationReservationAsCashier(data: ReservationFormCashier, file: File | null): Observable<ReservationAsCashierResult> {
     const formData = new FormData();
 
     formData.append('data', new Blob([JSON.stringify(data)], { type: 'application/json'}));
-    formData.append('evidencia', file, file.name);
+    formData.append('evidencia', file ?? new Blob([]), file === null ? '' : file.name);
 
     return this.http.post<ReservationAsCashierResult>(`${this.apiURLBASE}/cajero`, formData);
 
