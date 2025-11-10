@@ -9,10 +9,12 @@ export interface LoginProfileResponse {
   email: string;
 }
 
+export interface AuthResponse {
+  jwtToken: string;
+  expiracion: string;
+}
+
 export interface LoginResponse {
-  auth: {
-    jwtToken: string;
-    expiracion: string;
-  };
+  auth: AuthResponse;
   profile: LoginProfileResponse;
 }
