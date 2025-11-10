@@ -1,0 +1,120 @@
+<section class="p-6">
+  <header class="mb-6">
+    <h1 class="text-2xl font-semibold text-gray-800">Listado de Reservaciones</h1>
+    <p class="text-gray-500 text-sm">
+      Consulta el historial de reservaciones.
+    </p>
+  </header>
+
+  <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end">
+    <label class="flex flex-col gap-1 text-sm text-gray-700">
+      Usuario ID
+      <input
+        type="number"
+        [(ngModel)]="usuarioId" 
+        placeholder="ID Usuario"
+        class="rounded-md border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+      />
+    </label>
+
+    <label class="flex flex-col gap-1 text-sm text-gray-700">
+      Cancha ID
+      <input
+        type="number"
+        [(ngModel)]="canchaId"
+        placeholder="ID Cancha"
+        class="rounded-md border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+      />
+    </label>
+
+    <label class="flex flex-col gap-1 text-sm text-gray-700">
+      DNI
+      <input
+        type="text"
+        [(ngModel)]="dni"
+        placeholder="DNI"
+        class="rounded-md border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+      />
+    </label>
+
+    <label class="flex flex-col gap-1 text-sm text-gray-700">
+      Estado
+      <select
+        [(ngModel)]="estado"
+        class="rounded-md border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+      >
+        <option value="">Todos</option>
+        <option value="PENDIENTE">Pendiente</option>
+        <option value="CONFIRMADA">Confirmada</option>
+        <option value="CANCELADA">Cancelada</option>
+        <option value="COMPLETADA">Completada</option>
+      </select>
+    </label>
+
+    <app-button
+      [variant]="cargando ? 'disabled' : 'primary'"
+      (click)="filtrar()"
+    >
+      Filtrar
+    </app-button>
+  </div>
+
+  @if (errorMsg) {
+    <div class="mb-4 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+      {{ errorMsg }}
+    </div>
+  }
+
+  <div class="overflow-x-auto rounded-lg border border-gray-200">
+    <table class="min-w-full divide-y divide-gray-200 text-left">
+      <thead class="bg-gray-100 text-xs uppercase tracking-wide text-gray-600">
+        <tr>
+          <th class="px-4 py-3 font-medium">ID Reservación</th>
+          <th class="px-4 py-3 font-medium">ID Usuario</th>
+          <th class="px-4 py-3 font-medium">ID Cancha</th>
+          <th class="px-4 py-3 font-medium">ID Cajero</th>
+          <th class="px-4 py-3 font-medium">Tiempo Inicio</th>
+          <th class="px-4 py-3 font-medium">DNI</th>
+          <th class="px-4 py-3 font-medium">Duración</th>
+          <th class="px-4 py-3 font-medium">Precio Total</th>
+          <th class="px-4 py-3 font-medium">Estado</th>
+          <th class="px-4 py-3 font-medium">Accion</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100 bg-white text-sm text-gray-700">
+        @for (reservation of reservations; track reservation.idReservacion) {
+          <tr class="transition hover:bg-gray-50">
+            <td class="px-4 py-3">{{ reservation.idReservacion }}</td>
+            <td class="px-4 py-3">{{ reservation.usuarioId ?? '-' }}</td>
+            <td class="px-4 py-3">{{ reservation.canchaId }}</td>
+            <td class="px-4 py-3">{{ reservation.cajeroId ?? '-' }}</td>
+            <td class="px-4 py-3">{{ reservation.tiempoInicio | date: 'short' }}</td>
+            <td class="px-4 py-3">{{ reservation.dni }}</td>
+            <td class="px-4 py-3">{{ reservation.duracion }}</td>
+            <td class="px-4 py-3 font-semibold text-gray-900">{{ reservation.precioTotal | currency: 'PEN' }}</td>
+            <td class="px-4 py-3">
+              <span [class]="getEstadoClass(reservation.estadoReservacion)">
+                {{ reservation.estadoReservacion }}
+              </span>
+            </td>
+          </tr>
+        } @empty {
+          @if (!cargando && reservations.length === 0) {
+            <tr>
+              <td colspan="9" class="px-4 py-6 text-center text-sm text-gray-500">
+                No hay registros disponibles.
+              </td>
+            </tr>
+          }
+        }
+        @if (cargando) {
+          <tr>
+            <td colspan="9" class="px-4 py-6 text-center text-sm text-gray-500">
+              Cargando información...
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</section>
