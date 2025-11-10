@@ -65,7 +65,7 @@ export class ProfileDropdownComponent {
 
   private readonly appStateService = inject(AppStateService);
 
-  userFirstName = this.appStateService.getUserProfile()?.name;
+  userFirstName = this.appStateService.getUserProfile()?.nombre;
   userFullName = this.appStateService.getFullName();
   userRole = this.appStateService.getUserProfile()?.rol;
 
