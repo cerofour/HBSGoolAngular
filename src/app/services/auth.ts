@@ -5,6 +5,7 @@ import { Observable, tap } from 'rxjs';
 import { LoginProfileResponse, AuthResponse, LoginResponse } from './auth/login-response';
 import { AppStateService } from './app-state/app-state';
 import { StorageService } from './storage/storage.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ export class AuthService {
   private appState = inject(AppStateService);
   private http = inject(HttpClient);
   private storage = inject(StorageService);
+  private route = inject(Router);
 
   private apiPath = "http://152.67.46.79:8080";
 
@@ -39,13 +41,13 @@ export class AuthService {
     const expiration = this.storage.getItem('expiration');
 
     if (!token || !expiration) {
-      this.logout();
+      this.clearLocalStorage();
       return false;
     }
 
     const isValid = this.isTokenValid(expiration);
     if (!isValid) {
-      this.logout();
+      this.clearLocalStorage();
       return false;
     }
 
@@ -60,7 +62,7 @@ export class AuthService {
         },
         error: (_err) => {
           // Si falla el endpoint, se hace logout para evitar estado inconsistente
-          this.logout();
+          this.clearLocalStorage();
         }
       });
     } else {
@@ -87,11 +89,18 @@ export class AuthService {
     return exp.getTime() > now.getTime();
   }
 
-  logout() {
+  private clearLocalStorage() {
     this.storage.removeItem('jwtToken');
     this.storage.removeItem('loggedIn');
     this.storage.removeItem('expiration');
+
     this.appState.logout();
+  }
+
+  logout() {
+    this.clearLocalStorage();
+
+    this.route.navigate(['/login']);
   }
 
   /**
