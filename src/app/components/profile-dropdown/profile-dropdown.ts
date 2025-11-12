@@ -2,6 +2,7 @@ import { Component, HostListener, inject, input, output, signal } from '@angular
 import { CommonModule } from '@angular/common';
 import { AppStateService } from '../../services/app-state/app-state';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth';
 
 @Component({
   selector: 'app-profile-dropdown',
@@ -100,6 +101,7 @@ export class ProfileDropdownComponent {
 
   private readonly appStateService = inject(AppStateService);
   private readonly router = inject(Router);
+  private readonly auth = inject(AuthService);
 
   userFirstName = this.appStateService.getUserProfile()?.nombre;
   userFullName = this.appStateService.getFullName();
@@ -123,6 +125,7 @@ export class ProfileDropdownComponent {
 
   onLogout(): void {
     this.requestLogout.emit();
+    this.auth.logout();
     this.close();
   }
 
