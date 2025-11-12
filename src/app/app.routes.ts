@@ -6,6 +6,8 @@ import { ReservationPage } from './pages/reservation-page/reservation-page';
 import { AdminDashboard } from './pages/admin-dashboard/admin-dashboard';
 import { ListadoCajasComponent } from './pages/listadocajas/listadocajas.component';
 import { CajeroListComponent, CajeroPage } from './pages/cajero/cajero-page';
+import { ListadoPagosPage } from './pages/listado-pagos-page/listado-pagos-page';
+import { PagoPage } from './pages/pago-page/pago-page';
 
 export const routes: Routes = [
   {
@@ -43,6 +45,19 @@ export const routes: Routes = [
           {
             path: 'resumen/:cajeroId',
             component: ListadoCajasComponent,
+          },
+        ],
+      },
+      {
+        path: 'pago',
+        children: [
+          {
+            path: '',
+            component: ListadoPagosPage,
+          },
+          {
+            path: ':reservationId',
+			component: PagoPage
           },
         ],
       },
