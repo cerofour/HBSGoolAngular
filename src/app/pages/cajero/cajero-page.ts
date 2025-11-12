@@ -2,6 +2,7 @@ import { CommonModule, NgClass } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { RouterLink, RouterModule, RouterOutlet } from '@angular/router';
 import { CajeroService, CashierSummary } from '../../services/cajero.service';
+import { AppTable } from '../../components/table/table';
 
 @Component({
   selector: 'app-cajero-page',
@@ -14,7 +15,7 @@ export class CajeroPage {}
 @Component({
   selector: 'app-cajero-list',
   standalone: true,
-  imports: [CommonModule, NgClass, RouterModule, RouterLink],
+  imports: [CommonModule, NgClass, RouterModule, RouterLink, AppTable],
   template: `
     <section class="p-6">
       <header class="mb-4">
@@ -33,58 +34,56 @@ export class CajeroPage {}
       } @else if (cajeros.length === 0) {
         <p class="text-sm text-gray-500">No se encontraron cajeros registrados.</p>
       } @else {
-        <div class="overflow-x-auto rounded-lg border border-gray-200">
-          <table class="min-w-full divide-y divide-gray-200 text-left">
-            <thead class="bg-gray-100 text-xs uppercase tracking-wide text-gray-600">
-              <tr>
-                <th class="px-4 py-3 font-medium">ID Cajero</th>
-                <th class="px-4 py-3 font-medium">ID Usuario</th>
-                <th class="px-4 py-3 font-medium">Nombre Completo</th>
-                <th class="px-4 py-3 font-medium">Email</th>
-                <th class="px-4 py-3 font-medium">DNI</th>
-                <th class="px-4 py-3 font-medium">Celular</th>
-                <th class="px-4 py-3 font-medium">Activo</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-100 bg-white text-sm text-gray-700">
-              @for (cajero of cajeros; track cajero.idCajero) {
-                <tr class="hover:bg-gray-50">
-                  <td class="px-4 py-3">
-                    <a
-                      class="text-primary underline decoration-transparent transition hover:decoration-primary"
-                      [routerLink]="['resumen', cajero.idCajero]"
-                    >
-                      {{ cajero.idCajero }} (Ver Resumen)
-                    </a>
-                  </td>
-                  <td class="px-4 py-3">{{ cajero.idUsuario }}</td>
-                  <td class="px-4 py-3">{{ cajero.nombreCompleto }}</td>
-                  <td class="px-4 py-3">{{ cajero.email }}</td>
-                  <td class="px-4 py-3">{{ cajero.dni }}</td>
-                  <td class="px-4 py-3">{{ cajero.celular }}</td>
-                  <td class="px-4 py-3">
+        <app-table>
+          <ng-container table-header>
+            <tr>
+              <th class="px-4 py-3 font-medium">ID Cajero</th>
+              <th class="px-4 py-3 font-medium">ID Usuario</th>
+              <th class="px-4 py-3 font-medium">Nombre Completo</th>
+              <th class="px-4 py-3 font-medium">Email</th>
+              <th class="px-4 py-3 font-medium">DNI</th>
+              <th class="px-4 py-3 font-medium">Celular</th>
+              <th class="px-4 py-3 font-medium">Activo</th>
+            </tr>
+          </ng-container>
+          <ng-container table-body>
+            @for (cajero of cajeros; track cajero.idCajero) {
+              <tr class="hover:bg-gray-50">
+                <td class="px-4 py-3">
+                  <a
+                    class="text-primary underline decoration-transparent transition hover:decoration-primary"
+                    [routerLink]="['resumen', cajero.idCajero]"
+                  >
+                    {{ cajero.idCajero }} (Ver Resumen)
+                  </a>
+                </td>
+                <td class="px-4 py-3">{{ cajero.idUsuario }}</td>
+                <td class="px-4 py-3">{{ cajero.nombreCompleto }}</td>
+                <td class="px-4 py-3">{{ cajero.email }}</td>
+                <td class="px-4 py-3">{{ cajero.dni }}</td>
+                <td class="px-4 py-3">{{ cajero.celular }}</td>
+                <td class="px-4 py-3">
+                  <span
+                    class="inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium"
+                    [ngClass]="{
+                      'bg-green-100 text-green-800': cajero.activo,
+                      'bg-red-100 text-red-700': !cajero.activo
+                    }"
+                  >
                     <span
-                      class="inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium"
+                      class="h-2 w-2 rounded-full"
                       [ngClass]="{
-                        'bg-green-100 text-green-800': cajero.activo,
-                        'bg-red-100 text-red-700': !cajero.activo
+                        'bg-green-500': cajero.activo,
+                        'bg-red-500': !cajero.activo
                       }"
-                    >
-                      <span
-                        class="h-2 w-2 rounded-full"
-                        [ngClass]="{
-                          'bg-green-500': cajero.activo,
-                          'bg-red-500': !cajero.activo
-                        }"
-                      ></span>
-                      {{ cajero.activo ? 'Activo' : 'Inactivo' }}
-                    </span>
-                  </td>
-                </tr>
-              }
-            </tbody>
-          </table>
-        </div>
+                    ></span>
+                    {{ cajero.activo ? 'Activo' : 'Inactivo' }}
+                  </span>
+                </td>
+              </tr>
+            }
+          </ng-container>
+        </app-table>
       }
     </section>
   `,
