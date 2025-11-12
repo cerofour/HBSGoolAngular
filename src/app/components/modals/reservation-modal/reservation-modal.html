@@ -20,11 +20,12 @@
       <label class="block text-gray-700 font-medium mb-1 w-1/2">Hora de Fin</label>
       <select
         [(ngModel)]="duracion"
-        name="horaFin"
+        name="duracion"
         required
+        #duracionInput="ngModel"
         (change)="totalPrice.set(calculateTotalPrice())"
         class="w-1/2 border border-(--color-border-stroke) rounded-full px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
-        [ngClass]="{ 'border-red-500': reservationForm.submitted && duracion }"
+        [ngClass]="{ 'border-red-500': reservationForm.submitted && !duracionInput.valid }"
       >
         <option value="">Seleccionar</option>
         @for (h of availableHours; track $index) {
@@ -39,9 +40,10 @@
         <select
           [(ngModel)]="medioPago"
           name="medioPago"
+          #medioPagoInput="ngModel"
           required
           class="w-1/2 border border-(--color-border-stroke) rounded-full px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
-          [ngClass]="{ 'border-red-500': reservationForm.submitted && medioPago }"
+          [ngClass]="{ 'border-red-500': reservationForm.submitted && !medioPagoInput.valid }"
         >
           <option value="">Seleccionar</option>
           <option value="REMOTO">REMOTO</option>

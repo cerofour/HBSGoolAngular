@@ -1,6 +1,6 @@
 import { Component, inject, signal, ViewChild } from '@angular/core';
 import { ReservationSummary } from "../../components/reservation-summary/reservation-summary";
-import { Calendar } from "../../components/calendar/calendar";
+import { Calendar, CalendarPermissions } from "../../components/calendar/calendar";
 import { QrPaymentCard } from '../../components/cards/qr-payment-card/qr-payment-card';
 import { TransferPaymentCard } from '../../components/cards/transfer-payment-card/transfer-payment-card';
 import { PaymentReminderCard } from '../../components/cards/payment-reminder-card/payment-reminder-card';
@@ -19,10 +19,10 @@ import { CommonModule } from '@angular/common';
 })
 export class ReservationPage {
   @ViewChild('paymentForm') paymentForm!: NgForm;
-  private appState = inject(AppStateService);
   private reservationService = inject(ReservationService);
   private route = inject(ActivatedRoute);
-
+  public appState = inject(AppStateService);
+  
   confirmed = signal(false);
   showModalConfirmed = signal(false);
 
@@ -34,12 +34,24 @@ export class ReservationPage {
   minPaymentAmount = signal(0);
   maxPaymentAmount = signal(0);
 
-  rol?: string | undefined;
-
   canchaId!: number;
 
+  userPermissions: CalendarPermissions = {
+    canViewDetails: true,
+    canEdit: false,
+    canDelete: false,
+    canCreate: true
+  };
+
+  cashierPermissions: CalendarPermissions = {
+    canViewDetails: true,
+    canEdit: false,
+    canDelete: false,
+    canCreate: true,
+    useCustomEditModal: false
+  };
+
   ngOnInit() {
-    this.rol = this.appState.getUserProfile()?.rol ?? 'CASHIER';
     this.canchaId = Number(this.route.snapshot.paramMap.get('canchaId'));
   }
 
@@ -82,7 +94,7 @@ export class ReservationPage {
 
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
-
+    
     if (!this.isPaymentAmountValid()) {
       alert(this.getPaymentError() || 'Por favor ingresa un monto válido');
       input.value = '';
@@ -104,7 +116,7 @@ export class ReservationPage {
         this.previewImage = reader.result;
         this.showModalConfirmed.set(true);
       };
-
+ 
       reader.readAsDataURL(this.selectedImage);
 
     } else {
@@ -124,13 +136,13 @@ export class ReservationPage {
   }
 
   handlePaymentUploaded() {
-    //if(this.rol === undefined) return
-    this.rol = 'CASHIER'; //test
+    const rol = this.appState.getUserProfile()?.rol;
+    if (rol === undefined) return
 
     if (this.reservationData() !== null) {
-      if (this.rol === 'CASHIER')
+      if (rol === 'CASHIER')
         this.reservationService.creationReservationAsCashier(this.reservationData() as ReservationFormCashier, this.selectedImage).subscribe();
-      else if (this.rol === 'USER' && this.selectedImage !== null)
+      else if (rol === 'USER' && this.selectedImage !== null)
         this.reservationService.creationReservationAsUser(this.reservationData() as ReservationFormUser, this.selectedImage).subscribe();
     }
 

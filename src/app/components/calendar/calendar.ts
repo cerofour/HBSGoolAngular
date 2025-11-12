@@ -18,6 +18,14 @@ import { modalType, ReservationModal } from '../modals/reservation-modal/reserva
 import { calculateEndTime } from '../../utils/general-utils';
 import { CanchaInfo, CanchaService } from '../../services/cancha/cancha.service';
 
+export interface CalendarPermissions {
+  canViewDetails: boolean;
+  canEdit: boolean;
+  canDelete: boolean;
+  canCreate: boolean;
+  useCustomEditModal?: boolean;
+}
+
 @Component({
   selector: 'app-calendar',
   imports: [CommonModule, ScheduleModule, ReservationModal],
@@ -35,27 +43,35 @@ export class Calendar {
   @Input() startHour: string = '08:00';
   @Input() endHour: string = '22:00';
   @Input() readonly: boolean = false;
-  @Input() allowAdding: boolean = true;
-  @Input() allowEditing: boolean = true;
-  @Input() allowDeleting: boolean = true;
   @Input() allowPastDates: boolean = true;
   @Input() modalType: modalType = 'user';
   @Input() modalTitle: string = 'Nueva Reservación';
   @Input() initialModalData?: Partial<ReservationFormUser | ReservationFormCashier>;
   @Input({ required: true }) canchaId!: number;
+  @Input() permissions: CalendarPermissions = {
+    canViewDetails: true,
+    canEdit: false,
+    canDelete: false,
+    canCreate: true,
+    useCustomEditModal: false
+  };
+
   @Output() reservationConfirmed = new EventEmitter<any>();
+  @Output() reservationEdited = new EventEmitter<any>();
 
   private reservation = inject(ReservationService);
   private canchaService = inject(CanchaService);
 
   public showModal = signal(false);
+  public showEditModal = signal(false);
+  public selectedEvent: any = null;
   public selectedDate: Date = new Date();
   public eventData: Object[] = [];
   public eventSettings: EventSettingsModel = {
     dataSource: this.eventData,
-    allowAdding: this.allowAdding,
-    allowDeleting: this.allowDeleting,
-    allowEditing: this.allowEditing,
+    allowAdding: true,
+    allowDeleting: true,
+    allowEditing: true,
   };
 
   canchaInfo: CanchaInfo | null = null;
@@ -66,13 +82,14 @@ export class Calendar {
   ngOnInit() {
     this.canchaService.getCanchaById(this.canchaId).subscribe({
       next: (data) => this.canchaInfo = data,
-      error: () => {}
+      error: () => { }
     })
+    this.updateEventSettings();
     this.loadEvents();
   }
 
   loadEvents() {
-    this.reservation.getListReservationCashier({canchaId: this.canchaId, size: 100}).subscribe({
+    this.reservation.getListReservationCashier({ canchaId: this.canchaId, size: 100 }).subscribe({
       next: (data: Page<Reservation>) => {
         this.eventData = data.content.map((event: Reservation, index: number) => ({
           Id: event.idReservacion ?? index + 1,
@@ -129,16 +146,66 @@ export class Calendar {
     }
   }
 
-  onPopupOpen(args: PopupOpenEventArgs): void {
-    if (args.type === 'QuickInfo' || args.type === 'Editor') {
-      const eventData = args.data as any;
+ onPopupOpen(args: PopupOpenEventArgs): void {
+    const eventData = args.data as any;
+
+    if (args.type === 'Editor') {
+      args.cancel = true;
+      return;
+    }
+
+    if (args.type === 'QuickInfo') {
+      if (eventData && eventData.Id) {
+        if (!this.permissions.canViewDetails) {
+          args.cancel = true;
+          return;
+        }
+
+        args.cancel = false;
+
+        setTimeout(() => {
+          const popup = args.element;
+          if (!popup) return;
+
+          const editBtn = popup.querySelector('.e-event-edit') as HTMLElement;
+          const deleteBtn = popup.querySelector('.e-event-delete') as HTMLElement;
+          const detailsBtn = popup.querySelector('.e-details') as HTMLElement;
+
+          if (editBtn) {
+            if (!this.permissions.canEdit) {
+              editBtn.style.display = 'none';
+            } else if (this.permissions.useCustomEditModal) {
+              editBtn.onclick = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                this.openEditModal(eventData);
+                this.scheduleObj.closeQuickInfoPopup();
+              };
+            }
+          }
+
+          if (deleteBtn) {
+            if (!this.permissions.canDelete) {
+              deleteBtn.style.display = 'none';
+            }
+          }
+
+          if (detailsBtn) {
+            detailsBtn.style.display = 'none';
+          }
+        }, 0);
+
+        return;
+      }
+
       args.cancel = true;
 
-      if(this.canchaInfo === null || this.canchaInfo === undefined) return;
+      if (!this.permissions.canCreate) return;
 
-      if (eventData && eventData.Id) return;
+      if (!this.canchaInfo) return;
 
       const startTime = new Date(eventData.StartTime);
+
 
       const startHourNum = parseInt(this.startHour.split(':')[0]);
       const startMinNum = parseInt(this.startHour.split(':')[1]);
@@ -151,16 +218,45 @@ export class Calendar {
       if (this.isTimeSlotOccupied(startTime)) return;
 
       this.availableHours = this.getAvailableEndTimes(startTime);
-
       if (this.availableHours.length === 0) return;
 
       this.startTime = this.toLocalISOString(startTime);
-
       this.showModal.set(true);
     }
   }
 
+  openEditModal(eventData: any) {
+    this.selectedEvent = eventData;
+    this.showEditModal.set(true);
+  }
+
+ 
+  handleEditClose(result?: any) {
+    this.showEditModal.set(false);
+    this.selectedEvent = null;
+    
+    if (result) {
+      this.reservationEdited.emit(result);
+      this.loadEvents();
+    }
+  }
+
   onActionBegin(args: ActionEventArgs): void {
+     if (args.requestType === 'eventCreate' && !this.permissions.canCreate) {
+      args.cancel = true;
+      return;
+    }
+
+    if (args.requestType === 'eventChange' && !this.permissions.canEdit) {
+      args.cancel = true;
+      return;
+    }
+
+    if (args.requestType === 'eventRemove' && !this.permissions.canDelete) {
+      args.cancel = true;
+      return;
+    }
+
     if (!this.allowPastDates && args.requestType === 'eventCreate') {
       const eventData = (args.data as any[])[0];
       const startTime = new Date(eventData.StartTime);
@@ -176,6 +272,15 @@ export class Calendar {
 
   onClose() {
     this.showModal.set(false);
+  }
+
+  private updateEventSettings() {
+    this.eventSettings = {
+      ...this.eventSettings,
+      allowAdding: this.permissions.canCreate,
+      allowDeleting: this.permissions.canDelete,
+      allowEditing: this.permissions.canEdit && !this.permissions.useCustomEditModal,
+    };
   }
 
   private isTimeSlotOccupied(time: Date): boolean {
@@ -249,9 +354,9 @@ export class Calendar {
   }
 
   public toLocalISOString = (d = new Date()) =>
-  new Date(d.getTime() - d.getTimezoneOffset() * 60000)
-    .toISOString()
-    .slice(0, -1);
+    new Date(d.getTime() - d.getTimezoneOffset() * 60000)
+      .toISOString()
+      .slice(0, -1);
 
 
   calculateEndTime = calculateEndTime;
