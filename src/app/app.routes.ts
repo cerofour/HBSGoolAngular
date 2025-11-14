@@ -8,6 +8,8 @@ import { ListadoCajasComponent } from './pages/listadocajas/listadocajas.compone
 import { CajeroListComponent, CajeroPage } from './pages/cajero/cajero-page';
 import { ListadoPagosPage } from './pages/listado-pagos-page/listado-pagos-page';
 import { PagoPage } from './pages/pago-page/pago-page';
+import { isCashierGuard } from './guards/is-cashier-guard';
+import { isLoggedInGuard } from './guards/is-logged-in-guard';
 
 export const routes: Routes = [
   {
@@ -25,10 +27,12 @@ export const routes: Routes = [
   {
     path: 'reservar/:canchaId',
     component: ReservationPage,
+    canActivate: [isLoggedInGuard],
   },
 
   {
     path: 'admin',
+    canActivateChild: [isCashierGuard],
     children: [
       {
         path: 'dashboard',
@@ -57,7 +61,7 @@ export const routes: Routes = [
           },
           {
             path: ':reservationId',
-			component: PagoPage
+            component: PagoPage,
           },
         ],
       },
