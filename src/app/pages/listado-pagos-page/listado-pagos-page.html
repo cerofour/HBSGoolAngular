@@ -31,14 +31,15 @@
             <td class="px-4 py-3">{{ pago.fecha | date:'short' }}</td>
             <td class="px-4 py-3">{{ pago.medioPago }}</td>
             <td class="px-4 py-3">
-              @if (pago.estadoPago === 'CONFIRMADO') {
-                <span class="inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium bg-green-100 text-green-800">
-                  <span class="h-2 w-2 rounded-full bg-green-500"></span>
-                  Confirmado
-                </span>
-              } @else {
-                <button class="text-primary underline decoration-transparent hover:decoration-primary" (click)="openReview(pago)">Revisar</button>
-              }
+              <div class="flex flex-col gap-1">
+                @if (pago.estadoPago === 'PENDIENTE') {
+                  <app-button variant="neutral" (click)="this.openReview(pago)">
+                    Revisar
+                  </app-button>
+                } @else {
+                  <app-badge [variant]="getBadgeVariant(pago.estadoPago)" [label]="getBadgeLabel(pago.estadoPago)" />
+                }
+              </div>
             </td>
             <td class="px-4 py-3 text-primary">
               @if (pago.evidencia) {
@@ -63,6 +64,8 @@
 
     <app-modal #reviewModal title="Revisar Pago">
       @if (selectedPago) {
+
+        <div class="grid grid-cols-2">
         <div class="space-y-3">
           <div class="grid grid-cols-2 gap-2 text-sm">
             <div class="text-gray-500">DNI</div>
@@ -73,7 +76,9 @@
             <div class="font-medium">S/. {{ selectedPago.cantidadDinero }}</div>
           </div>
 
-          <div class="mt-2">
+          <div>
+
+          <div class="mt-2 flex flex-col justify-center w-full">
             <div class="text-sm text-gray-500 mb-1">Evidencia</div>
             @if (loadingReview) {
               <p class="text-gray-500 text-sm">Cargando evidencia...</p>
@@ -85,10 +90,13 @@
           </div>
 
           <div class="flex justify-end gap-2 pt-2">
-            <app-button variant="danger" (click)="rechazarPago()">Rechazar</app-button>
-            <app-button variant="primary" (click)="confirmarPago()">Confirmar</app-button>
+            <app-button variant="danger" (click)="rejectPayment(selectedPago.idPago)">Rechazar</app-button>
+            <app-button variant="primary" (click)="confirmarPago(selectedPago.idPago)">Confirmar</app-button>
+          </div>
           </div>
         </div>
+        </div>
+
       }
     </app-modal>
   }

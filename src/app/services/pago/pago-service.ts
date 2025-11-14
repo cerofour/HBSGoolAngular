@@ -36,7 +36,11 @@ export class PagoService {
     return this.http.get<PageResponse<Pago>>(`${this.apiPath}/api/pagos?size=20&page=${page - 1}`);
   }
 
+  rejectPayment(paymentId: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiPath}/api/pagos/${paymentId}`);
+  }
+
   getEvidencia(idPago: number) : Observable<Blob> {
-    return this.http.get(`${this.apiPath}/api/pago/evidencia/${idPago}`, { responseType: 'blob' });
+    return this.http.get(`${this.apiPath}/api/pagos/evidencia/${idPago}`, { responseType: 'blob' });
   }
 }

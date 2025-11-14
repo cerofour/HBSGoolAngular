@@ -6,15 +6,18 @@ import { Modal } from '../../components/modal/modal';
 import { Button } from '../../components/button/button';
 import { Reservation, ReservationService } from '../../services/reservation/reservation.service';
 import { Pagination } from '../../components/pagination/pagination';
+import { Badge } from '../../components/badge/badge';
+import { RemotePaymentConfirmationService } from '../../services/remote-payment-confirmation/remote-payment-confirmation';
 
 @Component({
   selector: 'app-listado-pagos-page',
-  imports: [CommonModule, AppTable, Modal, Button, Pagination],
+  imports: [CommonModule, AppTable, Modal, Button, Pagination, Badge],
   templateUrl: './listado-pagos-page.html',
   styleUrl: './listado-pagos-page.css',
 })
 export class ListadoPagosPage implements OnInit {
   private pagoService = inject(PagoService);
+  private remotePaymentService = inject(RemotePaymentConfirmationService);
   private reservationService = inject(ReservationService);
 
   pagos: Pago[] = [];
@@ -99,10 +102,49 @@ export class ListadoPagosPage implements OnInit {
     this.selectedReserva = null;
     this.loadingReview = false;
   }
-  confirmarPago() {
-    this.closeReview();
+  confirmarPago(paymentId: number) {
+    this.remotePaymentService.confirmPayment(paymentId)
+      .subscribe({
+        next: () => {
+          this.closeReview();
+        },
+        error: () => {
+          console.error("No se pudo confirmar el pago con ID: " + paymentId)
+        }
+      })
   }
-  rechazarPago() {
-    this.closeReview();
+
+  rejectPayment(paymentId: number) {
+
+    this.pagoService.rejectPayment(paymentId)
+      .subscribe({
+        next: () => {
+          this.closeReview();
+        },
+        error: () => {
+          console.error("No se pudo rechazar el pago con id: " + paymentId);
+
+        }
+      }
+      );
+
+  }
+
+  getBadgeVariant(estado: string | null | undefined): 'success' | 'danger' | 'neutral' {
+    if (estado === 'CONFIRMADO') {
+      return 'success';
+    }
+    if (estado === 'RECHAZADO') {
+      return 'danger';
+    }
+    return 'neutral';
+  }
+
+  getBadgeLabel(estado: string | null | undefined): string {
+    if (!estado) {
+      return 'Sin estado';
+    }
+    const lower = estado.toLowerCase();
+    return lower.charAt(0).toUpperCase() + lower.slice(1);
   }
 }
