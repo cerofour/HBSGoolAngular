@@ -1,0 +1,12 @@
+@let badge = tokens();
+
+<span [class]="badge.containerClass">
+  <span [class]="badge.iconWrapperClass">
+    <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" [attr.stroke]="badge.iconStroke" stroke-width="2">
+      @for (path of badge.paths; track path) {
+        <path [attr.d]="path" stroke-linecap="round" stroke-linejoin="round" />
+      }
+    </svg>
+  </span>
+  <span>{{ label() }}</span>
+</span>
