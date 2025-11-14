@@ -3,11 +3,12 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Reservation, ReservationService } from '../../services/reservation/reservation.service';
 import { Button } from '../../components/button/button';
+import { AppTable } from '../../components/table/table';
 
 @Component({
   selector: 'app-view-reservations',
   standalone: true,
-  imports: [CommonModule, FormsModule, Button],
+  imports: [CommonModule, FormsModule, Button, AppTable],
   templateUrl: './view-reservations.html',
   styleUrl: './view-reservations.css',
 })
@@ -63,7 +64,7 @@ export class ViewReservations {
       case 'CONFIRMADA':
       case 'COMPLETADA':
         return `${baseClasses} bg-green-100 text-green-800`;
-      case 'PENDIENTE':
+      case 'POR CONFIRMAR':
         return `${baseClasses} bg-yellow-100 text-yellow-800`;
       case 'CANCELADA':
         return `${baseClasses} bg-red-100 text-red-800`;

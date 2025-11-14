@@ -1,20 +1,23 @@
-import { Component, ViewChild, effect, inject } from '@angular/core';
-
-import { Button } from '../../components/button/button';
-
+import { Component, ViewChild, effect, inject } from '@angular/core'
 import { SesionCajeroService } from '../../services/sesion-cajero.service';
 import { AppStateService } from '../../services/app-state/app-state';
 import { AbrirSesionCajeroComponent } from '../abrirsesioncajero/abrirsesioncajero.component';
+import { Reservation, ReservationService } from '../../services/reservation/reservation.service';
+import { getDate, getTime } from '../../utils/general-utils';
+import { ButtonLink } from '../../components/button-link/button-link';
+import { Button } from '../../components/button/button';
 
 @Component({
   selector: 'app-admin-dashboard',
-  imports: [Button, AbrirSesionCajeroComponent],
+  imports: [ButtonLink, Button, AbrirSesionCajeroComponent],
   templateUrl: './admin-dashboard.html'
 })
 export class AdminDashboard {
   cashierSessionService = inject(SesionCajeroService);
   private appState = inject(AppStateService);
+  private reservationsService = inject(ReservationService);
   private checkedSession = false;
+  reservations: Reservation[] = []; 
 
   @ViewChild('openSessionModal') openSessionModal!: AbrirSesionCajeroComponent;
 
@@ -37,43 +40,14 @@ export class AdminDashboard {
     }
   });
 
-  ngOnInit() {}
-
-canchas = [
-    {
-      nombre: 'Cancha #1',
-      reservaciones: [
-        {
-          fecha: 'Lunes 15/09',
-          hora: '08:00',
-          duracion: "60'",
-          tipoPago: 'Parcial'
-        },
-        {
-          fecha: 'Lunes 15/09',
-          hora: '13:00',
-          duracion: "90'",
-          tipoPago: 'Completo'
-        }
-      ]
-    },
-    {
-      nombre: 'Cancha #2',
-      reservaciones: [
-        {
-          fecha: 'Lunes 15/09',
-          hora: '20:00',
-          duracion: "45'",
-          tipoPago: 'Parcial'
-        },
-        {
-          fecha: 'Lunes 15/09',
-          hora: '21:00',
-          duracion: "90'",
-          tipoPago: 'Completo'
-        }
-      ]
-    }
-  ];
-
+  ngOnInit() {
+    this.reservationsService.getListReservationCashier({estado: 'POR CONFIRMAR', size: 7, sort: 'canchaId'}).subscribe({
+      next: data => this.reservations = data.content,
+      error: () => {}
+    });
+  }
+  
+  getDate = getDate;
+  getTime = getTime;
+  
 }
