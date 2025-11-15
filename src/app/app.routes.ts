@@ -9,6 +9,9 @@ import { CajeroListComponent, CajeroPage } from './pages/cajero/cajero-page';
 import { ListadoPagosPage } from './pages/listado-pagos-page/listado-pagos-page';
 import { PagoPage } from './pages/pago-page/pago-page';
 
+import { ListadoReviews } from './pages/listado-reviews/listado-reviews';
+
+
 export const routes: Routes = [
   {
     path: '',
@@ -34,6 +37,12 @@ export const routes: Routes = [
         path: 'dashboard',
         component: AdminDashboard,
       },
+
+      {
+        path: 'reviews',
+        component: ListadoReviews,
+      },
+      
       {
         path: 'cajero',
         component: CajeroPage,
@@ -57,10 +66,11 @@ export const routes: Routes = [
           },
           {
             path: ':reservationId',
-			component: PagoPage
+            component: PagoPage
           },
         ],
       },
+      
     ],
   },
 ];

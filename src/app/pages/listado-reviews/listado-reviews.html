@@ -1,0 +1,112 @@
+<section class="p-6">
+  <header class="mb-6">
+    <h1 class="text-2xl font-semibold text-gray-800">Listado de Opiniones</h1>
+    <p class="text-gray-500 text-sm">
+      Consulta y filtra las opiniones registradas por los usuarios.
+    </p>
+  </header>
+
+  <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end">
+
+    <label class="flex flex-col gap-1 text-sm text-gray-700">
+      Usuario ID
+      <input
+        type="number"
+        [(ngModel)]="usuarioId"
+        placeholder="ID Usuario"
+        class="rounded-md border border-gray-200 px-3 py-2 text-sm shadow-sm
+               focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+      />
+    </label>
+
+    <label class="flex flex-col gap-1 text-sm text-gray-700">
+      Rating
+      <select
+        [(ngModel)]="rating"
+        class="rounded-md border border-gray-200 px-3 py-2 text-sm shadow-sm
+               focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+      >
+        <option value="">Todos</option>
+        <option value="1">1 ⭐</option>
+        <option value="2">2 ⭐</option>
+        <option value="3">3 ⭐</option>
+        <option value="4">4 ⭐</option>
+        <option value="5">5 ⭐</option>
+      </select>
+    </label>
+
+    <label class="flex flex-col gap-1 text-sm text-gray-700">
+      Fecha desde
+      <input
+        type="date"
+        [(ngModel)]="fechaDesde"
+        class="rounded-md border border-gray-200 px-3 py-2 text-sm shadow-sm
+               focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+      />
+    </label>
+
+    <label class="flex flex-col gap-1 text-sm text-gray-700">
+      Fecha hasta
+      <input
+        type="date"
+        [(ngModel)]="fechaHasta"
+        class="rounded-md border border-gray-200 px-3 py-2 text-sm shadow-sm
+               focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+      />
+    </label>
+
+    <app-button
+      [variant]="cargando ? 'disabled' : 'primary'"
+      (click)="filtrar()"
+    >
+      Filtrar
+    </app-button>
+  </div>
+
+  @if (errorMsg) {
+    <div class="mb-4 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+      {{ errorMsg }}
+    </div>
+  }
+
+  @if (cargando) {
+    <p class="text-gray-600">Cargando opiniones...</p>
+  } @else if (reviews.length === 0) {
+    <p class="text-gray-600">No hay opiniones para mostrar.</p>
+  } @else {
+    <app-table>
+
+      <ng-container table-header>
+        <tr>
+          <th class="px-4 py-3 font-medium">ID</th>
+          <th class="px-4 py-3 font-medium">Usuario</th>
+          <th class="px-4 py-3 font-medium">Rating</th>
+          <th class="px-4 py-3 font-medium">Comentario</th>
+          <th class="px-4 py-3 font-medium">Fecha</th>
+        </tr>
+      </ng-container>
+
+      <ng-container table-body>
+        @for (review of reviews; track review.idReview) {
+          <tr class="hover:bg-gray-50">
+            <td class="px-4 py-3">{{ review.idReview }}</td>
+            <td class="px-4 py-3">{{ review.usuarioId }}</td>
+            <td class="px-4 py-3">{{ review.rating }}</td>
+            <td class="px-4 py-3">{{ review.comentario }}</td>
+            <td class="px-4 py-3">{{ review.creado | date:'short' }}</td>
+          </tr>
+        }
+      </ng-container>
+
+    </app-table>
+
+    <div class="mt-4 flex justify-end">
+      <app-pagination
+        [totalItems]="totalElements"
+        [pageSize]="pageSize"
+        [currentPage]="page"
+        (pageChange)="onPageChange($event)"
+      ></app-pagination>
+    </div>
+  }
+</section>
