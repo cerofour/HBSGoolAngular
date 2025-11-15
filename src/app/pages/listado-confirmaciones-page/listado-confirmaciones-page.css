@@ -1,0 +1,15 @@
+/* Estilos mínimos para la página de confirmaciones */
+.p-4 { padding: 1rem; }
+.mb-4 { margin-bottom: 1rem; }
+.mt-4 { margin-top: 1rem; }
+.grid { display: grid; }
+.grid-cols-4 { grid-template-columns: repeat(4, minmax(0,1fr)); }
+.gap-3 { gap: .75rem; }
+.items-end { align-items: end; }
+.w-full { width: 100%; }
+.rounded-md { border-radius: .375rem; }
+.border { border: 1px solid #e5e7eb; }
+.px-3 { padding-left: .75rem; padding-right: .75rem; }
+.py-2 { padding-top: .5rem; padding-bottom: .5rem; }
+.text-sm { font-size: .875rem; }
+.text-gray-600 { color: #4b5563; }
