@@ -138,12 +138,13 @@ export class ReservationPage {
   handlePaymentUploaded() {
     const rol = this.appState.getUserProfile()?.rol;
     if (rol === undefined) return
-
+    
     if (this.reservationData() !== null) {
       if (rol === 'CASHIER')
         this.reservationService.creationReservationAsCashier(this.reservationData() as ReservationFormCashier, this.selectedImage).subscribe();
-      else if (rol === 'USER' && this.selectedImage !== null)
-        this.reservationService.creationReservationAsUser(this.reservationData() as ReservationFormUser, this.selectedImage).subscribe();
+      else if (rol === 'USER' && this.selectedImage !== null){
+        this.reservationData.update(prev => ({...prev!, montoInicial: this.paymentAmount}));
+        this.reservationService.creationReservationAsUser(this.reservationData() as ReservationFormUser, this.selectedImage).subscribe();}
     }
 
     this.resetReservationFlow();

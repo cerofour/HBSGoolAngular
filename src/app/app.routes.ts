@@ -10,6 +10,7 @@ import { ListadoPagosPage } from './pages/listado-pagos-page/listado-pagos-page'
 import { PagoPage } from './pages/pago-page/pago-page';
 import { isCashierGuard } from './guards/is-cashier-guard';
 import { isLoggedInGuard } from './guards/is-logged-in-guard';
+import { ViewReservations } from './pages/view-reservations/view-reservations';
 
 export const routes: Routes = [
   {
@@ -29,7 +30,6 @@ export const routes: Routes = [
     component: ReservationPage,
     canActivate: [isLoggedInGuard],
   },
-
   {
     path: 'admin',
     canActivateChild: [isCashierGuard],
@@ -61,9 +61,13 @@ export const routes: Routes = [
           },
           {
             path: ':reservationId',
-            component: PagoPage,
+            component: PagoPage
           },
         ],
+      },
+      {
+        path: 'ver-reservaciones',
+        component: ViewReservations
       },
     ],
   },
