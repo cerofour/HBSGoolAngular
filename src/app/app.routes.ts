@@ -10,6 +10,8 @@ import { ListadoPagosPage } from './pages/listado-pagos-page/listado-pagos-page'
 import { PagoPage } from './pages/pago-page/pago-page';
 
 import { ListadoReviews } from './pages/listado-reviews/listado-reviews';
+import { ListadoUsers } from './pages/listado-users/listado-users';
+
 
 
 export const routes: Routes = [
@@ -41,6 +43,16 @@ export const routes: Routes = [
       {
         path: 'reviews',
         component: ListadoReviews,
+      },
+
+      {
+        path: 'users',
+        component: ListadoUsers,
+      },
+
+      {
+        path: 'cajas',
+        component: ListadoCajasComponent,
       },
       
       {

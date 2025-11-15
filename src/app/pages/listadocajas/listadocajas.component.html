@@ -12,7 +12,8 @@
       <input
         type="date"
         [(ngModel)]="fechaInicio"
-        class="rounded-md border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+        class="rounded-md border border-gray-200 px-3 py-2 text-sm shadow-sm
+          focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
       />
     </label>
 
@@ -21,7 +22,8 @@
       <input
         type="date"
         [(ngModel)]="fechaFin"
-        class="rounded-md border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+        class="rounded-md border border-gray-200 px-3 py-2 text-sm shadow-sm
+          focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
       />
     </label>
 
@@ -33,42 +35,58 @@
     </app-button>
   </div>
 
-  <div *ngIf="errorMsg" class="mb-4 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-    {{ errorMsg }}
+  @if (errorMsg) {
+    <div class="mb-4 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+      {{ errorMsg }}
+    </div>
+  }
+
+  @if (cargando) {
+    <p class="text-gray-600">Cargando listado de cajas...</p>
+
+  } @else if (listadoCajas.length === 0) {
+    <p class="text-gray-600">No hay cajas para mostrar.</p>
+
+  } @else {
+
+    <div class="overflow-x-auto shadow-md rounded-lg">
+      <app-table>
+
+        <ng-container table-header>
+          <tr>
+            <th class="px-4 py-3 font-medium">ID Cajero</th>
+            <th class="px-4 py-3 font-medium">Fecha Apertura</th>
+            <th class="px-4 py-3 font-medium">Fecha Cierre</th>
+            <th class="px-4 py-3 font-medium">Monto Teórico</th>
+            <th class="px-4 py-3 font-medium">Monto Real</th>
+            <th class="px-4 py-3 font-medium">Diferencia</th>
+          </tr>
+        </ng-container>
+
+        <ng-container table-body>
+          @for (caja of listadoCajas; track caja.idCajero) {
+            <tr class="hover:bg-gray-50">
+              <td class="px-4 py-3">{{ caja.idCajero }}</td>
+              <td class="px-4 py-3">{{ caja.fechaApertura | date:'short' }}</td>
+              <td class="px-4 py-3">{{ caja.fechaCierre | date:'short' }}</td>
+              <td class="px-4 py-3">{{ caja.montoTeorico | currency:'PEN' }}</td>
+              <td class="px-4 py-3 font-semibold">{{ caja.montoReal | currency:'PEN' }}</td>
+              <td class="px-4 py-3">{{ (caja.montoTeorico - caja.montoReal) | currency:'PEN' }}</td>
+            </tr>
+          }
+        </ng-container>
+
+      </app-table>
+    </div>
+  }
+
+  <div class="mt-4 flex justify-end">
+      <app-pagination
+        [totalItems]="totalElements"
+        [pageSize]="pageSize"
+        [currentPage]="page"
+        (pageChange)="onPageChange($event)"
+      ></app-pagination>
   </div>
 
-  <div class="overflow-x-auto rounded-lg border border-gray-200">
-    <table class="min-w-full divide-y divide-gray-200 text-left">
-      <thead class="bg-gray-100 text-xs uppercase tracking-wide text-gray-600">
-        <tr>
-          <th class="px-4 py-3 font-medium">ID Cajero</th>
-          <th class="px-4 py-3 font-medium">Fecha Apertura</th>
-          <th class="px-4 py-3 font-medium">Fecha Cierre</th>
-          <th class="px-4 py-3 font-medium">Monto Teórico</th>
-          <th class="px-4 py-3 font-medium">Monto Real</th>
-          <th class="px-4 py-3 font-medium">Diferencia</th>
-        </tr>
-      </thead>
-      <tbody class="divide-y divide-gray-100 bg-white text-sm text-gray-700">
-        <tr *ngFor="let caja of listadoCajas" class="transition hover:bg-gray-50">
-          <td class="px-4 py-3">{{ caja.idCajero }}</td>
-          <td class="px-4 py-3">{{ caja.fechaApertura | date: 'short' }}</td>
-          <td class="px-4 py-3">{{ caja.fechaCierre | date: 'short' }}</td>
-          <td class="px-4 py-3">{{ caja.montoTeorico | currency: 'PEN' }}</td>
-          <td class="px-4 py-3 font-semibold text-gray-900">{{ caja.montoReal | currency: 'PEN' }}</td>
-          <td class="px-4 py-3">{{ caja.montoTeorico - caja.montoReal| currency: 'PEN' }}</td>
-        </tr>
-        <tr *ngIf="!listadoCajas.length && !cargando">
-          <td colspan="6" class="px-4 py-6 text-center text-sm text-gray-500">
-            No hay registros disponibles para el rango seleccionado.
-          </td>
-        </tr>
-        <tr *ngIf="cargando">
-          <td colspan="6" class="px-4 py-6 text-center text-sm text-gray-500">
-            Cargando información...
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
 </section>
