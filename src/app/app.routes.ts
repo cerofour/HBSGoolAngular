@@ -10,6 +10,7 @@ import { ListadoPagosPage } from './pages/listado-pagos-page/listado-pagos-page'
 import { ListadoConfirmacionesPage } from './pages/listado-confirmaciones-page/listado-confirmaciones-page';
 import { PagoPage } from './pages/pago-page/pago-page';
 import { ViewReservations } from './pages/view-reservations/view-reservations';
+import { PagosPorSesionPage } from './pages/pagos-por-sesion-page/pagos-por-sesion-page';
 
 export const routes: Routes = [
   {
@@ -55,6 +56,10 @@ export const routes: Routes = [
           {
             path: '',
             component: ListadoPagosPage,
+          },
+          {
+            path: 'por-sesion',
+            component: PagosPorSesionPage,
           },
           {
             path: 'confirmaciones',
