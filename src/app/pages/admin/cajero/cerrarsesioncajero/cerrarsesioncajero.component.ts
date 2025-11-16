@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Button } from '../../components/button/button';
+import { Button } from '../../../../components/button/button';
 
 @Component({
   selector: 'app-cerrar-sesion-cajero',

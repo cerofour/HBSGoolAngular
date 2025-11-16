@@ -1,11 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Reservation, ReservationForAdmin, ReservationService } from '../../services/reservation/reservation.service';
-import { Button } from '../../components/button/button';
-import { AppTable } from '../../components/table/table';
+import { Reservation, ReservationForAdmin, ReservationService } from '../../../../services/reservation/reservation.service';
+import { Button } from '../../../../components/button/button';
+import { AppTable } from '../../../../components/table/table';
 import { RouterModule } from '@angular/router';
-import { BreadcrumbsComponent } from '../../components/breadcrumbs/breadcrumbs';
+import { BreadcrumbsComponent } from '../../../../components/breadcrumbs/breadcrumbs';
 
 @Component({
   selector: 'app-view-reservations',

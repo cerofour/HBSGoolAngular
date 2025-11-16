@@ -1,9 +1,9 @@
 import { CommonModule, NgClass } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { RouterLink, RouterModule, RouterOutlet } from '@angular/router';
-import { CajeroService, CashierDTO } from '../../services/cajero.service';
-import { AppTable } from '../../components/table/table';
-import { BreadcrumbsComponent } from '../../components/breadcrumbs/breadcrumbs';
+import { CajeroService, CashierDTO } from '../../../../services/cajero.service';
+import { AppTable } from '../../../../components/table/table';
+import { BreadcrumbsComponent } from '../../../../components/breadcrumbs/breadcrumbs';
 
 @Component({
   selector: 'app-cajero-page',

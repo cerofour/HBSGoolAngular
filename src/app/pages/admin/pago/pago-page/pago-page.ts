@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { BreadcrumbsComponent } from '../../components/breadcrumbs/breadcrumbs';
+import { BreadcrumbsComponent } from '../../../../components/breadcrumbs/breadcrumbs';
 
 @Component({
   selector: 'app-pago-page',
