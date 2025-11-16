@@ -1,7 +1,7 @@
 import { CommonModule, NgClass } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { RouterLink, RouterModule, RouterOutlet } from '@angular/router';
-import { CajeroService, CashierSummary } from '../../services/cajero.service';
+import { CajeroService, CashierDTO } from '../../services/cajero.service';
 import { AppTable } from '../../components/table/table';
 
 @Component({
@@ -91,7 +91,7 @@ export class CajeroPage {}
 export class CajeroListComponent implements OnInit {
   private readonly cajeroService = inject(CajeroService);
 
-  cajeros: CashierSummary[] = [];
+  cajeros: CashierDTO[] = [];
   loading = false;
   errorMessage: string | null = null;
 

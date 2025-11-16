@@ -60,7 +60,7 @@ export const routes: Routes = [
             component: ListadoPagosPage,
           },
           {
-            path: ':reservationId',
+            path: ':pagoId',
             component: PagoPage
           },
         ],

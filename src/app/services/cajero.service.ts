@@ -25,7 +25,7 @@ export interface RegisterCashierResult {
   email: string;
 }
 
-export interface CashierSummary {
+export interface CashierDTO {
   idCajero: number;
   idUsuario: number;
   nombreCompleto: string;
@@ -46,7 +46,7 @@ export class CajeroService {
     return this.http.post<RegisterCashierResult>(`${this.apiPath}/api/cajero`, data);
   }
 
-  getAllCashier(): Observable<CashierSummary[]> {
-    return this.http.get<CashierSummary[]>(`${this.apiPath}/api/cajero`);
+  getAllCashier(): Observable<CashierDTO[]> {
+    return this.http.get<CashierDTO[]>(`${this.apiPath}/api/cajero`);
   }
 }

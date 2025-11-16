@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { CashierDTO } from '../cajero.service';
 
 export interface Reservation {
   idReservacion: number;
@@ -11,6 +12,20 @@ export interface Reservation {
   dni: string;
   duracion: string;
   precioTotal: number;
+  estadoReservacion: string;
+}
+
+export interface ReservationForAdmin {
+  idReservacion: number;
+  usuarioId?: number;
+  canchaId: number;
+  cajero?: CashierDTO;
+  tiempoInicio: string;
+  dni: string;
+  duracion: string;
+  precioTotal: number;
+  saldo: number;
+  pagos: number[];
   estadoReservacion: string;
 }
 
@@ -105,6 +120,17 @@ export class ReservationService {
 
     const params = this.buildParams({usuarioId, canchaId, estado, dni, page, size, sort});
     return this.http.get<Page<Reservation>>(`${this.apiURLBASE}`, { params });
+
+  }
+
+  //ROLE: ADMIN OR CASHIER
+  getListReservationAdmin(
+    {usuarioId, canchaId, estado, dni, page = 0, size = 10, sort = "tiempoInicio"} : 
+    {usuarioId?: number, canchaId?: number, estado?: string, dni?: string, page?: number, size?: number, sort?: string} = {}
+  ): Observable<Page<ReservationForAdmin>> {
+
+    const params = this.buildParams({usuarioId, canchaId, estado, dni, page, size, sort});
+    return this.http.get<Page<ReservationForAdmin>>(`${this.apiURLBASE}/admin`, { params });
 
   }
 
