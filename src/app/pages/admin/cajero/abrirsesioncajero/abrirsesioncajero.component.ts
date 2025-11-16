@@ -1,9 +1,9 @@
 import { Component, ViewChild, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Button } from '../../components/button/button';
-import { Modal } from '../../components/modal/modal';
-import { SesionCajeroService } from '../../services/sesion-cajero.service';
+import { Button } from '../../../../components/button/button';
+import { Modal } from '../../../../components/modal/modal';
+import { SesionCajeroService } from '../../../../services/sesion-cajero.service';
 
 @Component({
   selector: 'app-abrir-sesion-cajero',

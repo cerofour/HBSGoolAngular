@@ -1,0 +1,140 @@
+<section class="p-6">
+  <app-breadcrumbs></app-breadcrumbs>
+
+  <div class="rounded-2xl border border-gray-200 bg-white shadow-sm">
+    <div class="border-b border-gray-100 px-6 py-5">
+      <h1 class="text-2xl font-semibold text-gray-800">
+        Pago {{ pago() ? ('#' + pago()?.idPago) : '' }}
+      </h1>
+      <p class="text-sm text-gray-500">
+        Revisa la informacion primaria del pago seleccionado.
+      </p>
+    </div>
+
+    <div class="px-6 py-6 space-y-6">
+      @if (loading()) {
+        <p class="text-sm text-gray-500">Cargando pago...</p>
+      } @else if (error()) {
+        <div class="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          {{ error() ?? "" }}
+        </div>
+      } @else if (pago()) {
+        <div class="grid gap-6 lg:grid-cols-2">
+          <div class="rounded-xl border border-gray-100 bg-gray-50/70 p-5">
+            <h2 class="mb-4 text-lg font-semibold text-gray-800">Datos del pago</h2>
+            <dl class="space-y-4 text-sm text-gray-500">
+              <div class="flex justify-between">
+                <dt class="font-medium">ID Pago</dt>
+                <dd class="text-base font-semibold text-gray-900">
+                  {{ pago()?.idPago }}
+                </dd>
+              </div>
+              <div class="flex justify-between">
+                <dt class="font-medium">ID Reservacion</dt>
+                <dd class="text-base font-semibold text-gray-900">
+                  {{ pago()?.reservacionId ?? 'Sin reservacion' }}
+                </dd>
+              </div>
+              <div class="flex justify-between">
+                <dt class="font-medium">Medio de pago</dt>
+                <dd class="text-base font-semibold text-gray-900">
+                  {{ pago()?.medioPago ?? 'No especificado' }}
+                </dd>
+              </div>
+              <div class="flex justify-between">
+                <dt class="font-medium">Cantidad</dt>
+                <dd class="text-base font-semibold text-gray-900">
+                  {{ pago()?.cantidadDinero | currency: 'PEN' }}
+                </dd>
+              </div>
+              <div class="flex justify-between">
+                <dt class="font-medium">Fecha</dt>
+                <dd class="text-base font-semibold text-gray-900">
+                  {{ pago()?.fecha | date: 'longDate' }} ·
+                  {{ pago()?.fecha | date: 'shortTime' }}
+                </dd>
+              </div>
+              <div class="flex justify-between">
+                <dt class="font-medium">Estado</dt>
+                <dd class="text-base font-semibold text-gray-900">
+                  <div class="flex flex-wrap items-center gap-3">
+                    <app-badge
+                      [variant]="getEstadoVariant(pago()?.estadoPago)"
+                      [label]="pago()?.estadoPago ?? 'Sin estado'"
+                    />
+                    @if (pago()?.estadoPago === 'CONFIRMADO') {
+                      <a
+                        href=""
+                        (click)="$event.preventDefault()"
+                        class="text-sm font-semibold text-primary hover:underline"
+                      >
+                        Ver detalles
+                      </a>
+                    }
+                  </div>
+                </dd>
+              </div>
+            </dl>
+          </div>
+
+          <div class="rounded-xl border border-gray-100 bg-gray-50/70 p-5">
+            <h2 class="mb-4 text-lg font-semibold text-gray-800">Sesion del cajero</h2>
+            <dl class="space-y-4 text-sm text-gray-500">
+              <div class="flex justify-between">
+                <dt class="font-medium">ID Sesion</dt>
+                <dd class="text-base font-semibold text-gray-900">
+                  {{ pago()?.sesionCajero?.idSesionCajero ?? 'No informado' }}
+                </dd>
+              </div>
+              <div class="flex justify-between">
+                <dt class="font-medium">Cajero</dt>
+                <dd class="text-base font-semibold text-gray-900">
+                  {{ pago()?.sesionCajero?.idCajero ?? 'No informado' }}
+                </dd>
+              </div>
+              <div class="flex justify-between">
+                <dt class="font-medium">Monto inicial</dt>
+                <dd class="text-base font-semibold text-gray-900">
+                  {{ pago()?.sesionCajero?.montoInicial | currency: 'PEN' }}
+                </dd>
+              </div>
+              <div class="flex justify-between">
+                <dt class="font-medium">Apertura</dt>
+                <dd class="text-base font-semibold text-gray-900">
+                  {{ pago()?.sesionCajero?.fechaApertura | date: 'longDate' }} ·
+                  {{ pago()?.sesionCajero?.fechaApertura | date: 'shortTime' }}
+                </dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+
+        <div class="rounded-xl border border-dashed border-primary/30 bg-primary/5 p-5">
+          <div class="mb-4 flex items-center justify-between">
+            <div>
+              <h2 class="text-lg font-semibold text-gray-800">Evidencia del pago</h2>
+              <p class="text-sm text-gray-500">Visualiza el comprobante o captura del pago cargado por el usuario.</p>
+            </div>
+          </div>
+          @if (evidenciaLoading()) {
+            <p class="text-sm text-gray-500">Cargando evidencia...</p>
+          } @else if (evidenciaUrl()) {
+            <img
+              [src]="evidenciaUrl()!"
+              alt="Evidencia del pago"
+              class="max-h-[420px] w-full rounded-xl border border-gray-200 object-contain bg-white"
+            />
+          } @else {
+            <div class="flex h-64 items-center justify-center rounded-xl border border-dashed border-gray-300 bg-white/60 text-center">
+              <p class="text-sm text-gray-500">
+                {{ evidenciaError() ?? 'No se encontro evidencia asociada a este pago.' }}
+              </p>
+            </div>
+          }
+        </div>
+      } @else {
+        <p class="text-sm text-gray-500">No se encontro el pago solicitado.</p>
+      }
+    </div>
+  </div>
+</section>

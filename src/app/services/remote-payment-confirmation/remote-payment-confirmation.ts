@@ -56,7 +56,15 @@ export class RemotePaymentConfirmationService {
   private readonly http = inject(HttpClient);
 
   confirmPayment(paymentId: number): Observable<void> {
-    return this.http.post<void>(`${this.apiPath}/api/confirmaciones/${paymentId}/confirmar`, {});
+    return this.http.post<void>(`${this.apiPath}/api/confirmaciones/pago/${paymentId}/confirmar`, {});
+  }
+
+  getByPaymentId(paymentId: number) {
+    return this.http.get<RemotePaymentConfirmation[]>(`${this.apiPath}/api/confirmaciones/pago/${paymentId}`);
+  }
+
+  getById(confirmationId: number) {
+    return this.http.get<RemotePaymentConfirmation[]>(`${this.apiPath}/api/confirmaciones/${confirmationId}`);
   }
 
   /**

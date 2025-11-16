@@ -11,9 +11,7 @@ import { AuthService } from '../../services/auth';
   styleUrl: './profile-dropdown.css',
   template: `
     <div class="relative inline-flex items-center gap-2" (click)="$event.stopPropagation()">
-      <span class="text-sm md:text-base text-gray-800"
-        >Hola {{ userFirstName || 'Usuario' }}</span
-      >
+      <span class="text-sm md:text-base text-gray-800">Hola {{ userFirstName || 'Usuario' }}</span>
 
       <button
         type="button"
@@ -47,6 +45,11 @@ import { AuthService } from '../../services/auth';
           <p class="text-sm text-gray-500">Sesión iniciada como</p>
           <p class="mt-1 font-medium text-gray-900">{{ userFullName || 'Nombre no disponible' }}</p>
           <p class="text-xs text-gray-500">{{ userRole || 'Rol no disponible' }}</p>
+
+          @if (userRole === 'CASHIER') {
+            <p class="text-xs text-gray-500">Sesión de Cajero: {{ this.appStateService.getCashierSession()?.sessionId }}</p>
+          }
+
         </div>
 
         <div class="p-2">
@@ -58,9 +61,7 @@ import { AuthService } from '../../services/auth';
           >
             Mis Reservaciones
           </button>
-          }
-
-          @if (userRole === 'CASHIER' || userRole === 'ADMIN') {
+          } @if (userRole === 'CASHIER' || userRole === 'ADMIN') {
           <button
             type="button"
             class="w-full text-left px-3 py-2 rounded-md hover:bg-gray-100 text-gray-700"
@@ -98,8 +99,7 @@ import { AuthService } from '../../services/auth';
   `,
 })
 export class ProfileDropdownComponent {
-
-  private readonly appStateService = inject(AppStateService);
+  protected readonly appStateService = inject(AppStateService);
   private readonly router = inject(Router);
   private readonly auth = inject(AuthService);
 

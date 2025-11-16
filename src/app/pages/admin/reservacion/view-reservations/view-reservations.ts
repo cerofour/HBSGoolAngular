@@ -1,20 +1,22 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Reservation, ReservationService } from '../../services/reservation/reservation.service';
-import { Button } from '../../components/button/button';
-import { AppTable } from '../../components/table/table';
+import { Reservation, ReservationForAdmin, ReservationService } from '../../../../services/reservation/reservation.service';
+import { Button } from '../../../../components/button/button';
+import { AppTable } from '../../../../components/table/table';
+import { RouterModule } from '@angular/router';
+import { BreadcrumbsComponent } from '../../../../components/breadcrumbs/breadcrumbs';
 
 @Component({
   selector: 'app-view-reservations',
   standalone: true,
-  imports: [CommonModule, FormsModule, Button, AppTable],
-  templateUrl: './view-reservations.html',
+  imports: [CommonModule, FormsModule, Button, AppTable, RouterModule, BreadcrumbsComponent],
+  templateUrl: `./view-reservations.html`,
   styleUrl: './view-reservations.css',
 })
 export class ViewReservations {
   private reservationService = inject(ReservationService);
-  reservations: Reservation[] = [];
+  reservations: ReservationForAdmin[] = [];
 
   cargando: boolean = false;
   errorMsg: string | null = null;
@@ -44,7 +46,7 @@ export class ViewReservations {
       dni: this.dni || undefined,
     };
 
-    this.reservationService.getListReservationCashier(filters).subscribe({
+    this.reservationService.getListReservationAdmin(filters).subscribe({
       next: (data) => {
         this.reservations = data.content;
         this.cargando = false;

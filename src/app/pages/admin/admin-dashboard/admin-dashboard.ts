@@ -1,15 +1,16 @@
 import { Component, ViewChild, effect, inject } from '@angular/core'
-import { SesionCajeroService } from '../../services/sesion-cajero.service';
-import { AppStateService } from '../../services/app-state/app-state';
-import { AbrirSesionCajeroComponent } from '../abrirsesioncajero/abrirsesioncajero.component';
-import { Reservation, ReservationService } from '../../services/reservation/reservation.service';
-import { getDate, getTime } from '../../utils/general-utils';
-import { ButtonLink } from '../../components/button-link/button-link';
-import { Button } from '../../components/button/button';
+import { SesionCajeroService } from '../../../services/sesion-cajero.service';
+import { AppStateService } from '../../../services/app-state/app-state';
+import { AbrirSesionCajeroComponent } from '../cajero/abrirsesioncajero/abrirsesioncajero.component';
+import { Reservation, ReservationService } from '../../../services/reservation/reservation.service';
+import { getDate, getTime } from '../../../utils/general-utils';
+import { ButtonLink } from '../../../components/button-link/button-link';
+import { Button } from '../../../components/button/button';
+import { BreadcrumbsComponent } from '../../../components/breadcrumbs/breadcrumbs';
 
 @Component({
   selector: 'app-admin-dashboard',
-  imports: [ButtonLink, Button, AbrirSesionCajeroComponent],
+  imports: [ButtonLink, Button, AbrirSesionCajeroComponent, BreadcrumbsComponent],
   templateUrl: './admin-dashboard.html'
 })
 export class AdminDashboard {
@@ -34,7 +35,7 @@ export class AdminDashboard {
             }
           },
           error: _ => {
-            // si falla, dejamos el modal cerrado; se puede reintentar manualmente si aplica
+            console.error("No se pudo comprobar la última sesión de caja.")
           }
         });
     }
