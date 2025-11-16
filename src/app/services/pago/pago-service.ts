@@ -61,6 +61,19 @@ export class PagoService {
     return this.http.get<PagoById>(`${this.apiPath}/api/pagos/${paymentId}`);
   }
 
+  /**
+   * Obtiene los pagos asociados a una sesión de cajero específica usando paginación.
+   */
+  getPagosPorSesion(
+    sesionCajeroId: number,
+    page: number = 1,
+    size: number = 20,
+  ): Observable<PageResponse<Pago>> {
+    const pageIndex = Math.max(page - 1, 0);
+    const url = `${this.apiPath}/api/pagos?sesionCajeroId=${sesionCajeroId}&size=${size}&page=${pageIndex}`;
+    return this.http.get<PageResponse<Pago>>(url);
+  }
+
   rejectPayment(paymentId: number): Observable<void> {
     return this.http.delete<void>(`${this.apiPath}/api/pagos/${paymentId}`);
   }

@@ -8,6 +8,8 @@ import { ListadoCajasComponent } from './pages/admin/cajero/listadocajas/listado
 import { CajeroListComponent, CajeroPage } from './pages/admin/cajero/listado_cajero/cajero-page';
 import { ListadoPagosPage } from './pages/admin/pago/listado-pagos-page/listado-pagos-page';
 import { PagoPage } from './pages/admin/pago/pago-page/pago-page';
+import { PagosPorSesionPage } from './pages/pagos-por-sesion-page/pagos-por-sesion-page';
+import { ListadoConfirmacionesPage } from './pages/listado-confirmaciones-page/listado-confirmaciones-page';
 import { isCashierGuard } from './guards/is-cashier-guard';
 import { isLoggedInGuard } from './guards/is-logged-in-guard';
 import { ViewReservations } from './pages/admin/reservacion/view-reservations/view-reservations';
@@ -86,6 +88,16 @@ export const routes: Routes = [
             component: ListadoPagosPage,
           },
           {
+            path: 'por-sesion',
+            component: PagosPorSesionPage,
+          },
+          {
+            path: 'confirmaciones',
+            component: ListadoConfirmacionesPage,
+          },
+          {
+            path: ':reservationId',
+            component: PagoPage
             path: ':pagoId',
             component: PagoPage,
             data: { breadcrumb: pagoBreadcrumb },
