@@ -11,6 +11,7 @@ import { PagoPage } from './pages/pago-page/pago-page';
 import { isCashierGuard } from './guards/is-cashier-guard';
 import { isLoggedInGuard } from './guards/is-logged-in-guard';
 import { ViewReservations } from './pages/view-reservations/view-reservations';
+import { ReservationDetails } from './pages/reservation-details/reservation-details';
 
 const pagoBreadcrumb = (route: ActivatedRouteSnapshot): string => {
   const pagoId = route.paramMap.get('pagoId');
@@ -20,6 +21,11 @@ const pagoBreadcrumb = (route: ActivatedRouteSnapshot): string => {
 const cajeroBreadcrumb = (route: ActivatedRouteSnapshot): string => {
   const cajeroId = route.paramMap.get('cajeroId');
   return cajeroId ? `Cajero ${cajeroId}` : 'Cajero';
+};
+
+const reservationBreadcrumb = (route: ActivatedRouteSnapshot): string => {
+  const reservationId = route.paramMap.get('reservacionId');
+  return reservationId ? `Reservacion ${reservationId}` : 'Reservacion';
 };
 
 export const routes: Routes = [
@@ -88,8 +94,20 @@ export const routes: Routes = [
       },
       {
         path: 'ver-reservaciones',
-        component: ViewReservations,
         data: { breadcrumb: 'Reservaciones' },
+
+        children: [
+          {
+            path: '',
+            component: ViewReservations,
+          },
+          {
+            path: ':reservacionId',
+            component: ReservationDetails,
+            data: { breadcrumb: reservationBreadcrumb }
+          }
+        ]
+
       },
     ],
   },
