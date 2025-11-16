@@ -1,22 +1,25 @@
 import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PagoService, Pago } from '../../services/pago/pago-service';
-import { AppTable } from '../../components/table/table';
-import { Modal } from '../../components/modal/modal';
-import { Button } from '../../components/button/button';
-import { Reservation, ReservationService } from '../../services/reservation/reservation.service';
-import { Pagination } from '../../components/pagination/pagination';
-import { Badge } from '../../components/badge/badge';
-import { RemotePaymentConfirmationService } from '../../services/remote-payment-confirmation/remote-payment-confirmation';
+import { PagoService, Pago } from '../../../../services/pago/pago-service';
+import { AppTable } from '../../../../components/table/table';
+import { Modal } from '../../../../components/modal/modal';
+import { Button } from '../../../../components/button/button';
+import { Reservation, ReservationService } from '../../../../services/reservation/reservation.service';
+import { Pagination } from '../../../../components/pagination/pagination';
+import { Badge } from '../../../../components/badge/badge';
+import { RemotePaymentConfirmationService } from '../../../../services/remote-payment-confirmation/remote-payment-confirmation';
+import { BreadcrumbsComponent } from '../../../../components/breadcrumbs/breadcrumbs';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-listado-pagos-page',
-  imports: [CommonModule, AppTable, Modal, Button, Pagination, Badge],
+  imports: [CommonModule, AppTable, Modal, Button, Pagination, Badge, BreadcrumbsComponent],
   templateUrl: './listado-pagos-page.html',
   styleUrl: './listado-pagos-page.css',
 })
 export class ListadoPagosPage implements OnInit {
   private pagoService = inject(PagoService);
+  private route = inject(ActivatedRoute);
   private remotePaymentService = inject(RemotePaymentConfirmationService);
   private reservationService = inject(ReservationService);
 
@@ -28,6 +31,7 @@ export class ListadoPagosPage implements OnInit {
   selectedReserva: Reservation | null = null;
   evidenciaUrl: string | null = null;
   loadingReview = false;
+  reservationId: number | undefined= undefined;
 
   // Pagination state
   page = 1;
@@ -42,7 +46,17 @@ export class ListadoPagosPage implements OnInit {
   loadPage(p: number): void {
     this.loading = true;
     this.error = null;
-    this.pagoService.getListadoPagos(p).subscribe({
+
+    this.route.queryParams.subscribe((params) => {
+      this.reservationId = params['reservacionId'] || undefined;
+
+
+      if (this.reservationId === 0)
+        this.reservationId = undefined ;
+
+    });
+
+    this.pagoService.getListadoPagos({page: p, reservacionId: this.reservationId}).subscribe({
       next: (resp) => {
         this.pagos = resp.content ?? [];
         this.totalElements = resp.totalElements ?? 0;
@@ -103,31 +117,25 @@ export class ListadoPagosPage implements OnInit {
     this.loadingReview = false;
   }
   confirmarPago(paymentId: number) {
-    this.remotePaymentService.confirmPayment(paymentId)
-      .subscribe({
-        next: () => {
-          this.closeReview();
-        },
-        error: () => {
-          console.error("No se pudo confirmar el pago con ID: " + paymentId)
-        }
-      })
+    this.remotePaymentService.confirmPayment(paymentId).subscribe({
+      next: () => {
+        this.closeReview();
+      },
+      error: () => {
+        console.error('No se pudo confirmar el pago con ID: ' + paymentId);
+      },
+    });
   }
 
   rejectPayment(paymentId: number) {
-
-    this.pagoService.rejectPayment(paymentId)
-      .subscribe({
-        next: () => {
-          this.closeReview();
-        },
-        error: () => {
-          console.error("No se pudo rechazar el pago con id: " + paymentId);
-
-        }
-      }
-      );
-
+    this.pagoService.rejectPayment(paymentId).subscribe({
+      next: () => {
+        this.closeReview();
+      },
+      error: () => {
+        console.error('No se pudo rechazar el pago con id: ' + paymentId);
+      },
+    });
   }
 
   getBadgeVariant(estado: string | null | undefined): 'success' | 'danger' | 'neutral' {

@@ -48,6 +48,14 @@ export class SesionCajeroService {
       `${this.apiPath}/api/sesion_cajero/ultima?usuarioId=${
         this.appState.getUserProfile()?.idUsuario
       }`
+    ).pipe(
+      tap(
+        x => this.appState.updateCashierSession({
+          sessionId: x.idSesion,
+          initialMoneyAmount: x.montoApertura,
+          openingDate: x.fechaApertura
+        })
+      )
     );
   }
 

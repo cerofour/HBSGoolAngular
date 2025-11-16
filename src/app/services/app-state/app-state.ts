@@ -54,7 +54,7 @@ export class AppStateService {
   }
 
   public updateCashierSession(x: CashierSessionInfo) {
-    this.appState.update(s => ({...s, x}));
+    this.appState.update(s => ({...s, cashierSession: x}));
   }
 
   public getCashierSession() {
@@ -66,7 +66,7 @@ export class AppStateService {
   }
 
   public logout() {
-    this.appState.update(s => ({...s, isLoggedIn: false, userProfile: undefined}));
+    this.appState.update(s => ({...s, cashierSession: undefined, isLoggedIn: false, userProfile: undefined}));
   }
 
   // Signal pública (solo lectura) para reaccionar a cambios de perfil

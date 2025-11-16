@@ -1,11 +1,24 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { HttpParams } from '@angular/common/http';
+import { SesionCajeroDTO } from '../sesion-cajero/sesion-cajero-dto';
 
 export interface Pago {
   idPago: number;
   reservacionId: number | null;
   sesionCajeroId: number | null;
+  cantidadDinero: number;
+  fecha: string; // ISO string
+  medioPago: string;
+  estadoPago: string;
+  evidencia: string | null;
+}
+
+export interface PagoById {
+  idPago: number;
+  reservacionId: number | null;
+  sesionCajero: SesionCajeroDTO;
   cantidadDinero: number;
   fecha: string; // ISO string
   medioPago: string;
@@ -30,10 +43,22 @@ export class PagoService {
   private http = inject(HttpClient);
   private apiPath = 'http://152.67.46.79:8080';
 
-  getListadoPagos(page: number = 1): Observable<PageResponse<Pago>> {
+  getListadoPagos(
+    {reservacionId, sesionCajeroId, medioPago, page = 1, size = 10} : 
+    {reservacionId?: number, sesionCajeroId?: number, medioPago?: string, page?: number, size?: number} = {}
+  ): Observable<PageResponse<Pago>> {
 
     // consigue el 
-    return this.http.get<PageResponse<Pago>>(`${this.apiPath}/api/pagos?size=20&page=${page - 1}`);
+
+    const params = this.buildParams({
+      reservacionId, sesionCajeroId, medioPago, page: page - 1, size
+    });
+
+    return this.http.get<PageResponse<Pago>>(`${this.apiPath}/api/pagos`, { params });
+  }
+
+  getById(paymentId: number) {
+    return this.http.get<PageResponse<PagoById>>(`${this.apiPath}/api/pagos/${paymentId}`);
   }
 
   rejectPayment(paymentId: number): Observable<void> {
@@ -42,5 +67,15 @@ export class PagoService {
 
   getEvidencia(idPago: number) : Observable<Blob> {
     return this.http.get(`${this.apiPath}/api/pagos/evidencia/${idPago}`, { responseType: 'blob' });
+  }
+
+  private buildParams(paramsObj: Record<string, any>): HttpParams {
+    let params = new HttpParams();
+
+    for (const [key, value] of Object.entries(paramsObj))
+      if (value !== null && value !== undefined && value !== '')
+        params = params.set(key, value.toString());
+
+    return params;
   }
 }

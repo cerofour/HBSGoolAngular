@@ -1,6 +1,8 @@
 <div class="min-h-screen p-4 md:p-6 lg:p-8 xl:p-10">
     <div class="max-w-[1600px] mx-auto">
 
+        <app-breadcrumbs></app-breadcrumbs>
+
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 xl:gap-12">
 
             <div class="lg:col-span-7 xl:col-span-8">
@@ -68,13 +70,13 @@
                                     </div>
                                 </div>
 
-                                <app-button [variant]="'secondary'">
+                                <app-button-link [routerLink]="['/admin/ver-reservaciones', reservacion.idReservacion]" [variant]="'secondary'">
                                     <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor"
                                         viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                     </svg>
-                                </app-button>
+                                </app-button-link>
 
                             </div>
                             }
