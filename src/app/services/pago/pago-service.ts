@@ -2,11 +2,23 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
+import { SesionCajeroDTO } from '../sesion-cajero/sesion-cajero-dto';
 
 export interface Pago {
   idPago: number;
   reservacionId: number | null;
   sesionCajeroId: number | null;
+  cantidadDinero: number;
+  fecha: string; // ISO string
+  medioPago: string;
+  estadoPago: string;
+  evidencia: string | null;
+}
+
+export interface PagoById {
+  idPago: number;
+  reservacionId: number | null;
+  sesionCajero: SesionCajeroDTO;
   cantidadDinero: number;
   fecha: string; // ISO string
   medioPago: string;
@@ -43,6 +55,10 @@ export class PagoService {
     });
 
     return this.http.get<PageResponse<Pago>>(`${this.apiPath}/api/pagos`, { params });
+  }
+
+  getById(paymentId: number) {
+    return this.http.get<PageResponse<PagoById>>(`${this.apiPath}/api/pagos/${paymentId}`);
   }
 
   rejectPayment(paymentId: number): Observable<void> {
