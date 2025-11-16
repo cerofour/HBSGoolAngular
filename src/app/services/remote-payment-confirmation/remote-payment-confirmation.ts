@@ -79,7 +79,7 @@ export class RemotePaymentConfirmationService {
     page = 0,
     size = 20,
     sort = 'date'
-  }: RemotePaymentConfirmationFilters & { page?: number; size?: number; sort?: string } = {}): Observable<Page<RemotePaymentConfirmation>> {
+  }: RemotePaymentConfirmationFilters & { page?: number; size?: number; sort?: string } = {}): Observable<RemotePaymentConfirmation[]> {
     const params = this.buildParams({
       cashierId,
       date,
@@ -90,7 +90,7 @@ export class RemotePaymentConfirmationService {
       sort,
     });
 
-    return this.http.get<Page<RemotePaymentConfirmation>>(`${this.apiPath}/api/confirmaciones`, { params });
+    return this.http.get<RemotePaymentConfirmation[]>(`${this.apiPath}/api/confirmaciones`, { params });
   }
 
   /**

@@ -1,15 +1,16 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { Page, RemotePaymentConfirmation, RemotePaymentConfirmationService } from '../../services/remote-payment-confirmation/remote-payment-confirmation';
+import { RemotePaymentConfirmation, RemotePaymentConfirmationService } from '../../services/remote-payment-confirmation/remote-payment-confirmation';
 import { AppTable } from '../../components/table/table';
 import { Pagination } from '../../components/pagination/pagination';
 import { Button } from '../../components/button/button';
 import { FormsModule } from '@angular/forms';
+import { BreadcrumbsComponent } from '../../components/breadcrumbs/breadcrumbs';
 
 @Component({
   selector: 'app-listado-confirmaciones-page',
-  imports: [CommonModule, FormsModule, AppTable, Pagination, Button],
+  imports: [CommonModule, BreadcrumbsComponent, FormsModule, AppTable, Pagination, Button],
   templateUrl: './listado-confirmaciones-page.html',
   styleUrls: ['./listado-confirmaciones-page.css'],
 })
@@ -56,19 +57,19 @@ export class ListadoConfirmacionesPage implements OnInit {
     };
 
     this.remoteService.getConfirmations(filters).subscribe({
-      next: (resp: Page<RemotePaymentConfirmation>) => {
-        if (!resp || !Array.isArray(resp.content)) {
+      next: (resp: RemotePaymentConfirmation[]) => {
+        if (!resp) {
           this.error = 'Respuesta inesperada del servidor';
           this.loading = false;
           return;
         }
 
-        this.allConfirmations = resp.content ?? [];
+        this.allConfirmations = resp ?? [];
         this.confirmations = this.allConfirmations;
-        this.totalElements = resp.totalElements ?? 0;
-        this.pageSize = resp.size ?? this.pageSize;
-        this.totalPages = resp.totalPages ?? 1;
-        this.page = (resp.number ?? (page - 1)) + 1;
+        this.totalElements = resp.length ?? 0;
+        this.pageSize = 1;
+        this.totalPages = 1;
+        this.page = 1;
         this.loading = false;
       },
       error: (err: unknown) => {

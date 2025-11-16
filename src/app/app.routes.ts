@@ -90,14 +90,14 @@ export const routes: Routes = [
           {
             path: 'por-sesion',
             component: PagosPorSesionPage,
+            data: { breadcrumb: 'Pagos Por Sesión'},
           },
           {
             path: 'confirmaciones',
             component: ListadoConfirmacionesPage,
+            data: { breadcrumb: 'Confirmaciones de Pago Remoto '},
           },
           {
-            path: ':reservationId',
-            component: PagoPage
             path: ':pagoId',
             component: PagoPage,
             data: { breadcrumb: pagoBreadcrumb },
