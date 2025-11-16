@@ -5,11 +5,12 @@ import { Reservation, ReservationForAdmin, ReservationService } from '../../serv
 import { Button } from '../../components/button/button';
 import { AppTable } from '../../components/table/table';
 import { RouterModule } from '@angular/router';
+import { BreadcrumbsComponent } from '../../components/breadcrumbs/breadcrumbs';
 
 @Component({
   selector: 'app-view-reservations',
   standalone: true,
-  imports: [CommonModule, FormsModule, Button, AppTable, RouterModule],
+  imports: [CommonModule, FormsModule, Button, AppTable, RouterModule, BreadcrumbsComponent],
   templateUrl: `./view-reservations.html`,
   styleUrl: './view-reservations.css',
 })

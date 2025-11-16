@@ -8,10 +8,11 @@ import { Reservation, ReservationService } from '../../services/reservation/rese
 import { Pagination } from '../../components/pagination/pagination';
 import { Badge } from '../../components/badge/badge';
 import { RemotePaymentConfirmationService } from '../../services/remote-payment-confirmation/remote-payment-confirmation';
+import { BreadcrumbsComponent } from '../../components/breadcrumbs/breadcrumbs';
 
 @Component({
   selector: 'app-listado-pagos-page',
-  imports: [CommonModule, AppTable, Modal, Button, Pagination, Badge],
+  imports: [CommonModule, AppTable, Modal, Button, Pagination, Badge, BreadcrumbsComponent],
   templateUrl: './listado-pagos-page.html',
   styleUrl: './listado-pagos-page.css',
 })

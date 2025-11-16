@@ -3,6 +3,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { RouterLink, RouterModule, RouterOutlet } from '@angular/router';
 import { CajeroService, CashierDTO } from '../../services/cajero.service';
 import { AppTable } from '../../components/table/table';
+import { BreadcrumbsComponent } from '../../components/breadcrumbs/breadcrumbs';
 
 @Component({
   selector: 'app-cajero-page',
@@ -15,9 +16,11 @@ export class CajeroPage {}
 @Component({
   selector: 'app-cajero-list',
   standalone: true,
-  imports: [CommonModule, NgClass, RouterModule, RouterLink, AppTable],
+  imports: [CommonModule, NgClass, RouterModule, RouterLink, AppTable, BreadcrumbsComponent],
   template: `
     <section class="p-6">
+      <app-breadcrumbs></app-breadcrumbs>
+
       <header class="mb-4">
         <h1 class="text-2xl font-semibold text-gray-800">Listado de Cajeros</h1>
         <p class="text-gray-500 text-sm">

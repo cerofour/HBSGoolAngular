@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import { ActivatedRouteSnapshot, Routes } from '@angular/router';
 import { Login } from './pages/login/login';
 import { HomePage } from './pages/home-page/home-page';
 import { SignUpPage } from './pages/sign-up-page/sign-up-page';
@@ -11,6 +11,16 @@ import { PagoPage } from './pages/pago-page/pago-page';
 import { isCashierGuard } from './guards/is-cashier-guard';
 import { isLoggedInGuard } from './guards/is-logged-in-guard';
 import { ViewReservations } from './pages/view-reservations/view-reservations';
+
+const pagoBreadcrumb = (route: ActivatedRouteSnapshot): string => {
+  const pagoId = route.paramMap.get('pagoId');
+  return pagoId ? `Pago ${pagoId}` : 'Pago';
+};
+
+const cajeroBreadcrumb = (route: ActivatedRouteSnapshot): string => {
+  const cajeroId = route.paramMap.get('cajeroId');
+  return cajeroId ? `Cajero ${cajeroId}` : 'Cajero';
+};
 
 export const routes: Routes = [
   {
@@ -32,15 +42,23 @@ export const routes: Routes = [
   },
   {
     path: 'admin',
+    data: { breadcrumb: 'Admin' },
     canActivateChild: [isCashierGuard],
     children: [
       {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'dashboard',
+      },
+      {
         path: 'dashboard',
         component: AdminDashboard,
+        data: { breadcrumb: 'Dashboard' },
       },
       {
         path: 'cajero',
         component: CajeroPage,
+        data: { breadcrumb: 'Cajeros' },
         children: [
           {
             path: '',
@@ -49,11 +67,13 @@ export const routes: Routes = [
           {
             path: 'resumen/:cajeroId',
             component: ListadoCajasComponent,
+            data: { breadcrumb: cajeroBreadcrumb },
           },
         ],
       },
       {
         path: 'pago',
+        data: { breadcrumb: 'Pagos' },
         children: [
           {
             path: '',
@@ -61,13 +81,15 @@ export const routes: Routes = [
           },
           {
             path: ':pagoId',
-            component: PagoPage
+            component: PagoPage,
+            data: { breadcrumb: pagoBreadcrumb },
           },
         ],
       },
       {
         path: 'ver-reservaciones',
-        component: ViewReservations
+        component: ViewReservations,
+        data: { breadcrumb: 'Reservaciones' },
       },
     ],
   },

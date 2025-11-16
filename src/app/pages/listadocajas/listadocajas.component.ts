@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { SesionCajeroService, ResumenCaja } from '../../services/sesion-cajero.service';
 import { Button } from '../../components/button/button';
 import { ActivatedRoute } from '@angular/router';
+import { BreadcrumbsComponent } from '../../components/breadcrumbs/breadcrumbs';
 
 @Component({
   selector: 'app-listado-cajas',
   standalone: true,
-  imports: [CommonModule, FormsModule, Button],
+  imports: [CommonModule, FormsModule, Button, BreadcrumbsComponent],
   templateUrl: './listadocajas.component.html',
 })
 export class ListadoCajasComponent implements OnInit {
