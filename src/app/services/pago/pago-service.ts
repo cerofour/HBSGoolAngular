@@ -57,8 +57,8 @@ export class PagoService {
     return this.http.get<PageResponse<Pago>>(`${this.apiPath}/api/pagos`, { params });
   }
 
-  getById(paymentId: number) {
-    return this.http.get<PageResponse<PagoById>>(`${this.apiPath}/api/pagos/${paymentId}`);
+  getById(paymentId: number): Observable<PagoById> {
+    return this.http.get<PagoById>(`${this.apiPath}/api/pagos/${paymentId}`);
   }
 
   rejectPayment(paymentId: number): Observable<void> {
