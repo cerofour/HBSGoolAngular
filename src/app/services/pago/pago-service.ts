@@ -82,6 +82,21 @@ export class PagoService {
     return this.http.get(`${this.apiPath}/api/pagos/evidencia/${idPago}`, { responseType: 'blob' });
   }
 
+  createPaymentForReservation(
+    reservationId: number,
+    payload: { cantidadDinero: number; medioPago: string; evidencia?: File | null }
+  ): Observable<Pago> {
+    const formData = new FormData();
+    formData.append('cantidadDinero', payload.cantidadDinero.toString());
+    formData.append('medioPago', payload.medioPago);
+
+    if (payload.evidencia) {
+      formData.append('evidencia', payload.evidencia, payload.evidencia.name);
+    }
+
+    return this.http.post<Pago>(`${this.apiPath}/api/pagos/reservacion/${reservationId}`, formData);
+  }
+
   private buildParams(paramsObj: Record<string, any>): HttpParams {
     let params = new HttpParams();
 

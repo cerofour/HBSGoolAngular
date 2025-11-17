@@ -8,7 +8,7 @@ import { CanchaInfo } from '../../services/cancha/cancha.service';
   imports: [CanchaCard],
   template: `
 <!-- Canchas Section -->
-<section class="w-full py-12 px-4 bg-gray-50">
+<section id="canchas" class="w-full py-12 px-4 bg-gray-50">
   <div class="max-w-7xl mx-auto">
     <h2 class="text-4xl font-bold text-gray-800 text-center mb-4">
       Nuestras Canchas

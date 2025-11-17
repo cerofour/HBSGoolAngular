@@ -15,15 +15,7 @@ import { AdminNavDropdownComponent, AdminNavItem } from './admin-nav-dropdown';
         <!-- Logo + Title -->
         <div class="flex items-center gap-3">
           <img src="/hbs-logo.png" alt="HBS Logo" class="h-10 w-auto" />
-          <span class="text-2xl font-bold text-gray-800">HBSGool</span>
-        </div>
-
-        <!-- Spacer (flex: 1) -->
-        <div class="flex-1"></div>
-
-        <!-- Primary Button -->
-        <div class="flex items-center gap-4">
-          <app-button-link routerLink="/reservar">Reservar</app-button-link>
+          <a [routerLink]="['/']" class="text-2xl font-bold text-gray-800">HBSGool</a>
         </div>
 
         <!-- Spacer (flex: 1) -->

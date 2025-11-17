@@ -4,17 +4,20 @@ import { ActivatedRoute } from '@angular/router';
 import { BreadcrumbsComponent } from '../../../../components/breadcrumbs/breadcrumbs';
 import { Badge } from '../../../../components/badge/badge';
 import { PagoById, PagoService } from '../../../../services/pago/pago-service';
+import { RemotePaymentConfirmationService } from '../../../../services/remote-payment-confirmation/remote-payment-confirmation';
+import { Button } from '../../../../components/button/button';
 
 @Component({
   selector: 'app-pago-page',
   standalone: true,
-  imports: [CommonModule, BreadcrumbsComponent, Badge],
+  imports: [CommonModule, BreadcrumbsComponent, Badge, Button],
   templateUrl: './pago-page.html',
   styleUrl: './pago-page.css',
 })
 export class PagoPage implements OnInit, OnDestroy {
   private readonly route = inject(ActivatedRoute);
   private readonly pagoService = inject(PagoService);
+  private readonly remotePaymentService = inject(RemotePaymentConfirmationService);
 
   pago = signal<PagoById | undefined>(undefined);
   loading = signal<boolean>(true);
@@ -62,6 +65,27 @@ export class PagoPage implements OnInit, OnDestroy {
       }
     });
   }
+
+  confirmarPago(paymentId: number) {
+    this.remotePaymentService.confirmPayment(paymentId).subscribe({
+      next: () => {
+      },
+      error: () => {
+        console.error('No se pudo confirmar el pago con ID: ' + paymentId);
+      },
+    });
+  }
+
+  rejectPayment(paymentId: number) {
+    this.pagoService.rejectPayment(paymentId).subscribe({
+      next: () => {
+      },
+      error: () => {
+        console.error('No se pudo rechazar el pago con id: ' + paymentId);
+      },
+    });
+  }
+
 
   private loadEvidencia(pagoId: number) {
     this.evidenciaLoading.set(true);
