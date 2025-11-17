@@ -9,11 +9,11 @@ import { Pagination } from '../../../../components/pagination/pagination';
 import { Badge } from '../../../../components/badge/badge';
 import { RemotePaymentConfirmationService } from '../../../../services/remote-payment-confirmation/remote-payment-confirmation';
 import { BreadcrumbsComponent } from '../../../../components/breadcrumbs/breadcrumbs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-listado-pagos-page',
-  imports: [CommonModule, AppTable, Modal, Button, Pagination, Badge, BreadcrumbsComponent],
+  imports: [CommonModule, AppTable, Modal, Button, Pagination, Badge, BreadcrumbsComponent, RouterModule],
   templateUrl: './listado-pagos-page.html',
   styleUrl: './listado-pagos-page.css',
 })
