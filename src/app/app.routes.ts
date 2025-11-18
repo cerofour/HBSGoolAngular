@@ -12,6 +12,8 @@ import { PagosPorSesionPage } from './pages/pagos-por-sesion-page/pagos-por-sesi
 import { ListadoConfirmacionesPage } from './pages/listado-confirmaciones-page/listado-confirmaciones-page';
 import { isCashierGuard } from './guards/is-cashier-guard';
 import { isLoggedInGuard } from './guards/is-logged-in-guard';
+import { NotAuthorizedPage } from './pages/not-authorized/not-authorized';
+import { NotFoundPage } from './pages/not-found/not-found';
 import { ViewReservations } from './pages/admin/reservacion/view-reservations/view-reservations';
 import { ReservationDetails } from './pages/admin/reservacion/reservation-details/reservation-details';
 
@@ -121,5 +123,17 @@ export const routes: Routes = [
         ],
       },
     ],
+  },
+  {
+    path: 'not-authorized',
+    component: NotAuthorizedPage,
+  },
+  {
+    path: 'not-found',
+    component: NotFoundPage,
+  },
+  {
+    path: '**',
+    redirectTo: 'not-found',
   },
 ];
