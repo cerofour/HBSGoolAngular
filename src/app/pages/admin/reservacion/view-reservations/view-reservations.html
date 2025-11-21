@@ -100,7 +100,7 @@
             @for (pago of reservation.pagos; track $index) {
             <a class="text-primary underline decoration-transparent transition hover:decoration-primary"
               [routerLink]="['/admin/pago', pago]">
-              {{ pago }}
+              {{ pago }},
             </a>
             }
           </td>
