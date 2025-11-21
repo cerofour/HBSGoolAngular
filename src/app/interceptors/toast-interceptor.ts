@@ -6,7 +6,6 @@ import { ToastService } from '../services/toast/toast.service';
 
 const SILENT_ENDPOINTS = [
   '/auth',
-  '/health',
 ];
 
 export const toastInterceptor: HttpInterceptorFn = (req, next) => {

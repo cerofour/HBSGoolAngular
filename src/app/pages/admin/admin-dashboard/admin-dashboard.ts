@@ -5,12 +5,11 @@ import { AbrirSesionCajeroComponent } from '../cajero/abrirsesioncajero/abrirses
 import { ReservationForAdmin, ReservationService } from '../../../services/reservation/reservation.service';
 import { getDate, getTime } from '../../../utils/general-utils';
 import { ButtonLink } from '../../../components/button-link/button-link';
-import { Button } from '../../../components/button/button';
 import { BreadcrumbsComponent } from '../../../components/breadcrumbs/breadcrumbs';
 
 @Component({
   selector: 'app-admin-dashboard',
-  imports: [ButtonLink, Button, AbrirSesionCajeroComponent, BreadcrumbsComponent],
+  imports: [ButtonLink, AbrirSesionCajeroComponent, BreadcrumbsComponent],
   templateUrl: './admin-dashboard.html'
 })
 export class AdminDashboard {
