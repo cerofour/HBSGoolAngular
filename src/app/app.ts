@@ -2,7 +2,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Navbar } from './components/navbar/navbar';
 import { Footer } from './components/footer/footer';
-import { AuthService } from './services/auth';
+import { AuthService } from './services/auth/auth';
 import { ToastComponent } from './components/toast/toast';
 
 
