@@ -8,8 +8,12 @@ import { ListadoCajasComponent } from './pages/admin/cajero/listadocajas/listado
 import { CajeroListComponent, CajeroPage } from './pages/admin/cajero/listado_cajero/cajero-page';
 import { ListadoPagosPage } from './pages/admin/pago/listado-pagos-page/listado-pagos-page';
 import { PagoPage } from './pages/admin/pago/pago-page/pago-page';
+import { PagosPorSesionPage } from './pages/pagos-por-sesion-page/pagos-por-sesion-page';
+import { ListadoConfirmacionesPage } from './pages/listado-confirmaciones-page/listado-confirmaciones-page';
 import { isCashierGuard } from './guards/is-cashier-guard';
 import { isLoggedInGuard } from './guards/is-logged-in-guard';
+import { NotAuthorizedPage } from './pages/not-authorized/not-authorized';
+import { NotFoundPage } from './pages/not-found/not-found';
 import { ViewReservations } from './pages/admin/reservacion/view-reservations/view-reservations';
 import { ReservationDetails } from './pages/admin/reservacion/reservation-details/reservation-details';
 
@@ -86,6 +90,16 @@ export const routes: Routes = [
             component: ListadoPagosPage,
           },
           {
+            path: 'por-sesion',
+            component: PagosPorSesionPage,
+            data: { breadcrumb: 'Pagos Por Sesión'},
+          },
+          {
+            path: 'confirmaciones',
+            component: ListadoConfirmacionesPage,
+            data: { breadcrumb: 'Confirmaciones de Pago Remoto '},
+          },
+          {
             path: ':pagoId',
             component: PagoPage,
             data: { breadcrumb: pagoBreadcrumb },
@@ -109,5 +123,17 @@ export const routes: Routes = [
         ],
       },
     ],
+  },
+  {
+    path: 'not-authorized',
+    component: NotAuthorizedPage,
+  },
+  {
+    path: 'not-found',
+    component: NotFoundPage,
+  },
+  {
+    path: '**',
+    redirectTo: 'not-found',
   },
 ];

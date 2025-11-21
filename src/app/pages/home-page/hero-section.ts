@@ -23,7 +23,7 @@ import { ButtonLink } from '../../components/button-link/button-link';
       Disfruta del mejor fútbol en nuestras canchas de primera calidad
     </p>
     <div class="flex justify-center">
-      <app-button-link routerLink="/reservar" variant="primary" [fullWidth]="false" class="px-8 py-4 text-lg">
+      <app-button-link routerLink="#canchas" variant="primary" [fullWidth]="false" class="px-8 py-4 text-lg">
         Reservar Ahora
       </app-button-link>
     </div>

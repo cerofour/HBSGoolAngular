@@ -1,13 +1,17 @@
 import { TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-import { RemotePaymentConfirmation } from './remote-payment-confirmation';
+import { RemotePaymentConfirmationService } from './remote-payment-confirmation';
 
-describe('RemotePaymentConfirmation', () => {
-  let service: RemotePaymentConfirmation;
+describe('RemotePaymentConfirmationService', () => {
+  let service: RemotePaymentConfirmationService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(RemotePaymentConfirmation);
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [RemotePaymentConfirmationService],
+    });
+    service = TestBed.inject(RemotePaymentConfirmationService);
   });
 
   it('should be created', () => {

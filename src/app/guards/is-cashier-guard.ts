@@ -10,5 +10,5 @@ export const isCashierGuard: CanActivateFn = (route, state) => {
   if (appState.isLoggedIn() && appState.getUserProfile()?.rol === "CASHIER" || appState.getUserProfile()?.rol === "ADMIN")
     return true;
 
-  return new RedirectCommand(router.parseUrl("/"))
+  return new RedirectCommand(router.parseUrl("/not-authorized"))
 };

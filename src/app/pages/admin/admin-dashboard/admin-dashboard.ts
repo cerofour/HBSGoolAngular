@@ -2,7 +2,7 @@ import { Component, ViewChild, effect, inject } from '@angular/core'
 import { SesionCajeroService } from '../../../services/sesion-cajero.service';
 import { AppStateService } from '../../../services/app-state/app-state';
 import { AbrirSesionCajeroComponent } from '../cajero/abrirsesioncajero/abrirsesioncajero.component';
-import { Reservation, ReservationService } from '../../../services/reservation/reservation.service';
+import { Reservation, ReservationForAdmin, ReservationService } from '../../../services/reservation/reservation.service';
 import { getDate, getTime } from '../../../utils/general-utils';
 import { ButtonLink } from '../../../components/button-link/button-link';
 import { Button } from '../../../components/button/button';
@@ -18,7 +18,7 @@ export class AdminDashboard {
   private appState = inject(AppStateService);
   private reservationsService = inject(ReservationService);
   private checkedSession = false;
-  reservations: Reservation[] = []; 
+  reservations: ReservationForAdmin[] = []; 
 
   @ViewChild('openSessionModal') openSessionModal!: AbrirSesionCajeroComponent;
 
@@ -42,7 +42,7 @@ export class AdminDashboard {
   });
 
   ngOnInit() {
-    this.reservationsService.getListReservationCashier({estado: 'POR CONFIRMAR', size: 7, sort: 'canchaId'}).subscribe({
+    this.reservationsService.getListReservationAdmin({estado: ['POR CONFIRMAR', 'SALDO'], size: 7, sort: 'canchaId'}).subscribe({
       next: data => this.reservations = data.content,
       error: () => {}
     });
