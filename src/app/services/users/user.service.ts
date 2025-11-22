@@ -50,7 +50,7 @@ export interface Page<T> {
 export class UserService {
   private http = inject(HttpClient);
 
-  private apiURLBASE = 'http://152.67.46.79:8080/api/usuario';
+  private apiURLBASE = 'http://152.67.46.79:8080/api/usuario/';
 
   getListadoUsers(
     page: number,
@@ -59,7 +59,7 @@ export class UserService {
       dni?: string;
       active?: boolean | string;
     }
-  ): Observable<Page<User>> {
+  ): Observable<User[]> {
     const params = this.buildParams({
       page: page - 1,
       size: 20,
@@ -67,7 +67,7 @@ export class UserService {
       ...filtros,
     });
 
-    return this.http.get<Page<User>>(this.apiURLBASE, { params });
+    return this.http.get<User[]>(this.apiURLBASE, { params });
   }
 
   getById(id: number): Observable<User> {

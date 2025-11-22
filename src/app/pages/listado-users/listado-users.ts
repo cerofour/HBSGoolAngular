@@ -52,12 +52,14 @@ export class ListadoUsers implements OnInit {
 
     this.userService.getListadoUsers(page, filtros).subscribe({
       next: (resp) => {
-        this.users = resp.content ?? [];
+        this.users = (resp as User[]) ?? [];
+        /*
         this.totalElements = resp.totalElements ?? 0;
         this.pageSize = resp.size ?? this.pageSize;
         this.totalPages = resp.totalPages ?? 1;
 
         this.page = (resp.number ?? (page - 1)) + 1;
+        */
 
         this.cargando = false;
       },

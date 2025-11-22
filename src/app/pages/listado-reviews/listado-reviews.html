@@ -58,7 +58,6 @@
   <app-table>
     <ng-container table-header>
       <tr>
-        <th class="px-4 py-3 font-medium">ID</th>
         <th class="px-4 py-3 font-medium">Usuario</th>
         <th class="px-4 py-3 font-medium">Rating</th>
         <th class="px-4 py-3 font-medium">Comentario</th>
@@ -69,7 +68,6 @@
     <ng-container table-body>
       @for (review of reviews; track review.idReview) {
       <tr class="hover:bg-gray-50">
-        <td class="px-4 py-3">{{ review.idReview }}</td>
         <td class="px-4 py-3">{{ review.usuarioId }}</td>
         <td class="px-4 py-3">{{ review.rating }}</td>
         <td class="px-4 py-3">{{ review.comentario }}</td>

@@ -63,30 +63,26 @@
       <app-table>
         <ng-container table-header>
           <tr class="text-left text-gray-700 uppercase text-sm">
-            <th class="px-4 py-3 border-b">ID</th>
-            <th class="px-4 py-3 border-b">Nombre</th>
-            <th class="px-4 py-3 border-b">Apellido Paterno</th>
-            <th class="px-4 py-3 border-b">Apellido Materno</th>
-            <th class="px-4 py-3 border-b">DNI</th>
-            <th class="px-4 py-3 border-b">Celular</th>
-            <th class="px-4 py-3 border-b">Email</th>
-            <th class="px-4 py-3 border-b">Activo</th>
-            <th class="px-4 py-3 border-b">Rol</th>
+            <!--<th class="px-4 py-3">ID</th>-->
+            <th class="px-4 py-3">Nombre Completo</th>
+            <th class="px-4 py-3">DNI</th>
+            <th class="px-4 py-3">Celular</th>
+            <th class="px-4 py-3">Email</th>
+            <th class="px-4 py-3">Activo</th>
+            <th class="px-4 py-3">Rol</th>
           </tr>
         </ng-container>
 
         <ng-container table-body>
           @for (u of users; track u.userId) {
             <tr class="hover:bg-gray-50">
-              <td class="px-4 py-3 border-b">{{ u.userId }}</td>
-              <td class="px-4 py-3 border-b">{{ u.name }}</td>
-              <td class="px-4 py-3 border-b">{{ u.fatherLastname }}</td>
-              <td class="px-4 py-3 border-b">{{ u.motherLastname }}</td>
-              <td class="px-4 py-3 border-b">{{ u.dni }}</td>
-              <td class="px-4 py-3 border-b">{{ u.cellphone }}</td>
-              <td class="px-4 py-3 border-b">{{ u.email }}</td>
-              <td class="px-4 py-3 border-b">{{ u.active ? 'Sí' : 'No' }}</td>
-              <td class="px-4 py-3 border-b">{{ u.rol }}</td>
+              <!--<td class="px-4 py-3">{{ u.userId }}</td>-->
+              <td class="px-4 py-3">{{ `${u.fatherLastname} ${u.motherLastname}, ${u.name}` }}</td>
+              <td class="px-4 py-3">{{ u.dni }}</td>
+              <td class="px-4 py-3">{{ u.cellphone }}</td>
+              <td class="px-4 py-3">{{ u.email }}</td>
+              <td class="px-4 py-3">{{ u.active ? 'Sí' : 'No' }}</td>
+              <td class="px-4 py-3">{{ u.rol }}</td>
             </tr>
           }
         </ng-container>
