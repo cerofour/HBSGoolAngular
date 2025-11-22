@@ -5,11 +5,13 @@ import { SesionCajeroService, ResumenCaja } from '../../../../services/sesion-ca
 import { Button } from '../../../../components/button/button';
 import { ActivatedRoute } from '@angular/router';
 import { BreadcrumbsComponent } from '../../../../components/breadcrumbs/breadcrumbs';
+import { Pagination } from '../../../../components/pagination/pagination';
+import { AppTable } from '../../../../components/table/table';
 
 @Component({
   selector: 'app-listado-cajas',
   standalone: true,
-  imports: [CommonModule, FormsModule, Button, BreadcrumbsComponent],
+  imports: [CommonModule, FormsModule, Button, BreadcrumbsComponent, AppTable, Pagination],
   templateUrl: './listadocajas.component.html',
 })
 export class ListadoCajasComponent implements OnInit {
@@ -24,10 +26,19 @@ export class ListadoCajasComponent implements OnInit {
 
   cajeroId!: number;
 
+  page: number = 1;
+  pageSize: number = 20;
+  totalElements: number = 0;
+
   constructor(private sesionCajeroService: SesionCajeroService) {}
 
   ngOnInit(): void {
     this.cajeroId = Number(this.route.snapshot.paramMap.get('cajeroId'));
+    this.loadPage(this.page);
+  }
+
+  loadPage(page: number): void {
+    this.page = page;
     this.obtenerListado();
   }
 
@@ -39,7 +50,8 @@ export class ListadoCajasComponent implements OnInit {
       .getResumenCajas(this.cajeroId, this.fechaInicio, this.fechaFin)
       .subscribe({
         next: (data) => {
-          this.listadoCajas = data;
+          this.listadoCajas = data ?? [];
+          this.totalElements = data.length; 
           this.cargando = false;
         },
         error: (err) => {
@@ -51,7 +63,7 @@ export class ListadoCajasComponent implements OnInit {
   }
 
   isDateRangeValid(): boolean {
-    if (!this.fechaInicio || !this.fechaFin) return true; 
+    if (!this.fechaInicio || !this.fechaFin) return true;
     const inicio = new Date(this.fechaInicio);
     const fin = new Date(this.fechaFin);
     return inicio <= fin;
@@ -62,6 +74,12 @@ export class ListadoCajasComponent implements OnInit {
       this.errorMsg = 'La fecha fin debe ser igual o posterior a la fecha inicio.';
       return;
     }
-    this.obtenerListado();
+    this.loadPage(1);
+  }
+
+  onPageChange(newPage: number): void {
+    if (newPage !== this.page) {
+      this.loadPage(newPage);
+    }
   }
 }

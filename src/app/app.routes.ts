@@ -32,6 +32,9 @@ const reservationBreadcrumb = (route: ActivatedRouteSnapshot): string => {
   return reservationId ? `Reservacion ${reservationId}` : 'Reservacion';
 };
 
+import { ListadoReviews } from './pages/listado-reviews/listado-reviews';
+import { ListadoUsers } from './pages/listado-users/listado-users';
+
 export const routes: Routes = [
   {
     path: '',
@@ -63,7 +66,23 @@ export const routes: Routes = [
       {
         path: 'dashboard',
         component: AdminDashboard,
-        data: { breadcrumb: 'Dashboard' },
+        data: {
+          breadcrumb: 'Dashboard',
+        },
+      },
+      {
+        path: 'reviews',
+        component: ListadoReviews,
+      },
+
+      {
+        path: 'users',
+        component: ListadoUsers,
+      },
+
+      {
+        path: 'cajas',
+        component: ListadoCajasComponent,
       },
       {
         path: 'cajero',
@@ -92,12 +111,12 @@ export const routes: Routes = [
           {
             path: 'por-sesion',
             component: PagosPorSesionPage,
-            data: { breadcrumb: 'Pagos Por Sesión'},
+            data: { breadcrumb: 'Pagos Por Sesión' },
           },
           {
             path: 'confirmaciones',
             component: ListadoConfirmacionesPage,
-            data: { breadcrumb: 'Confirmaciones de Pago Remoto '},
+            data: { breadcrumb: 'Confirmaciones de Pago Remoto ' },
           },
           {
             path: ':pagoId',
@@ -123,6 +142,18 @@ export const routes: Routes = [
         ],
       },
     ],
+  },
+  {
+    path: 'not-authorized',
+    component: NotAuthorizedPage,
+  },
+  {
+    path: 'not-found',
+    component: NotFoundPage,
+  },
+  {
+    path: '**',
+    redirectTo: 'not-found',
   },
   {
     path: 'not-authorized',
