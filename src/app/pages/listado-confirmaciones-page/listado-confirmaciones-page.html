@@ -1,0 +1,86 @@
+<div class="p-4">
+  <app-breadcrumbs></app-breadcrumbs>
+
+  <h1 class="text-2xl font-semibold text-gray-800 mb-4">Confirmaciones de pago remoto</h1>
+
+  <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end">
+    <label class="flex flex-col gap-1 text-sm text-gray-700">
+      ID Cajero
+      <input type="number" [(ngModel)]="cashierId" placeholder="ID Cajero"
+        class="rounded-md border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" />
+    </label>
+
+    <label class="flex flex-col gap-1 text-sm text-gray-700">
+      Fecha exacta
+      <input type="datetime-local" [(ngModel)]="date"
+        class="rounded-md border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" />
+    </label>
+
+    <label class="flex flex-col gap-1 text-sm text-gray-700">
+      Fecha inicio
+      <input type="datetime-local" [(ngModel)]="startDate"
+        class="rounded-md border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" />
+    </label>
+
+    <label class="flex flex-col gap-1 text-sm text-gray-700">
+      Fecha fin
+      <input type="datetime-local" [(ngModel)]="endDate"
+        class="rounded-md border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" />
+    </label>
+
+    <app-button [variant]="loading ? 'disabled' : 'primary'" (click)="aplicarFiltros()">
+      Filtrar
+    </app-button>
+
+    <app-button variant="neutral" (click)="clearFilters()">Limpiar</app-button>
+  </div>
+
+  @if (loading) {
+    <p class="text-gray-600">Cargando confirmaciones...</p>
+  } @else if (error) {
+    <p class="text-red-600">{{ error }}</p>
+  } @else if (confirmations.length === 0) {
+    <p class="text-gray-600">No hay confirmaciones para mostrar.</p>
+  } @else {
+    <app-table>
+      <ng-container table-header>
+        <tr>
+          <th class="px-4 py-3 font-medium">ID</th>
+          <th class="px-4 py-3 font-medium">Payment ID</th>
+          <th class="px-4 py-3 font-medium">Cashier ID</th>
+          <th class="px-4 py-3 font-medium">Fecha</th>
+          <th class="px-4 py-3 font-medium">Acciones</th>
+        </tr>
+      </ng-container>
+      <ng-container table-body>
+        @for (c of confirmations; track c.remotePaymentConfirmationId) {
+          <tr class="hover:bg-gray-50">
+            <td class="px-4 py-3">{{ c.remotePaymentConfirmationId }}</td>
+            <td class="px-4 py-3">{{ c.paymentId }}</td>
+            <td class="px-4 py-3">{{ c.cashierId }}</td>
+            <td class="px-4 py-3">{{ c.date | date:'short' }}</td>
+            <td class="px-4 py-3">
+              <div class="flex gap-2">
+                <app-button variant="primary" (click)="confirmar(c.paymentId)">Confirmar</app-button>
+              </div>
+            </td>
+          </tr>
+        }
+      </ng-container>
+    </app-table>
+
+    <div class="mt-4 flex items-center justify-between">
+      <div class="text-sm text-gray-600">
+        Página {{ page }} de {{ totalPages }} — {{ totalElements }} registro(s)
+      </div>
+      <div>
+        <app-pagination
+          [totalItems]="totalElements"
+          [pageSize]="pageSize"
+          [currentPage]="page"
+          (pageChange)="onPageChange($event)"
+        ></app-pagination>
+      </div>
+    </div>
+  }
+</div>

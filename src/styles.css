@@ -1,5 +1,5 @@
-/* You can add global styles to this file, and also import other style files */
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap');
 
 @theme {
   --color-primary: #0081c5; /* Example custom primary color */
@@ -8,4 +8,9 @@
   --color-primary-hard: #076ba1;
   --color-secondary-dark: #6b9a3a;
   --color-danger-dark: #c21e00;
+  --color-border-stroke: #e0e0e0;
+}
+
+* {
+  font-family: 'Geist', 'sans-serif';
 }

@@ -1,0 +1,22 @@
+/* Additional navbar styles if needed */
+nav a {
+  text-decoration: none;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  nav {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .flex-1 {
+    display: none;
+  }
+  
+  nav > div:last-child {
+    width: 100%;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+}

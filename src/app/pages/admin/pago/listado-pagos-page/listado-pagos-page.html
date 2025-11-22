@@ -1,0 +1,100 @@
+<div class="p-4">
+  <app-breadcrumbs></app-breadcrumbs>
+
+  <h1 class="text-2xl font-semibold text-gray-800 mb-4">Listado de Pagos</h1>
+
+  @if (loading) {
+  <p class="text-gray-600">Cargando pagos...</p>
+  } @else if (error) {
+  <p class="text-red-600">{{ error }}</p>
+  } @else if (pagos.length === 0) {
+  <p class="text-gray-600">No hay pagos para mostrar.</p>
+  } @else {
+  <app-table>
+    <ng-container table-header>
+      <tr>
+        <th class="px-4 py-3 font-medium">ID</th>
+        <th class="px-4 py-3 font-medium">Reservación</th>
+        <th class="px-4 py-3 font-medium">Sesión Cajero</th>
+        <th class="px-4 py-3 font-medium">Cantidad</th>
+        <th class="px-4 py-3 font-medium">Fecha</th>
+        <th class="px-4 py-3 font-medium">Medio</th>
+        <th class="px-4 py-3 font-medium">Estado</th>
+        <th class="px-4 py-3 font-medium">Acciones</th>
+      </tr>
+    </ng-container>
+    <ng-container table-body>
+      @for (pago of pagos; track pago.idPago) {
+      <tr class="hover:bg-gray-50">
+        <td class="px-4 py-3">{{ pago.idPago }}</td>
+        <td class="px-4 py-3">{{ pago.reservacionId ?? '-' }}</td>
+
+        @if (pago.sesionCajeroId) {
+        <td class="px-4 py-3">{{ pago.sesionCajeroId }}</td>
+        } @else {
+        <td class="px-4 py-3">
+          <app-badge [variant]="getBadgeVariant(pago.estadoPago)" [label]="getBadgeLabel(pago.estadoPago)" />
+        </td>
+        }
+
+        <td class="px-4 py-3">S/. {{ pago.cantidadDinero }}</td>
+        <td class="px-4 py-3">{{ pago.fecha | date:'short' }}</td>
+        <td class="px-4 py-3">{{ pago.medioPago }}</td>
+        <td class="px-4 py-3">
+          <div class="flex flex-col gap-1">
+            <app-badge [variant]="getBadgeVariant(pago.estadoPago)" [label]="getBadgeLabel(pago.estadoPago)" />
+          </div>
+        </td>
+        <td class="px-4 py-3 text-primary">
+          <a class="underline decoration-transparent hover:decoration-primary" [routerLink]="[pago.idPago]">Ver
+            detalle</a>
+        </td>
+      </tr>
+      }
+    </ng-container>
+  </app-table>
+
+  <div class="mt-4 flex justify-end">
+    <app-pagination [totalItems]="totalElements" [pageSize]="pageSize" [currentPage]="page"
+      (pageChange)="onPageChange($event)"></app-pagination>
+  </div>
+
+  <app-modal #reviewModal title="Revisar Pago">
+    @if (selectedPago) {
+
+    <div class="grid grid-cols-2">
+      <div class="space-y-3">
+        <div class="grid grid-cols-2 gap-2 text-sm">
+          <div class="text-gray-500">DNI</div>
+          <div class="font-medium">{{ selectedReserva?.dni ?? '-' }}</div>
+          <div class="text-gray-500">Hora de inicio</div>
+          <div class="font-medium">{{ selectedReserva?.tiempoInicio | date:'short' }}</div>
+          <div class="text-gray-500">Cantidad pagada</div>
+          <div class="font-medium">S/. {{ selectedPago.cantidadDinero }}</div>
+        </div>
+
+        <div>
+
+          <div class="mt-2 flex flex-col justify-center w-full">
+            <div class="text-sm text-gray-500 mb-1">Evidencia</div>
+            @if (loadingReview) {
+            <p class="text-gray-500 text-sm">Cargando evidencia...</p>
+            } @else if (evidenciaUrl) {
+            <img [src]="evidenciaUrl" alt="Evidencia de pago" class="max-h-80 rounded border" />
+            } @else {
+            <p class="text-gray-400 text-sm">Sin evidencia</p>
+            }
+          </div>
+
+          <div class="flex justify-end gap-2 pt-2">
+            <app-button variant="danger" (click)="rejectPayment(selectedPago.idPago)">Rechazar</app-button>
+            <app-button variant="primary" (click)="confirmarPago(selectedPago.idPago)">Confirmar</app-button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    }
+  </app-modal>
+  }
+</div>

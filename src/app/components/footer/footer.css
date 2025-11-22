@@ -1,0 +1,11 @@
+/* Additional footer styles if needed */
+footer a {
+  text-decoration: none;
+}
+
+@media (max-width: 768px) {
+  footer {
+    text-align: center;
+  }
+}
+

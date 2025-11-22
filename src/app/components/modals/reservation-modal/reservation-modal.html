@@ -1,0 +1,89 @@
+<app-modal-container (onClose)="onClose.emit()" [title]="'Nueva Reserva'">
+  <form #reservationForm="ngForm" (ngSubmit)="confirm()" class="space-y-4">
+    <div class="flex justify-between items-center">
+      <p class="font-medium text-black">Cancha Seleccionada</p>
+      <div class="inline-block bg-black text-white rounded-full px-4 py-1 mt-1">
+        {{ `Cancha #${cancha.canchaId}` }}
+      </div>
+    </div>
+
+    <div class="flex justify-between items-center">
+      <p class="font-medium text-gray-700">Fecha Seleccionada</p>
+      <div class="inline-block bg-black text-white rounded-full px-4 py-1 mt-1">
+        {{ formattedDate() }}
+      </div>
+    </div>
+
+    <p class="text-sm text-gray-500 mt-1">Hora de inicio: {{ formattedTime() }}</p>
+
+    <div class="flex justify-between items-center">
+      <label class="block text-gray-700 font-medium mb-1 w-1/2">Hora de Fin</label>
+      <select
+        [(ngModel)]="duracion"
+        name="duracion"
+        required
+        #duracionInput="ngModel"
+        (change)="totalPrice.set(calculateTotalPrice())"
+        class="w-1/2 border border-(--color-border-stroke) rounded-full px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+        [ngClass]="{ 'border-red-500': reservationForm.submitted && !duracionInput.valid }"
+      >
+        <option value="">Seleccionar</option>
+        @for (h of availableHours; track $index) {
+          <option [value]="h">{{ h }}</option>
+        }
+      </select>
+    </div>
+
+    @if (modalType === 'cashier') {
+      <div class="flex justify-between items-center">
+        <label class="block text-gray-700 font-medium mb-1 w-1/2">Medio de Pago</label>
+        <select
+          [(ngModel)]="medioPago"
+          name="medioPago"
+          #medioPagoInput="ngModel"
+          required
+          class="w-1/2 border border-(--color-border-stroke) rounded-full px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+          [ngClass]="{ 'border-red-500': reservationForm.submitted && !medioPagoInput.valid }"
+        >
+          <option value="">Seleccionar</option>
+          <option value="REMOTO">REMOTO</option>
+          <option value="EFECTIVO">EFECTIVO</option>
+        </select>
+      </div>
+    }
+
+    <div class="flex justify-between items-center">
+      <label class="block text-gray-700 font-medium mb-1 w-1/2">Cliente (DNI)</label>
+      <input
+        type="text"
+        [(ngModel)]="dni"
+        name="dni"
+        required
+        minlength="8"
+        maxlength="8"
+        pattern="[0-9]*"
+        placeholder="DNI"
+        class="w-1/2 border border-(--color-border-stroke) rounded-full px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+        [ngClass]="{ 'border-red-500': reservationForm.submitted && !reservationForm.controls['dni']?.valid }"
+      />
+    </div>
+
+    <p class="font-medium flex justify-between">
+      Total a pagar:
+      <span class="text-[var(--color-primary)]">
+        S/ {{ totalPrice() === 0 ? '----' : totalPrice() }}
+      </span>
+    </p>
+
+    <div class="flex justify-between gap-3 pt-2">
+      <app-button type="button" (click)="onClose.emit()" [variant]="'neutral'">Cancelar</app-button>
+      <app-button type="submit" [variant]="'primary'">Confirmar</app-button>
+    </div>
+
+    @if (reservationForm.submitted && !reservationForm.valid) {
+      <p class="text-red-600 text-sm text-center pt-2">
+        Por favor completa todos los campos correctamente.
+      </p>
+    }
+  </form>
+</app-modal-container>

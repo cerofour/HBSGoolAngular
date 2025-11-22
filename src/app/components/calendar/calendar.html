@@ -1,0 +1,32 @@
+<div>
+  <span class="text-lg font-bold px-5">Calendario</span>
+  <div class="p-5">
+    <ejs-schedule #scheduleObj
+      class="rounded-2xl" width="100%" height="650px" 
+      (navigating)="onNavigating($event)"
+      (created)="onScheduleCreated()" 
+      (popupOpen)="onPopupOpen($event)" 
+      [selectedDate]="selectedDate" 
+      [currentView]="'Week'" 
+      [views]="['Week']"
+      (renderCell)="onRenderCell($event)" 
+      [eventSettings]="eventSettings" 
+      [startHour]="startHour" 
+      [endHour]="endHour" 
+      [showHeaderBar]="true" 
+      (actionBegin)="onActionBegin($event)"
+      [readonly]="readonly">
+    </ejs-schedule>
+  </div>
+</div>
+
+@if (showModal()) {
+  <app-reservation-modal 
+    [startTime]="startTime"
+    [cancha]="canchaInfo!"
+    [availableHours]="availableHours"
+    [modalType]="modalType"
+    (onClose)="onClose()"
+    (onConfirm)="handleClose($event)"> 
+  </app-reservation-modal>
+}
