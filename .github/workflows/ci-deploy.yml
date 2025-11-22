@@ -1,0 +1,69 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+env:
+  NODE_VERSION: 20
+  DEPLOY_TARGET: /var/www/hbsgool-frontend
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Upload dist artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/HBSGoolFrontend
+
+  deploy:
+    name: Deploy to EC2
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name == 'push'
+    steps:
+      - name: Download dist artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/HBSGoolFrontend
+
+      - name: Set up SSH
+        shell: bash
+        env:
+          SSH_KEY: ${{ secrets.EC2_DEPLOY_SSH_KEY }}
+          HOST: ${{ secrets.EC2_HOST }}
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          echo "$SSH_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H "$HOST" >> ~/.ssh/known_hosts
+
+      - name: Deploy via rsync
+        env:
+          HOST: ${{ secrets.EC2_HOST }}
+          USER: ${{ secrets.EC2_USER }}
+        run: |
+          ssh -i ~/.ssh/id_rsa "$USER@$HOST" "mkdir -p $DEPLOY_TARGET"
+          rsync -avz --delete -e "ssh -i ~/.ssh/id_rsa" dist/HBSGoolFrontend/browser "$USER@$HOST:$DEPLOY_TARGET/"

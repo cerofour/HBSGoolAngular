@@ -6,7 +6,6 @@ import { ButtonLink } from "../../components/button-link/button-link";
   selector: 'app-not-authorized',
   imports: [RouterLink, ButtonLink],
   templateUrl: './not-authorized.html',
-  styleUrl: './not-authorized.css',
 })
 export class NotAuthorizedPage {}
 

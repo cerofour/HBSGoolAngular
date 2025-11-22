@@ -1,11 +1,13 @@
-<section class="page">
-  <div class="card">
-    <p class="eyebrow">403</p>
-    <h1>No tienes acceso</h1>
-    <p>Esta sección requiere permisos especiales. Solicita acceso al administrador o regresa al inicio.</p>
-    <div class="actions">
-      <app-button-link routerLink="/" variant="primary">Ir al inicio</app-button-link>
-      <app-button-link routerLink="/login" variant="neutral">Iniciar sesión</app-button-link>
+<section class="block min-h-[65vh]">
+  <div class="flex items-center justify-center py-12 px-6 text-center">
+    <div class="max-w-[520px] p-10 rounded-2xl bg-white shadow-[0_20px_55px_rgba(15,23,42,0.12)] flex flex-col gap-4">
+      <p class="text-xl font-semibold text-red-600 m-0">403</p>
+      <h1 class="m-0 text-3xl text-slate-900">No tienes acceso</h1>
+      <p class="m-0 text-slate-600">Esta sección requiere permisos especiales. Solicita acceso al administrador o regresa al inicio.</p>
+      <div class="flex flex-wrap justify-center gap-3 mt-2">
+        <app-button-link routerLink="/" variant="primary">Ir al inicio</app-button-link>
+        <app-button-link routerLink="/login" variant="neutral">Iniciar sesión</app-button-link>
+      </div>
     </div>
   </div>
 </section>
