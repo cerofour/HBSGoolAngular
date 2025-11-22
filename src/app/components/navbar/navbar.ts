@@ -2,13 +2,12 @@ import { Component, computed, inject } from '@angular/core';
 import { AppStateService } from '../../services/app-state/app-state';
 import { Route, RouterLink, RouterLinkActive } from '@angular/router';
 import { ProfileDropdownComponent } from '../profile-dropdown/profile-dropdown';
-import { ButtonLink } from "../button-link/button-link";
 import { routes } from '../../app.routes';
 import { AdminNavDropdownComponent, AdminNavItem } from './admin-nav-dropdown';
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterLink, RouterLinkActive, ProfileDropdownComponent, ButtonLink, AdminNavDropdownComponent],
+  imports: [RouterLink, RouterLinkActive, ProfileDropdownComponent, AdminNavDropdownComponent],
   template: `
     <header class="w-full bg-white shadow-md">
       <nav class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">

@@ -6,7 +6,6 @@ import { ButtonLink } from '../../components/button-link/button-link';
   selector: 'app-not-found',
   imports: [RouterLink, ButtonLink],
   templateUrl: './not-found.html',
-  styleUrl: './not-found.css',
 })
 export class NotFoundPage {}
 
