@@ -5,9 +5,9 @@ import { LastCashierSession } from './last-session';
 import { AppStateService } from '../app-state/app-state';
 import { AbrirSesionCajeroResponse } from './abrir-sesion-response';
 
-import { CashierDTO } from './cajero.service';
-import { Page } from './reservation/reservation.service';
-import { buildParams, Pago } from './pago/pago-service';
+import { CashierDTO } from '../cajero-service/cajero.service';
+import { Page } from '../reservation/reservation.service';
+import { buildParams, Pago } from '../pago/pago-service';
 
 export interface LogoutCashierRequest {
   sesionCajeroId: number;

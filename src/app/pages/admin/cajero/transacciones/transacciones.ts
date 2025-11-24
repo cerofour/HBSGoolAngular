@@ -7,7 +7,7 @@ import { Button } from '../../../../components/button/button';
 import { BreadcrumbsComponent } from '../../../../components/breadcrumbs/breadcrumbs';
 import { Badge } from '../../../../components/badge/badge';
 import { Pago, PagoService } from '../../../../services/pago/pago-service';
-import { SesionCajeroService } from '../../../../services/sesion-cajero.service';
+import { SesionCajeroService } from '../../../../services/sesion-cajero/sesion-cajero.service';
 
 type ViewMode = 'table' | 'cards';
 
