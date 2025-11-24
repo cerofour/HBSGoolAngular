@@ -1,7 +1,7 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CashierDTO } from '../cajero.service';
+import { CashierDTO } from '../cajero-service/cajero.service';
 
 export interface Reservation {
   idReservacion: number;

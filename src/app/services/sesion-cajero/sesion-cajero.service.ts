@@ -1,9 +1,9 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, share, tap } from 'rxjs';
-import { LastCashierSession } from './sesion-cajero/last-session';
-import { AppStateService } from './app-state/app-state';
-import { AbrirSesionCajeroResponse } from './sesion-cajero/abrir-sesion-response';
+import { LastCashierSession } from './last-session';
+import { AppStateService } from '../app-state/app-state';
+import { AbrirSesionCajeroResponse } from './abrir-sesion-response';
 
 export interface LogoutCashierRequest {
   sesionCajeroId: number;
