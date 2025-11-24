@@ -24,7 +24,7 @@ const pagoBreadcrumb = (route: ActivatedRouteSnapshot): string => {
 
 const cajeroBreadcrumb = (route: ActivatedRouteSnapshot): string => {
   const cajeroId = route.paramMap.get('cajeroId');
-  return cajeroId ? `Cajero ${cajeroId}` : 'Cajero';
+  return cajeroId ? `Sesiones de Cajero ${cajeroId}` : 'Cajero';
 };
 
 const reservationBreadcrumb = (route: ActivatedRouteSnapshot): string => {
@@ -34,6 +34,7 @@ const reservationBreadcrumb = (route: ActivatedRouteSnapshot): string => {
 
 import { ListadoReviews } from './pages/listado-reviews/listado-reviews';
 import { ListadoUsers } from './pages/listado-users/listado-users';
+import { Transacciones } from './pages/admin/cajero/transacciones/transacciones';
 
 export const routes: Routes = [
   {
@@ -73,17 +74,15 @@ export const routes: Routes = [
       {
         path: 'reviews',
         component: ListadoReviews,
+        data: { breadcrumb: 'Reviews' },
       },
 
       {
         path: 'users',
         component: ListadoUsers,
+        data: { breadcrumb: 'Usuarios' },
       },
 
-      {
-        path: 'cajas',
-        component: ListadoCajasComponent,
-      },
       {
         path: 'cajero',
         component: CajeroPage,
@@ -97,6 +96,11 @@ export const routes: Routes = [
             path: 'resumen/:cajeroId',
             component: ListadoCajasComponent,
             data: { breadcrumb: cajeroBreadcrumb },
+          },
+          {
+            path: 'transacciones/:sesionId',
+            component: Transacciones,
+            data: { breadcrumb: 'Transacciones' },
           },
         ],
       },

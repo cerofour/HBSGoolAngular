@@ -80,7 +80,6 @@ export class ReviewService {
    * CREAR REVIEW
    */
   create(data: {
-    usuarioId: number;
     rating: number;
     comentario: string;
   }): Observable<Review> {

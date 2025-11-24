@@ -6,10 +6,11 @@ import { ReservationForAdmin, ReservationService } from '../../../services/reser
 import { getDate, getTime } from '../../../utils/general-utils';
 import { ButtonLink } from '../../../components/button-link/button-link';
 import { BreadcrumbsComponent } from '../../../components/breadcrumbs/breadcrumbs';
+import { Button } from '../../../components/button/button';
 
 @Component({
   selector: 'app-admin-dashboard',
-  imports: [ButtonLink, AbrirSesionCajeroComponent, BreadcrumbsComponent],
+  imports: [ButtonLink, AbrirSesionCajeroComponent, BreadcrumbsComponent, Button],
   templateUrl: './admin-dashboard.html'
 })
 export class AdminDashboard {
@@ -45,6 +46,10 @@ export class AdminDashboard {
       next: data => this.reservations = data.content,
       error: () => {}
     });
+  }
+
+  getCurrentCashierSession() {
+    return this.appState.getCashierSession()?.sessionId ?? 0;
   }
   
   getDate = getDate;
