@@ -1,0 +1,187 @@
+<section class="p-6 space-y-4">
+  <app-breadcrumbs></app-breadcrumbs>
+
+  <header class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+    <div>
+      <h1 class="text-2xl font-semibold text-gray-800">Transacciones de Cajero</h1>
+      <p class="text-gray-500 text-sm">Listado de pagos registrados en la sesión seleccionada.</p>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <app-button
+        [variant]="viewMode === 'table' ? 'primary' : 'neutral'"
+        (click)="onViewModeChange('table')"
+      >
+        Vista de tabla
+      </app-button>
+      <app-button
+        [variant]="viewMode === 'cards' ? 'primary' : 'neutral'"
+        (click)="onViewModeChange('cards')"
+      >
+        Vista de tarjetas
+      </app-button>
+    </div>
+  </header>
+
+  @if (error) {
+    <div class="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+      {{ error }}
+    </div>
+  }
+
+  @if (evidenciaError) {
+    <div class="rounded-md border border-yellow-200 bg-yellow-50 px-4 py-3 text-sm text-yellow-800">
+      {{ evidenciaError }}
+    </div>
+  }
+
+  @if (loading) {
+    <p class="text-sm text-gray-500">Cargando transacciones...</p>
+  } @else if (transacciones.length === 0) {
+    <p class="text-sm text-gray-500">No hay transacciones para mostrar.</p>
+  } @else {
+    @if (viewMode === 'table') {
+      <div class="overflow-x-auto rounded-lg border border-gray-200 bg-white shadow-sm">
+        <app-table>
+          <ng-container table-header>
+            <tr>
+              <th class="px-4 py-3 font-medium">Fecha</th>
+              <th class="px-4 py-3 font-medium">ID Pago</th>
+              <th class="px-4 py-3 font-medium text-left">Monto</th>
+              <th class="px-4 py-3 font-medium">Medio</th>
+              <th class="px-4 py-3 font-medium">Estado</th>
+              <th class="px-4 py-3 font-medium">Reservación</th>
+              <th class="px-4 py-3 font-medium">Acciones</th>
+            </tr>
+          </ng-container>
+
+          <ng-container table-body>
+            @for (pago of transacciones; track pago.idPago) {
+              <tr class="transition hover:bg-gray-50">
+                <td class="px-4 py-3 whitespace-nowrap">{{ pago.fecha | date: 'short' }}</td>
+                <td class="px-4 py-3 whitespace-nowrap">{{ pago.idPago }}</td>
+                <td class="px-4 py-3 text-left font-semibold text-gray-900">
+                  {{ pago.cantidadDinero | currency: 'PEN' }}
+                </td>
+                <td class="px-4 py-3">{{ pago.medioPago }}</td>
+                <td class="px-4 py-3">
+                  <app-badge [variant]="getBadgeVariant(pago.estadoPago)">
+                    {{ getBadgeLabel(pago.estadoPago) }}
+                  </app-badge>
+                </td>
+                <td class="px-4 py-3">
+                  @if (pago.reservacionId) {
+                    <a
+                      class="text-primary underline decoration-transparent transition hover:decoration-primary"
+                      [routerLink]="['/admin/ver-reservaciones', pago.reservacionId]"
+                    >
+                      Ver detalle de Reservación
+                    </a>
+                  } @else {
+                    <span class="text-gray-500">-</span>
+                  }
+                </td>
+                <td class="px-4 py-3">
+                  <div class="flex flex-wrap items-center gap-2">
+                    <a
+                      class="text-primary underline decoration-transparent transition hover:decoration-primary"
+                      [routerLink]="['/admin/pago', pago.idPago]"
+                    >
+                      Ver detalle de pago
+                    </a>
+
+                    @if (pago.medioPago?.toUpperCase() === 'REMOTO') {
+                      <app-button
+                        [variant]="evidenciaLoadingIds.has(pago.idPago) ? 'disabled' : 'secondary'"
+                        (click)="revisarEvidencia(pago)"
+                      >
+                        Revisar Evidencia
+                      </app-button>
+                    }
+                  </div>
+                </td>
+              </tr>
+            }
+          </ng-container>
+        </app-table>
+      </div>
+    } @else {
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        @for (pago of transacciones; track pago.idPago) {
+          <article class="flex h-full flex-col overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
+            <div class="h-40 w-full bg-gray-100">
+              @if (pago.medioPago?.toUpperCase() === 'EFECTIVO') {
+                <div class="flex h-full items-center justify-center text-2xl font-semibold text-green-600">
+                  {{ pago.cantidadDinero | currency: 'PEN' }}
+                </div>
+              } @else if (pago.medioPago?.toUpperCase() === 'REMOTO' && getEvidenceUrl(pago.idPago)) {
+                <img [src]="getEvidenceUrl(pago.idPago)!" alt="Evidencia de pago"
+                  class="h-full w-full object-cover" />
+              } @else {
+                <div class="flex h-full items-center justify-center bg-gradient-to-br from-primary/10 to-primary/20 text-primary">
+                  Pago {{ pago.idPago }}
+                </div>
+              }
+            </div>
+
+            <div class="flex items-center justify-between px-4 py-3 text-sm text-gray-700">
+              <div class="font-medium">
+                @if (pago.reservacionId) {
+                  Reservación #{{ pago.reservacionId }}
+                } @else {
+                  Sin reservación
+                }
+              </div>
+              <div class="text-xs text-gray-500">{{ pago.fecha | date: 'short' }}</div>
+            </div>
+
+            <div class="px-4 pb-4 text-sm text-gray-700">
+              <div class="mb-2 flex items-center gap-2">
+                <app-badge [variant]="getBadgeVariant(pago.estadoPago)">
+                  {{ getBadgeLabel(pago.estadoPago) }}
+                </app-badge>
+                <span class="text-gray-500">Medio:</span>
+                <span class="font-medium text-gray-800">{{ pago.medioPago }}</span>
+              </div>
+              <div class="font-semibold text-gray-900">
+                {{ pago.cantidadDinero | currency: 'PEN' }}
+              </div>
+            </div>
+
+            <div class="mt-auto border-t border-gray-100 px-4 py-3">
+              <div class="flex flex-wrap gap-2">
+                <app-button variant="primary" [routerLink]="['/admin/pago', pago.idPago]">
+                  Ver detalle de pago
+                </app-button>
+
+                @if (pago.reservacionId) {
+                  <app-button variant="neutral" [routerLink]="['/admin/ver-reservaciones', pago.reservacionId]">
+                    Ver detalle de reservación
+                  </app-button>
+                }
+
+                @if (pago.medioPago?.toUpperCase() === 'REMOTO' && !getEvidenceUrl(pago.idPago)) {
+                  <app-button
+                    [variant]="evidenciaLoadingIds.has(pago.idPago) ? 'disabled' : 'secondary'"
+                    (click)="ensureEvidence(pago.idPago)"
+                  >
+                    Cargar evidencia
+                  </app-button>
+                }
+              </div>
+            </div>
+          </article>
+        }
+      </div>
+    }
+
+    <div class="mt-4 flex justify-end">
+      <app-pagination
+        [totalItems]="totalElements"
+        [pageSize]="pageSize"
+        [currentPage]="page"
+        (pageChange)="onPageChange($event)"
+      ></app-pagination>
+    </div>
+  }
+</section>

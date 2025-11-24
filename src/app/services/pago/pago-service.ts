@@ -37,21 +37,33 @@ export interface PageResponse<T> {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PagoService {
   private http = inject(HttpClient);
   private apiPath = 'http://152.67.46.79:8080';
 
-  getListadoPagos(
-    {reservacionId, sesionCajeroId, medioPago, page = 1, size = 10} : 
-    {reservacionId?: number, sesionCajeroId?: number, medioPago?: string, page?: number, size?: number} = {}
-  ): Observable<PageResponse<Pago>> {
+  getListadoPagos({
+    reservacionId,
+    sesionCajeroId,
+    medioPago,
+    page = 1,
+    size = 10,
+  }: {
+    reservacionId?: number;
+    sesionCajeroId?: number;
+    medioPago?: string;
+    page?: number;
+    size?: number;
+  } = {}): Observable<PageResponse<Pago>> {
+    // consigue el
 
-    // consigue el 
-
-    const params = this.buildParams({
-      reservacionId, sesionCajeroId, medioPago, page: page - 1, size
+    const params = buildParams({
+      reservacionId,
+      sesionCajeroId,
+      medioPago,
+      page: page - 1,
+      size,
     });
 
     return this.http.get<PageResponse<Pago>>(`${this.apiPath}/api/pagos`, { params });
@@ -67,7 +79,7 @@ export class PagoService {
   getPagosPorSesion(
     sesionCajeroId: number,
     page: number = 1,
-    size: number = 20,
+    size: number = 20
   ): Observable<PageResponse<Pago>> {
     const pageIndex = Math.max(page - 1, 0);
     const url = `${this.apiPath}/api/pagos?sesionCajeroId=${sesionCajeroId}&size=${size}&page=${pageIndex}`;
@@ -78,7 +90,7 @@ export class PagoService {
     return this.http.delete<void>(`${this.apiPath}/api/pagos/${paymentId}`);
   }
 
-  getEvidencia(idPago: number) : Observable<Blob> {
+  getEvidencia(idPago: number): Observable<Blob> {
     return this.http.get(`${this.apiPath}/api/pagos/evidencia/${idPago}`, { responseType: 'blob' });
   }
 
@@ -96,14 +108,14 @@ export class PagoService {
 
     return this.http.post<Pago>(`${this.apiPath}/api/pagos/reservacion/${reservationId}`, formData);
   }
+}
 
-  private buildParams(paramsObj: Record<string, any>): HttpParams {
-    let params = new HttpParams();
+export function buildParams(paramsObj: Record<string, any>): HttpParams {
+  let params = new HttpParams();
 
-    for (const [key, value] of Object.entries(paramsObj))
-      if (value !== null && value !== undefined && value !== '')
-        params = params.set(key, value.toString());
+  for (const [key, value] of Object.entries(paramsObj))
+    if (value !== null && value !== undefined && value !== '')
+      params = params.set(key, value.toString());
 
-    return params;
-  }
+  return params;
 }

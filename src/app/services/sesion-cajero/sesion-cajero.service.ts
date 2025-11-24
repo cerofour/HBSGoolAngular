@@ -5,6 +5,10 @@ import { LastCashierSession } from './last-session';
 import { AppStateService } from '../app-state/app-state';
 import { AbrirSesionCajeroResponse } from './abrir-sesion-response';
 
+import { CashierDTO } from './cajero.service';
+import { Page } from './reservation/reservation.service';
+import { buildParams, Pago } from './pago/pago-service';
+
 export interface LogoutCashierRequest {
   sesionCajeroId: number;
   fecha: string;
@@ -20,8 +24,8 @@ export interface CierreCajeroResponse {
 }
 
 export interface ResumenCaja {
-  idCajero: number;
   idSesionCajero: number;
+  cajero: CashierDTO;
   fechaApertura: string;
   fechaCierre?: string | null;
   montoInicial: number;
@@ -44,19 +48,21 @@ export class SesionCajeroService {
   getLastCashierSession(): Observable<LastCashierSession> {
     console.log('Perfil de usuario en getlastcashiersession: ' + this.appState.getUserProfile());
 
-    return this.http.get<LastCashierSession>(
-      `${this.apiPath}/api/sesion_cajero/ultima?usuarioId=${
-        this.appState.getUserProfile()?.idUsuario
-      }`
-    ).pipe(
-      tap(
-        x => this.appState.updateCashierSession({
-          sessionId: x.idSesion,
-          initialMoneyAmount: x.montoApertura,
-          openingDate: x.fechaApertura
-        })
+    return this.http
+      .get<LastCashierSession>(
+        `${this.apiPath}/api/sesion_cajero/ultima?usuarioId=${
+          this.appState.getUserProfile()?.idUsuario
+        }`
       )
-    );
+      .pipe(
+        tap((x) =>
+          this.appState.updateCashierSession({
+            sessionId: x.idSesion,
+            initialMoneyAmount: x.montoApertura,
+            openingDate: x.fechaApertura,
+          })
+        )
+      );
   }
 
   getResumenCajas(
@@ -75,20 +81,38 @@ export class SesionCajeroService {
   abrirSesionCajero(montoInicial: number): Observable<AbrirSesionCajeroResponse> {
     console.log(montoInicial);
 
-    return this.http.post<any>(`${this.apiPath}/api/sesion_cajero`, { initialMoney: montoInicial })
+    return this.http
+      .post<any>(`${this.apiPath}/api/sesion_cajero`, { initialMoney: montoInicial })
       .pipe(
         share(),
-        tap(res => {
+        tap((res) => {
           this.saveSessionId(res);
         })
       );
+  }
+
+  getAllTransactions({
+    sessionId,
+    page = 1,
+    size = 20,
+  }: {
+    sessionId: number;
+    page?: number;
+    size?: number;
+  }): Observable<Page<Pago>> {
+
+    let params = buildParams({
+      page: page - 1, size
+    })
+
+    return this.http.get<Page<Pago>>(`${this.apiPath}/api/sesion_cajero/${sessionId}/transaccion`, {params});
   }
 
   saveSessionId(res: AbrirSesionCajeroResponse) {
     this.appState.updateCashierSession({
       initialMoneyAmount: res.montoInicial,
       sessionId: res.idSesionCajero,
-      openingDate: res.fechaApertura
-    })
+      openingDate: res.fechaApertura,
+    });
   }
 }
