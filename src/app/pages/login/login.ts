@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 
 import { MyInput } from '../../components/input/input';
 import { Button } from "../../components/button/button";
-import { AuthService } from '../../services/auth';
+import { AuthService } from '../../services/auth/auth';
 import { Modal } from '../../components/modal/modal';
 
 @Component({

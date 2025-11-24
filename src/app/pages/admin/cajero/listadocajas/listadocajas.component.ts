@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { SesionCajeroService, ResumenCaja } from '../../../../services/sesion-cajero.service';
+import { SesionCajeroService, ResumenCaja } from '../../../../services/sesion-cajero/sesion-cajero.service';
 import { Button } from '../../../../components/button/button';
 import { ActivatedRoute, RouterModule, RouterOutlet } from '@angular/router';
 import { BreadcrumbsComponent } from '../../../../components/breadcrumbs/breadcrumbs';
