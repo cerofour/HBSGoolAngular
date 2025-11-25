@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
+import { Route, RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-footer',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   template: `
     <footer class="w-full bg-primary text-white">
       <div class="max-w-7xl mx-auto px-4 py-8">
@@ -47,7 +48,7 @@ import { Component } from '@angular/core';
             <ul class="space-y-2 text-gray-200 text-sm">
               <li>
                 <i class="fas fa-phone mr-2"></i>
-                <span>(01) 234-5678</span>
+                <span>935 844 486</span>
               </li>
               <li>
                 <i class="fas fa-envelope mr-2"></i>
@@ -55,7 +56,7 @@ import { Component } from '@angular/core';
               </li>
               <li>
                 <i class="fas fa-map-marker-alt mr-2"></i>
-                <span>Av. Principal 123, Lima</span>
+                <span>Av. la Agricultura KM 01, Ferreñafe 14004</span>
               </li>
             </ul>
           </div>
@@ -68,11 +69,8 @@ import { Component } from '@angular/core';
               © 2024 HBSGool. Todos los derechos reservados.
             </p>
             <div class="flex gap-6">
-              <a href="#" class="text-gray-200 hover:text-white transition-colors duration-200 text-sm">
-                Términos y Condiciones
-              </a>
-              <a href="#" class="text-gray-200 hover:text-white transition-colors duration-200 text-sm">
-                Política de Privacidad
+              <a routerLink="/terminos" class="text-gray-200 hover:text-white transition-colors duration-200 text-sm">
+                    Términos y Condiciones
               </a>
             </div>
           </div>

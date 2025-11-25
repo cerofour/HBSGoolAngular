@@ -30,11 +30,11 @@ import { Component, Inject, computed } from '@angular/core';
           ></iframe>
           <div>
             <h2 class="text-4xl md:text-5xl font-bold mb-4 drop-shadow-lg">Visítanos</h2>
-            <p class="text-lg md:text-xl mb-2 drop-shadow">Dirección: Av. Siempre Viva 123, Lima</p>
+            <p class="text-lg md:text-xl mb-2 drop-shadow">Dirección: Av. la Agricultura KM 01, Ferreñafe 14004</p>
             <p class="text-lg md:text-xl mb-2 drop-shadow">
               Horario: Lun - Dom, 8:00 AM - 11:00 PM
             </p>
-            <p class="text-lg md:text-xl drop-shadow">Contacto: +51 999 888 777</p>
+            <p class="text-lg md:text-xl drop-shadow">Contacto: +51 935 844 486</p>
           </div>
         </div>
       </div>
