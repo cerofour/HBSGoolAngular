@@ -42,7 +42,7 @@ export class SesionCajeroService {
   private apiPath = 'http://152.67.46.79:8080';
 
   cerrarSesionCajero(data: LogoutCashierRequest): Observable<CierreCajeroResponse> {
-    return this.http.post<CierreCajeroResponse>(`${this.apiPath}/api/cierre_cajero/`, data);
+    return this.http.post<CierreCajeroResponse>(`${this.apiPath}/api/cierre_cajero`, data);
   }
 
   getLastCashierSession(): Observable<LastCashierSession> {
