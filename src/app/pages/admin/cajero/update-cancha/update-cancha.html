@@ -1,0 +1,128 @@
+<section class="p-6 space-y-4">
+  <app-breadcrumbs></app-breadcrumbs>
+
+  <header>
+    <h1 class="text-2xl font-semibold text-gray-800">Actualizar Cancha</h1>
+    <p class="text-gray-500 text-sm">
+      Modifica los datos de la cancha seleccionada.
+    </p>
+  </header>
+
+  <!-- Mostrar errores -->
+  @if (error) {
+    <div class="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+      {{ error }}
+    </div>
+  }
+
+  <!-- Mostrar loading -->
+  @if (loading) {
+    <p class="text-sm text-gray-500">Cargando datos de la cancha...</p>
+  }
+  
+  @else {
+  @if (hasId) {
+      <!-- Formulario de edición de una sola cancha -->
+      <form
+        class="space-y-4 bg-white p-6 rounded-xl border border-gray-200 shadow-sm"
+        (ngSubmit)="actualizarCancha()"
+        [formGroup]="form"
+      >
+      <!-- NOMBRE -->
+      <div class="form-group">
+        <label class="form-label">Nombre</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="nombre"
+          placeholder="Ej: Cancha Los Olivos"
+        />
+      </div>
+
+      <!-- DESCRIPCIÓN -->
+      <div class="form-group">
+        <label class="form-label">Descripción</label>
+        <textarea
+          rows="4"
+          class="form-control textarea-control"
+          formControlName="descripcion"
+          placeholder="Ej: Cancha sintética, iluminación LED"
+        ></textarea>
+      </div>
+
+      <!-- PRECIO POR HORA -->
+      <div class="form-group">
+        <label class="form-label">Precio por hora (S/)</label>
+        <input
+          type="number"
+          class="form-control"
+          formControlName="precioHora"
+          placeholder="Ej: 50"
+        />
+      </div>
+
+      <!-- ESTADO -->
+      <div class="form-group">
+        <label class="form-label">Estado</label>
+        <div class="select-wrapper">
+          <select class="form-control select-control" formControlName="estadoCancha">
+            <option value="DISPONIBLE">Disponible</option>
+            <option value="OCUPADA">Ocupada</option>
+            <option value="MANTENIMIENTO">En mantenimiento</option>
+          </select>
+          <span class="select-arrow" aria-hidden="true">▾</span>
+        </div>
+      </div>
+
+      <!-- BOTONES -->
+      <div class="flex justify-end gap-3 pt-4">
+        <app-button variant="neutral" routerLink="/admin/canchas">
+          Cancelar
+        </app-button>
+
+        <app-button variant="primary" [disabled]="form.invalid || btnLoading">
+          @if (btnLoading) {
+            Guardando...
+          } @else {
+            Guardar cambios
+          }
+        </app-button>
+      </div>
+    </form>
+    } @else {
+      <!-- Mostrar lista de canchas con el mismo estilo de cards que en home -->
+      <section id="canchas" class="w-full py-6 px-0 bg-transparent">
+        <div class="max-w-7xl mx-auto">
+          <h2 class="text-2xl font-bold text-gray-800 text-center mb-4">Canchas</h2>
+          <div class="flex flex-wrap gap-6 justify-center">
+            @for (cancha of canchas; track cancha.canchaId) {
+              <div class="bg-white rounded-lg shadow-lg overflow-hidden transition-shadow duration-300 hover:shadow-xl border border-gray-200 w-96">
+                <div class="relative h-48 overflow-hidden bg-gray-200">
+                  <img src="cancha.png" alt="{{ cancha.name }}" class="w-full h-full object-cover" />
+                  <div class="absolute top-2 right-2">
+                    <span class="px-2 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-800">{{ cancha.canchaState }}</span>
+                  </div>
+                </div>
+
+                <div class="p-4">
+                  <h3 class="text-xl font-bold text-gray-800 mb-2">{{ cancha.name }}</h3>
+                  <p class="text-gray-600 text-sm mb-4 line-clamp-2">{{ cancha.description }}</p>
+                  <div class="flex items-center justify-between mb-4">
+                    <div>
+                      <span class="text-gray-500 text-xs">Precio por hora</span>
+                      <p class="text-2xl font-bold text-primary">S/ {{ cancha.hourlyPrice }}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="px-4 pb-4">
+                  <app-button-link [routerLink]="['/admin','canchas','actualizar', cancha.canchaId]" variant="primary">Actualizar</app-button-link>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </section>
+    }
+  }
+</section>

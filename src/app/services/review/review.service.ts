@@ -80,9 +80,10 @@ export class ReviewService {
    * CREAR REVIEW
    */
   create(data: {
-    rating: number;
+    rating: number | string;
     comentario: string;
   }): Observable<Review> {
+    // Enviar rating tal cual (aceptamos string o number para compatibilidad)
     return this.http.post<Review>(this.apiURLBASE, data);
   }
 

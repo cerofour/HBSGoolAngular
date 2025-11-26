@@ -42,7 +42,7 @@ import { Component } from '@angular/core';
           </div>
 
           <!-- Contacto -->
-          <div>
+          <div id="contacto">
             <h3 class="text-lg font-semibold mb-4">Contacto</h3>
             <ul class="space-y-2 text-gray-200 text-sm">
               <li>
