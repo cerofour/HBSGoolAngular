@@ -33,6 +33,7 @@ export class ListadoCajasComponent implements OnInit {
   page: number = 1;
   pageSize: number = 20;
   totalElements: number = 0;
+  totalPages: number = 1;
 
   constructor(private sesionCajeroService: SesionCajeroService) {}
 
@@ -53,12 +54,21 @@ export class ListadoCajasComponent implements OnInit {
     this.errorMsg = null;
     this.loading = (true);
 
+    const filters: any = {
+      idCajero: this.cajeroId ?? undefined,
+      fechaInicio: this.fechaInicio ?? undefined,
+      fechaFin: this.fechaFin ?? undefined,
+      page: this.page - 1,
+      size: this.pageSize,
+    };
+
     this.sesionCajeroService
-      .getResumenCajas(this.cajeroId, this.fechaInicio, this.fechaFin)
+      .getResumenCajas(filters)
       .subscribe({
         next: (data) => {
-          this.summaryList = data ?? [];
-          this.totalElements = data.length; 
+          this.summaryList = data.content ?? [];
+          this.totalElements = data.content.length;
+          this.totalPages = data.totalPages;
           this.loading = false;
         },
         error: (err) => {

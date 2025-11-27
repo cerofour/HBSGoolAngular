@@ -1,49 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-
-export interface RemotePaymentConfirmation {
-  remotePaymentConfirmationId: number;
-  paymentId: number;
-  cashierId: number;
-  date: string;
-}
-
-export interface RemotePaymentConfirmationFilters {
-  cashierId?: number;
-  date?: string;
-  startDate?: string;
-  endDate?: string;
-}
-
-export interface SortInfo {
-  empty: boolean;
-  sorted: boolean;
-  unsorted: boolean;
-}
-
-export interface PageableInfo {
-  sort: SortInfo;
-  offset: number;
-  pageNumber: number;
-  pageSize: number;
-  paged: boolean;
-  unpaged: boolean;
-}
-
-export interface Page<T> {
-  content: T[];
-  pageable?: PageableInfo;
-  totalPages: number;
-  totalElements: number;
-  last: boolean;
-  first: boolean;
-  sort?: SortInfo;
-  numberOfElements?: number;
-  size: number;
-  number: number;
-  empty: boolean;
-}
+import { Page } from '../../schemas/page';
+import { RemotePaymentConfirmation, RemotePaymentConfirmationFilters } from '../../schemas/remote-payment-confirmation';
 
 @Injectable({
   providedIn: 'root'
@@ -79,7 +38,7 @@ export class RemotePaymentConfirmationService {
     page = 0,
     size = 20,
     sort = 'date'
-  }: RemotePaymentConfirmationFilters & { page?: number; size?: number; sort?: string } = {}): Observable<RemotePaymentConfirmation[]> {
+  }: RemotePaymentConfirmationFilters & { page?: number; size?: number; sort?: string } = {}): Observable<Page<RemotePaymentConfirmation>> {
     const params = this.buildParams({
       cashierId,
       date,
@@ -90,7 +49,7 @@ export class RemotePaymentConfirmationService {
       sort,
     });
 
-    return this.http.get<RemotePaymentConfirmation[]>(`${this.apiPath}/api/confirmaciones`, { params });
+    return this.http.get<Page<RemotePaymentConfirmation>>(`${this.apiPath}/api/confirmaciones`, { params });
   }
 
   /**

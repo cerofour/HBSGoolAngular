@@ -1,13 +1,14 @@
 import { Component, ViewChild, inject } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Reservation, ReservationForAdmin, ReservationService } from '../../../../services/reservation/reservation.service';
+import { ReservationService } from '../../../../services/reservation/reservation.service';
 import { Button } from '../../../../components/button/button';
 import { AppTable } from '../../../../components/table/table';
 import { RouterModule } from '@angular/router';
 import { BreadcrumbsComponent } from '../../../../components/breadcrumbs/breadcrumbs';
 import { PagoService } from '../../../../services/pago/pago-service';
 import { Modal } from '../../../../components/modal/modal';
+import { ReservationForAdmin } from '../../../../schemas/reservation';
 
 @Component({
   selector: 'app-view-reservations',

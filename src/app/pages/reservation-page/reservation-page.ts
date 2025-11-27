@@ -5,12 +5,13 @@ import { QrPaymentCard } from '../../components/cards/qr-payment-card/qr-payment
 import { TransferPaymentCard } from '../../components/cards/transfer-payment-card/transfer-payment-card';
 import { PaymentReminderCard } from '../../components/cards/payment-reminder-card/payment-reminder-card';
 import { ConfirmPayment } from '../../components/modals/confirm-payment/confirm-payment';
-import { ReservationFormCashier, ReservationFormUser, ReservationService } from '../../services/reservation/reservation.service';
+import { ReservationService } from '../../services/reservation/reservation.service';
 import { ActivatedRoute } from '@angular/router';
 import { Button } from '../../components/button/button';
 import { AppStateService } from '../../services/app-state/app-state';
 import { FormsModule, NgForm } from "@angular/forms";
 import { CommonModule } from '@angular/common';
+import { ReservationFormCashier, ReservationFormUser } from '../../schemas/reservation';
 
 @Component({
   selector: 'app-reservation-page',

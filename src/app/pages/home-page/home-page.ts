@@ -3,7 +3,8 @@ import { Component, inject } from '@angular/core';
 import { HeroSection } from './hero-section';
 import { CanchasSection } from './canchas-section';
 import { InfoContactHero } from './info-contact-hero';
-import { CanchaInfo, CanchaService } from '../../services/cancha/cancha.service';
+import { CanchaService } from '../../services/cancha/cancha.service';
+import { CanchaInfo } from '../../schemas/cancha';
 
 @Component({
   selector: 'app-home-page',

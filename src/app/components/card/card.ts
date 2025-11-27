@@ -1,7 +1,7 @@
 import { Component, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonLink } from '../button-link/button-link';
-import { CanchaInfo } from '../../services/cancha/cancha.service';
+import { CanchaInfo } from '../../schemas/cancha';
 
 @Component({
   selector: 'app-cancha-card',

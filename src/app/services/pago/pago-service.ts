@@ -2,39 +2,8 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
-import { SesionCajeroDTO } from '../sesion-cajero/sesion-cajero-dto';
-
-export interface Pago {
-  idPago: number;
-  reservacionId: number | null;
-  sesionCajeroId: number | null;
-  cantidadDinero: number;
-  fecha: string; // ISO string
-  medioPago: string;
-  estadoPago: string;
-  evidencia: string | null;
-}
-
-export interface PagoById {
-  idPago: number;
-  reservacionId: number | null;
-  sesionCajero: SesionCajeroDTO;
-  cantidadDinero: number;
-  fecha: string; // ISO string
-  medioPago: string;
-  estadoPago: string;
-  evidencia: string | null;
-}
-
-export interface PageResponse<T> {
-  content: T[];
-  totalElements: number;
-  totalPages: number;
-  size: number;
-  number: number;
-  first: boolean;
-  last: boolean;
-}
+import { Page } from '../../schemas/page';
+import { Pago, PagoById } from '../../schemas/pago';
 
 @Injectable({
   providedIn: 'root',
@@ -55,7 +24,7 @@ export class PagoService {
     medioPago?: string;
     page?: number;
     size?: number;
-  } = {}): Observable<PageResponse<Pago>> {
+  } = {}): Observable<Page<Pago>> {
     // consigue el
 
     const params = buildParams({
@@ -66,7 +35,7 @@ export class PagoService {
       size,
     });
 
-    return this.http.get<PageResponse<Pago>>(`${this.apiPath}/api/pagos`, { params });
+    return this.http.get<Page<Pago>>(`${this.apiPath}/api/pagos`, { params });
   }
 
   getById(paymentId: number): Observable<PagoById> {
@@ -80,10 +49,10 @@ export class PagoService {
     sesionCajeroId: number,
     page: number = 1,
     size: number = 20
-  ): Observable<PageResponse<Pago>> {
+  ): Observable<Page<Pago>> {
     const pageIndex = Math.max(page - 1, 0);
     const url = `${this.apiPath}/api/pagos?sesionCajeroId=${sesionCajeroId}&size=${size}&page=${pageIndex}`;
-    return this.http.get<PageResponse<Pago>>(url);
+    return this.http.get<Page<Pago>>(url);
   }
 
   rejectPayment(paymentId: number): Observable<void> {
