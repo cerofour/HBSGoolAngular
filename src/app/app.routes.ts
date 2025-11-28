@@ -10,6 +10,8 @@ import { ListadoPagosPage } from './pages/admin/pago/listado-pagos-page/listado-
 import { PagoPage } from './pages/admin/pago/pago-page/pago-page';
 import { PagosPorSesionPage } from './pages/pagos-por-sesion-page/pagos-por-sesion-page';
 import { ListadoConfirmacionesPage } from './pages/listado-confirmaciones-page/listado-confirmaciones-page';
+import { ActualizarCanchaComponent } from './pages/admin/cajero/update-cancha/update-cancha';
+import { AdminCanchasPage } from './pages/admin/canchas/canchas';
 import { isCashierGuard } from './guards/is-cashier-guard';
 import { isLoggedInGuard } from './guards/is-logged-in-guard';
 import { NotAuthorizedPage } from './pages/not-authorized/not-authorized';
@@ -136,6 +138,26 @@ export const routes: Routes = [
             path: ':pagoId',
             component: PagoPage,
             data: { breadcrumb: pagoBreadcrumb },
+          },
+        ],
+      },
+      {
+        path: 'canchas',
+        data: { breadcrumb: 'Canchas' },
+        children: [
+          {
+            path: '',
+            component: AdminCanchasPage,
+          },
+          {
+            path: 'actualizar',
+            component: ActualizarCanchaComponent,
+            data: { breadcrumb: 'Actualizar Cancha' },
+          },
+          {
+            path: 'actualizar/:id',
+            component: ActualizarCanchaComponent,
+            data: { breadcrumb: 'Actualizar Cancha' },
           },
         ],
       },

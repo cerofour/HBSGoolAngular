@@ -1,0 +1,8 @@
+.star{ font-size:32px; background:transparent; border:none; cursor:pointer; color:#cbd5e1; margin:0 4px; }
+.star.selected{ color:#f6c34f; }
+@media (max-width:640px){ section{ padding:16px } }
+
+/* cursor pointer for submit button to show a hand on hover */
+section button[type="submit"] {
+	cursor: pointer;
+}

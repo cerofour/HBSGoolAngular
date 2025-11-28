@@ -1,4 +1,7 @@
-import { Component, Inject, computed } from '@angular/core';
+import { Component, Inject, computed, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ReviewFormComponent } from '../../components/review-form/review-form';
+import { AppStateService } from '../../services/app-state/app-state';
 
 @Component({
   selector: 'app-home-info-hero',
@@ -6,6 +9,7 @@ import { Component, Inject, computed } from '@angular/core';
   template: `
     <!-- Info/Contact Hero Section -->
     <section
+      id="visitanos"
       class="relative my-12 w-full h-[50vh] min-h-[500px] flex items-center justify-center overflow-hidden"
     >
       <!-- Background Image -->
@@ -39,11 +43,27 @@ import { Component, Inject, computed } from '@angular/core';
         </div>
       </div>
     </section>
+    <div class="py-8 bg-gray-50">
+      <div class="max-w-7xl mx-auto px-4">
+  <app-review-form *ngIf="isUser()"></app-review-form>
+      </div>
+    </div>
   `,
+  imports: [CommonModule, ReviewFormComponent],
 })
 export class InfoContactHero {
+  private appState = inject(AppStateService);
   private readonly placeQuery = 'HBS College';
   private readonly mapsApiKey = 'AIzaSyDkDBGSjxAQEZMDWykRbrWD6u-wfSQB-2k';
+
+  isUser(): boolean {
+    if (!this.appState.isLoggedIn()) return false;
+    const profile = this.appState.getUserProfile();
+    const role = (profile?.rol || '').toString().toUpperCase();
+    // Mostrar solo a roles de usuario/cliente. Ajusta la lista si tu backend usa otros valores.
+    const allowed = ['USUARIO', 'USER', 'CLIENTE'];
+    return allowed.includes(role);
+  }
 
   protected mapsEmbedUrl() {
     const params = new URLSearchParams({ q: this.placeQuery, key: this.mapsApiKey });
