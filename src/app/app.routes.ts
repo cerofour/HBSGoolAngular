@@ -16,6 +16,8 @@ import { NotAuthorizedPage } from './pages/not-authorized/not-authorized';
 import { NotFoundPage } from './pages/not-found/not-found';
 import { ViewReservations } from './pages/admin/reservacion/view-reservations/view-reservations';
 import { ReservationDetails } from './pages/admin/reservacion/reservation-details/reservation-details';
+import { TCPageComponent } from './pages/T&C/tc-page';
+
 
 const pagoBreadcrumb = (route: ActivatedRouteSnapshot): string => {
   const pagoId = route.paramMap.get('pagoId');
@@ -154,6 +156,10 @@ export const routes: Routes = [
         ],
       },
     ],
+  },
+  {
+    path: 'terminos',
+    component: TCPageComponent,
   },
   {
     path: 'not-authorized',
