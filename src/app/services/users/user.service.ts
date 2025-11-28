@@ -4,14 +4,11 @@ import { Observable } from 'rxjs';
 
 export interface User {
   userId: number;
-  name: string;
-  fatherLastname: string;
-  motherLastname: string;
-  dni: string;
-  cellphone: string;
-  email: string;
-  active: boolean;
-  password?: string;
+  nombreCompleto: string;
+  documento: string;
+  celular: string;
+  correo: string;
+  activo: boolean;
   rol: string;
 }
 
@@ -59,15 +56,15 @@ export class UserService {
       dni?: string;
       active?: boolean | string;
     }
-  ): Observable<User[]> {
+  ): Observable<Page<User>> {
     const params = this.buildParams({
       page: page - 1,
       size: 20,
-      sort: 'creado,desc',
+      sort: 'fatherLastname,desc',
       ...filtros,
     });
 
-    return this.http.get<User[]>(this.apiURLBASE, { params });
+    return this.http.get<Page<User>>(this.apiURLBASE, { params });
   }
 
   getById(id: number): Observable<User> {
