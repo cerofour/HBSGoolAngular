@@ -15,11 +15,11 @@ import { Component, HostListener, input, signal } from '@angular/core';
           <!-- Header -->
           <div class="flex items-center justify-between px-4 py-3 rounded-t-xl">
 
-			@if (title()) {
-            	<h3 class="text-lg font-semibold">{{title()}}</h3>
-			} @else {
-            	<h3 class="text-lg font-semibold">Información</h3>
-			}
+          @if (title()) {
+            <h3 class="text-lg font-semibold">{{ title() }}</h3>
+          } @else {
+            <h3 class="text-lg font-semibold">Información</h3>
+          }
 
             <button type="button" (click)="close()" class="p-1 rounded hover:bg-white/20 transition">
               <span aria-hidden="true">✕</span>
@@ -32,13 +32,17 @@ import { Component, HostListener, input, signal } from '@angular/core';
           </div>
 
           <!-- Footer (opcional para acciones) -->
-          <div class="px-4 py-3 flex justify-end gap-2 border-t border-gray-200 rounded-b-xl bg-gray-50">
-            <button type="button"
-                    class="px-4 py-2 rounded-md bg-secondary text-white hover:bg-secondary-dark transition-colors"
-                    (click)="close()">
-              Cerrar
-            </button>
-          </div>
+          @if (showFooter()) {
+            <div class="px-4 py-3 flex justify-end gap-2 border-t border-gray-200 rounded-b-xl bg-gray-50">
+              <button
+                type="button"
+                class="px-4 py-2 rounded-md bg-secondary text-white hover:bg-secondary-dark transition-colors"
+                (click)="close()"
+              >
+                Cerrar
+              </button>
+            </div>
+          }
         </div>
       </div>
     }
@@ -50,6 +54,7 @@ export class Modal {
   title = input('');
   isOpen = signal<boolean>(false);
   preventClose = input<boolean>(false);
+  showFooter = input<boolean>(true);
 
   // Métodos públicos para abrir/cerrar desde el padre
   open(): void { this.isOpen.set(true); }

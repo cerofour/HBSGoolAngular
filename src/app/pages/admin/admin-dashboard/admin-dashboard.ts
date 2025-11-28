@@ -7,20 +7,24 @@ import { getDate, getTime } from '../../../utils/general-utils';
 import { ButtonLink } from '../../../components/button-link/button-link';
 import { BreadcrumbsComponent } from '../../../components/breadcrumbs/breadcrumbs';
 import { Button } from '../../../components/button/button';
+import { Modal } from "../../../components/modal/modal";
+import { AuthService } from '../../../services/auth/auth';
 
 @Component({
   selector: 'app-admin-dashboard',
-  imports: [ButtonLink, AbrirSesionCajeroComponent, BreadcrumbsComponent, Button],
+  imports: [ButtonLink, AbrirSesionCajeroComponent, BreadcrumbsComponent, Button, Modal],
   templateUrl: './admin-dashboard.html'
 })
 export class AdminDashboard {
   cashierSessionService = inject(SesionCajeroService);
   private appState = inject(AppStateService);
   private reservationsService = inject(ReservationService);
+  private auth = inject(AuthService);
   private checkedSession = false;
   reservations: ReservationForAdmin[] = []; 
 
   @ViewChild('openSessionModal') openSessionModal!: AbrirSesionCajeroComponent;
+  @ViewChild('closeSessionModal') closeSessionModal!: Modal;
 
   // Ejecutar en contexto de inyección usando inicializador de campo
   private profileEffect = effect(() => {
@@ -50,6 +54,21 @@ export class AdminDashboard {
 
   getCurrentCashierSession() {
     return this.appState.getCashierSession()?.sessionId ?? 0;
+  }
+
+  onConfirmClose() {
+  }
+
+  onLogoutOnly() {
+    this.auth.logout();
+  }
+
+  onCancel() {
+    this.closeSessionModal.close();
+  }
+
+  onCuadrarCajeroClick() {
+    this.closeSessionModal.open();
   }
   
   getDate = getDate;
