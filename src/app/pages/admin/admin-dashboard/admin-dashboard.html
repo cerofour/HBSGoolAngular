@@ -124,7 +124,7 @@
                     </div>
 
                     <div class="flex flex-col items-center justify-start gap-3">
-                        <app-button [variant]="'danger'">
+                        <app-button [variant]="'danger'" (click)="onCuadrarCajeroClick()">
                             <svg class="w-6 h-6 sm:w-7 sm:h-7 text-white" fill="none" stroke="currentColor"
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -136,7 +136,8 @@
                             Cajero</span>
                     </div>
                     <div class="flex flex-col items-center justify-start gap-3">
-                        <app-button-link [variant]="'primary'" [routerLink]="['/admin', 'cajero', 'transacciones', getCurrentCashierSession()]">
+                        <app-button-link [variant]="'primary'"
+                            [routerLink]="['/admin', 'cajero', 'transacciones', getCurrentCashierSession()]">
                             <svg class="w-6 h-6 sm:w-7 sm:h-7 text-white" fill="none" stroke="currentColor"
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -154,4 +155,20 @@
     </div>
 
     <app-abrir-sesion-cajero #openSessionModal></app-abrir-sesion-cajero>
+
+    <app-modal #closeSessionModal title="Cerrar Sesión" [preventClose]="false" [showFooter]="false">
+        <div class="space-y-4 text-center">
+            <p class="text-sm text-gray-600">¿Estás seguro de que deseas salir del sistema?</p>
+
+            <div class="text-left">
+                <p class="text-sm font-medium text-gray-800 mb-2">Elige una opción</p>
+                <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between" role="group"
+                    aria-label="Opciones de cierre">
+                    <app-button-link [routerLink]="['/admin', 'cajero', 'cuadrar']">Cerrar sesión cajero</app-button-link>
+                    <app-button variant="secondary" (click)="onLogoutOnly()">Solo desloguear</app-button>
+                    <app-button variant="neutral" (click)="onCancel()">Cancelar</app-button>
+                </div>
+            </div>
+        </div>
+    </app-modal>
 </div>

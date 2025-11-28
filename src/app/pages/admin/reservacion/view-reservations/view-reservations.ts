@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
 import { BreadcrumbsComponent } from '../../../../components/breadcrumbs/breadcrumbs';
 import { PagoService } from '../../../../services/pago/pago-service';
 import { Modal } from '../../../../components/modal/modal';
+import { AppStateService } from '../../../../services/app-state/app-state';
 
 @Component({
   selector: 'app-view-reservations',
@@ -21,6 +22,7 @@ export class ViewReservations {
 
   private reservationService = inject(ReservationService);
   private pagoService = inject(PagoService);
+  private appState = inject(AppStateService);
   reservations: ReservationForAdmin[] = [];
 
   cargando: boolean = false;
@@ -138,6 +140,7 @@ export class ViewReservations {
 
     this.pagoService.createPaymentForReservation(this.selectedReservation.idReservacion, {
       cantidadDinero: this.paymentForm.cantidadDinero,
+      sesionCajeroId: this.appState.getCashierSession()?.sessionId ?? 0,
       medioPago: this.paymentForm.medioPago,
       evidencia: this.paymentForm.evidencia ?? undefined,
     }).subscribe({

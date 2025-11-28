@@ -35,6 +35,9 @@ const reservationBreadcrumb = (route: ActivatedRouteSnapshot): string => {
 import { ListadoReviews } from './pages/listado-reviews/listado-reviews';
 import { ListadoUsers } from './pages/listado-users/listado-users';
 import { Transacciones } from './pages/admin/cajero/transacciones/transacciones';
+import { CerrarSesionCajeroComponent } from './pages/admin/cajero/cerrarsesioncajero/cerrarsesioncajero.component';
+import { Breadcrumb } from '@syncfusion/ej2-navigations';
+import { ReporteCierrePage } from './pages/reporte-cierre-page/reporte-cierre-page';
 
 export const routes: Routes = [
   {
@@ -101,6 +104,11 @@ export const routes: Routes = [
             path: 'transacciones/:sesionId',
             component: Transacciones,
             data: { breadcrumb: 'Transacciones' },
+          },
+          {
+            path: 'cuadrar',
+            component: CerrarSesionCajeroComponent,
+            data: { breadcrumb: 'Cerrar Sesión de Cajero' },
           },
         ],
       },
