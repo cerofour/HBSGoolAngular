@@ -32,7 +32,7 @@ export class ReservationService {
 
   //ROLE: ADMIN OR CASHIER
   getListReservationAdmin(
-    {usuarioId, canchaId, estado, dni, page = 0, size = 10, sort = "tiempoInicio"} : 
+    {usuarioId, canchaId, estado, dni, page = 0, size = 50, sort = "tiempoInicio"} : 
     {usuarioId?: number, canchaId?: number, estado?: string | string[], dni?: string, page?: number, size?: number, sort?: string} = {}
   ): Observable<Page<ReservationForAdmin>> {
     const params = this.buildParams({usuarioId, canchaId, estado, dni, page, size, sort});

@@ -65,10 +65,11 @@ export class PagoService {
 
   createPaymentForReservation(
     reservationId: number,
-    payload: { cantidadDinero: number; medioPago: string; evidencia?: File | null }
+    payload: { cantidadDinero: number; sesionCajeroId: number; medioPago: string; evidencia?: File | null }
   ): Observable<Pago> {
     const formData = new FormData();
     formData.append('cantidadDinero', payload.cantidadDinero.toString());
+    formData.append('sesionCajeroId', payload.sesionCajeroId.toString());
     formData.append('medioPago', payload.medioPago);
 
     if (payload.evidencia) {

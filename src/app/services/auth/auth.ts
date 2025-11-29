@@ -31,6 +31,10 @@ export class AuthService {
       )
   }
 
+  register(data: any): Observable<any> {
+    return this.http.post(`${this.apiPath}/api/auth/register`, data);
+  }
+
   /**
    * Verifica si el usuario sigue autenticado según el token en localStorage.
    * Si el token es válido y no hay perfil en memoria, consulta `/api/auth/me`

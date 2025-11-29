@@ -17,6 +17,9 @@ import { ControlContainer, FormControl, FormGroupDirective, ReactiveFormsModule 
           [type]="type()"
           [placeholder]="placeholder()"
           [formControl]="formControl"
+          [attr.maxlength]="maxlength()"
+          [attr.minlength]="minlength()"
+          [disabled]="disabled()"
           class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder-gray-400
                  focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/40 transition-colors duration-200"
         />
@@ -26,6 +29,9 @@ import { ControlContainer, FormControl, FormGroupDirective, ReactiveFormsModule 
           [type]="type()"
           [placeholder]="placeholder()"
           [formControlName]="inGroupName()"
+          [attr.maxlength]="maxlength()"
+          [attr.minlength]="minlength()"
+          [disabled]="disabled()"
           class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder-gray-400
                  focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/40 transition-colors duration-200"
         />
@@ -35,7 +41,10 @@ import { ControlContainer, FormControl, FormGroupDirective, ReactiveFormsModule 
           [type]="type()"
           [placeholder]="placeholder()"
           [value]="value()"
+          [disabled]="disabled()"
           (input)="onInput($event)"
+          [attr.maxlength]="maxlength()"
+          [attr.minlength]="minlength()"
           class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder-gray-400
                  focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/40 transition-colors duration-200"
         />
@@ -54,6 +63,9 @@ export class MyInput {
   type 			  = input<string>('text');
   placeholder	= input<string>('');
   hint 			  = input<string>('');
+  maxlength = input<number | null>(null);
+  minlength = input<number | null>(null);
+  disabled    = input<boolean>(false);
 
   control 		= input<FormControl | null>(null);
   inGroupName = input<string>('');

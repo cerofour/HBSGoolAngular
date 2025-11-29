@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { User } from '../../schemas/user';
 import { Page } from '../../schemas/page';
 
-
 @Injectable({
   providedIn: 'root',
 })
@@ -14,7 +13,7 @@ export class UserService {
   private apiURLBASE = 'http://152.67.46.79:8080/api/usuario/';
 
   getListadoUsers(
-    { name, dni, active, page = 0, size = 20, sort = "userId"} : {name?: string, dni?: string, active?: boolean | string, page?: number, size?: number, sort?: string}
+    { name, dni, active, page = 0, size = 20, sort = "fatherLastname,asc"} : {name?: string, dni?: string, active?: boolean | string, page?: number, size?: number, sort?: string}
   ): Observable<Page<User>> {
     const params = this.buildParams({name, dni, active, page, size, sort});
 

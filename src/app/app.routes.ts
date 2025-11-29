@@ -10,12 +10,16 @@ import { ListadoPagosPage } from './pages/admin/pago/listado-pagos-page/listado-
 import { PagoPage } from './pages/admin/pago/pago-page/pago-page';
 import { PagosPorSesionPage } from './pages/pagos-por-sesion-page/pagos-por-sesion-page';
 import { ListadoConfirmacionesPage } from './pages/listado-confirmaciones-page/listado-confirmaciones-page';
+import { ActualizarCanchaComponent } from './pages/admin/cajero/update-cancha/update-cancha';
+import { AdminCanchasPage } from './pages/admin/canchas/canchas';
 import { isCashierGuard } from './guards/is-cashier-guard';
 import { isLoggedInGuard } from './guards/is-logged-in-guard';
 import { NotAuthorizedPage } from './pages/not-authorized/not-authorized';
 import { NotFoundPage } from './pages/not-found/not-found';
 import { ViewReservations } from './pages/admin/reservacion/view-reservations/view-reservations';
 import { ReservationDetails } from './pages/admin/reservacion/reservation-details/reservation-details';
+import { TCPageComponent } from './pages/T&C/tc-page';
+
 
 const pagoBreadcrumb = (route: ActivatedRouteSnapshot): string => {
   const pagoId = route.paramMap.get('pagoId');
@@ -35,6 +39,9 @@ const reservationBreadcrumb = (route: ActivatedRouteSnapshot): string => {
 import { ListadoReviews } from './pages/listado-reviews/listado-reviews';
 import { ListadoUsers } from './pages/listado-users/listado-users';
 import { Transacciones } from './pages/admin/cajero/transacciones/transacciones';
+import { CerrarSesionCajeroComponent } from './pages/admin/cajero/cerrarsesioncajero/cerrarsesioncajero.component';
+import { Breadcrumb } from '@syncfusion/ej2-navigations';
+import { ReporteCierrePage } from './pages/reporte-cierre-page/reporte-cierre-page';
 
 export const routes: Routes = [
   {
@@ -102,6 +109,11 @@ export const routes: Routes = [
             component: Transacciones,
             data: { breadcrumb: 'Transacciones' },
           },
+          {
+            path: 'cuadrar',
+            component: CerrarSesionCajeroComponent,
+            data: { breadcrumb: 'Cerrar Sesión de Cajero' },
+          },
         ],
       },
       {
@@ -130,6 +142,26 @@ export const routes: Routes = [
         ],
       },
       {
+        path: 'canchas',
+        data: { breadcrumb: 'Canchas' },
+        children: [
+          {
+            path: '',
+            component: AdminCanchasPage,
+          },
+          {
+            path: 'actualizar',
+            component: ActualizarCanchaComponent,
+            data: { breadcrumb: 'Actualizar Cancha' },
+          },
+          {
+            path: 'actualizar/:id',
+            component: ActualizarCanchaComponent,
+            data: { breadcrumb: 'Actualizar Cancha' },
+          },
+        ],
+      },
+      {
         path: 'ver-reservaciones',
         data: { breadcrumb: 'Reservaciones' },
 
@@ -146,6 +178,10 @@ export const routes: Routes = [
         ],
       },
     ],
+  },
+  {
+    path: 'terminos',
+    component: TCPageComponent,
   },
   {
     path: 'not-authorized',

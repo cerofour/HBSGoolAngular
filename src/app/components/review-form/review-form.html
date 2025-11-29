@@ -1,0 +1,25 @@
+<section class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow">
+  <h3 class="text-2xl font-semibold text-center mb-4">Deja tu opinión</h3>
+
+  <div class="flex justify-center mb-4">
+    <button type="button" class="star" (click)="selectRating(1)" [class.selected]="isStarSelected(1)">★</button>
+    <button type="button" class="star" (click)="selectRating(2)" [class.selected]="isStarSelected(2)">★</button>
+    <button type="button" class="star" (click)="selectRating(3)" [class.selected]="isStarSelected(3)">★</button>
+    <button type="button" class="star" (click)="selectRating(4)" [class.selected]="isStarSelected(4)">★</button>
+    <button type="button" class="star" (click)="selectRating(5)" [class.selected]="isStarSelected(5)">★</button>
+  </div>
+
+  <form class="space-y-4" (ngSubmit)="submit()" [formGroup]="form">
+    <div>
+      <label class="sr-only">Comentario</label>
+      <textarea formControlName="comentario" rows="4" placeholder="Escribe tus comentarios aquí..." class="w-full border rounded p-3" maxlength="255"></textarea>
+  <div class="text-right text-sm text-gray-500">{{ (form?.value?.comentario?.length || 0) }}/255</div>
+    </div>
+
+    <div class="flex justify-center">
+      <button type="submit" class="px-6 py-2 bg-primary text-white rounded" [disabled]="form.invalid || sending">
+        {{ sending ? 'Enviando...' : 'Enviar' }}
+      </button>
+    </div>
+  </form>
+</section>
