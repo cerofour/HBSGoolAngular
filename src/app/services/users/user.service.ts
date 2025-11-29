@@ -1,45 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-
-export interface User {
-  userId: number;
-  nombreCompleto: string;
-  documento: string;
-  celular: string;
-  correo: string;
-  activo: boolean;
-  rol: string;
-}
-
-export interface SortInfo {
-  empty: boolean;
-  sorted: boolean;
-  unsorted: boolean;
-}
-
-export interface PageableInfo {
-  sort: SortInfo;
-  offset: number;
-  pageNumber: number;
-  pageSize: number;
-  paged: boolean;
-  unpaged: boolean;
-}
-
-export interface Page<T> {
-  content: T[];
-  pageable?: PageableInfo;
-  totalPages: number;
-  totalElements: number;
-  last: boolean;
-  first: boolean;
-  sort?: SortInfo;
-  numberOfElements?: number;
-  size: number;
-  number: number;
-  empty: boolean;
-}
+import { User } from '../../schemas/user';
+import { Page } from '../../schemas/page';
 
 @Injectable({
   providedIn: 'root',
@@ -50,19 +13,9 @@ export class UserService {
   private apiURLBASE = 'http://152.67.46.79:8080/api/usuario/';
 
   getListadoUsers(
-    page: number,
-    filtros: {
-      name?: string;
-      dni?: string;
-      active?: boolean | string;
-    }
+    { name, dni, active, page = 0, size = 20, sort = "fatherLastname,asc"} : {name?: string, dni?: string, active?: boolean | string, page?: number, size?: number, sort?: string}
   ): Observable<Page<User>> {
-    const params = this.buildParams({
-      page: page - 1,
-      size: 20,
-      sort: 'fatherLastname,desc',
-      ...filtros,
-    });
+    const params = this.buildParams({name, dni, active, page, size, sort});
 
     return this.http.get<Page<User>>(this.apiURLBASE, { params });
   }

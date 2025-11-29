@@ -2,11 +2,12 @@ import { Component, ViewChild, effect, inject } from '@angular/core'
 import { SesionCajeroService } from '../../../services/sesion-cajero/sesion-cajero.service';
 import { AppStateService } from '../../../services/app-state/app-state';
 import { AbrirSesionCajeroComponent } from '../cajero/abrirsesioncajero/abrirsesioncajero.component';
-import { ReservationForAdmin, ReservationService } from '../../../services/reservation/reservation.service';
+import { ReservationService } from '../../../services/reservation/reservation.service';
 import { getDate, getTime } from '../../../utils/general-utils';
 import { ButtonLink } from '../../../components/button-link/button-link';
 import { BreadcrumbsComponent } from '../../../components/breadcrumbs/breadcrumbs';
 import { Button } from '../../../components/button/button';
+import { ReservationForAdmin } from '../../../schemas/reservation';
 import { Modal } from "../../../components/modal/modal";
 import { AuthService } from '../../../services/auth/auth';
 

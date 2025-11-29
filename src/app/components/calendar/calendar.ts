@@ -13,10 +13,13 @@ import {
   ActionEventArgs,
   ScheduleComponent
 } from '@syncfusion/ej2-angular-schedule';
-import { Page, Reservation, ReservationFormCashier, ReservationFormUser, ReservationService } from '../../services/reservation/reservation.service';
+import { ReservationService } from '../../services/reservation/reservation.service';
 import { modalType, ReservationModal } from '../modals/reservation-modal/reservation-modal';
 import { calculateEndTime } from '../../utils/general-utils';
-import { CanchaInfo, CanchaService } from '../../services/cancha/cancha.service';
+import { CanchaService } from '../../services/cancha/cancha.service';
+import { Reservation, ReservationFormCashier, ReservationFormUser } from '../../schemas/reservation';
+import { CanchaInfo } from '../../schemas/cancha';
+import { Page } from '../../schemas/page';
 
 export interface CalendarPermissions {
   canViewDetails: boolean;

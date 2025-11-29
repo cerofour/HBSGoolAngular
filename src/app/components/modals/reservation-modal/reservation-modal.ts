@@ -3,9 +3,9 @@ import { Button } from '../../button/button';
 import { FormGroup, FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ModalContainer } from '../modal-container/modal-container';
-import { ReservationFormCashier, ReservationFormUser } from '../../../services/reservation/reservation.service';
 import { combineDateAndTime, getPostgresInterval, getDate, getTime } from '../../../utils/general-utils';
-import { CanchaInfo } from '../../../services/cancha/cancha.service';
+import { ReservationFormCashier, ReservationFormUser } from '../../../schemas/reservation';
+import { CanchaInfo } from '../../../schemas/cancha';
 
 export type modalType = 'user' | 'cashier';
 

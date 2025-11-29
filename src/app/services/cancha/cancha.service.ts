@@ -1,15 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
+import { CanchaInfo } from '../../schemas/cancha';
 import { tap } from 'rxjs/operators';
-
-export interface CanchaInfo {
-  canchaId: number;
-  name: string;
-  description: string;
-  hourlyPrice: number;
-  canchaState: string;
-}
 
 @Injectable({
   providedIn: 'root'

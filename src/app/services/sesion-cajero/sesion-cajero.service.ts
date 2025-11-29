@@ -4,10 +4,10 @@ import { Observable, share, tap } from 'rxjs';
 import { LastCashierSession } from './last-session';
 import { AppStateService } from '../app-state/app-state';
 import { AbrirSesionCajeroResponse } from './abrir-sesion-response';
-
-import { CashierDTO } from '../cajero-service/cajero.service';
-import { Page } from '../reservation/reservation.service';
-import { buildParams, Pago } from '../pago/pago-service';
+import { buildParams } from '../pago/pago-service';
+import { Page } from '../../schemas/page';
+import { Pago } from '../../schemas/pago';
+import { CashierDTO } from '../../schemas/cajero';
 
 export interface LogoutCashierRequest {
   sesionCajeroId: number;
@@ -50,8 +50,7 @@ export class SesionCajeroService {
 
     return this.http
       .get<LastCashierSession>(
-        `${this.apiPath}/api/sesion_cajero/ultima?usuarioId=${
-          this.appState.getUserProfile()?.idUsuario
+        `${this.apiPath}/api/sesion_cajero/ultima?usuarioId=${this.appState.getUserProfile()?.idUsuario
         }`
       )
       .pipe(
@@ -66,16 +65,17 @@ export class SesionCajeroService {
   }
 
   getResumenCajas(
-    idCajero: number,
-    fechaInicio?: string,
-    fechaFin?: string
-  ): Observable<ResumenCaja[]> {
+    { idCajero, fechaInicio, fechaFin, page = 0, size = 10, sort = "fechaApertura" }: 
+    { idCajero: number, fechaInicio?: string, fechaFin?: string, page?: number, size?: number, sort?: string }): Observable<Page<ResumenCaja>> {
     const params: any = { idCajero };
     if (fechaInicio) params.fechaInicio = fechaInicio;
     if (fechaFin) params.fechaFin = fechaFin;
+    params.page = page;
+    params.size = size;
+    params.sort = sort;
 
     // ruta revisar
-    return this.http.get<ResumenCaja[]>(`${this.apiPath}/api/sesion_cajero/resumen`, { params });
+    return this.http.get<Page<ResumenCaja>>(`${this.apiPath}/api/sesion_cajero/resumen`, { params });
   }
 
   abrirSesionCajero(montoInicial: number): Observable<AbrirSesionCajeroResponse> {
@@ -105,7 +105,7 @@ export class SesionCajeroService {
       page: page - 1, size
     })
 
-    return this.http.get<Page<Pago>>(`${this.apiPath}/api/sesion_cajero/${sessionId}/transaccion`, {params});
+    return this.http.get<Page<Pago>>(`${this.apiPath}/api/sesion_cajero/${sessionId}/transaccion`, { params });
   }
 
   saveSessionId(res: AbrirSesionCajeroResponse) {

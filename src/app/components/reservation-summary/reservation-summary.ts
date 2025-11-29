@@ -1,6 +1,6 @@
 import { Component, computed, Input, signal } from '@angular/core';
-import { ReservationFormCashier, ReservationFormUser } from '../../services/reservation/reservation.service';
 import { calculateEndTime, getDate, getTime } from '../../utils/general-utils';
+import { ReservationFormCashier, ReservationFormUser } from '../../schemas/reservation';
 
 @Component({
   selector: 'app-reservation-summary',
