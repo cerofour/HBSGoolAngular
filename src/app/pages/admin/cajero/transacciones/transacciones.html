@@ -90,7 +90,7 @@
                       Ver detalle de pago
                     </a>
 
-                    @if (pago.medioPago?.toUpperCase() === 'REMOTO') {
+                    @if (pago.medioPago && pago.medioPago.toUpperCase() === 'REMOTO') {
                       <app-button
                         [variant]="evidenciaLoadingIds.has(pago.idPago) ? 'disabled' : 'secondary'"
                         (click)="revisarEvidencia(pago)"
@@ -110,15 +110,15 @@
         @for (pago of transacciones; track pago.idPago) {
           <article class="flex h-full flex-col overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
             <div class="h-40 w-full bg-gray-100">
-              @if (pago.medioPago?.toUpperCase() === 'EFECTIVO') {
+              @if (pago.medioPago && pago.medioPago.toUpperCase() === 'EFECTIVO') {
                 <div class="flex h-full items-center justify-center text-2xl font-semibold text-green-600">
                   {{ pago.cantidadDinero | currency: 'PEN' }}
                 </div>
-              } @else if (pago.medioPago?.toUpperCase() === 'REMOTO' && getEvidenceUrl(pago.idPago)) {
+              } @else if (pago.medioPago && pago.medioPago.toUpperCase() === 'REMOTO' && getEvidenceUrl(pago.idPago)) {
                 <img [src]="getEvidenceUrl(pago.idPago)!" alt="Evidencia de pago"
                   class="h-full w-full object-cover" />
               } @else {
-                <div class="flex h-full items-center justify-center bg-gradient-to-br from-primary/10 to-primary/20 text-primary">
+                <div class="flex h-full items-center justify-center bg-linear-to-br from-primary/10 to-primary/20 text-primary">
                   Pago {{ pago.idPago }}
                 </div>
               }

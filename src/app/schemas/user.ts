@@ -1,12 +1,9 @@
 export interface User {
-  userId: number;
-  name: string;
-  fatherLastname: string;
-  motherLastname: string;
-  dni: string;
-  cellphone: string;
-  email: string;
-  active: boolean;
-  password?: string;
+  idUsuario: number;
+  nombreCompleto: string;
+  documento: string;
+  celular: string;
+  correo: string;
+  activo: boolean;
   rol: string;
 }

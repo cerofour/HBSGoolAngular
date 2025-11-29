@@ -57,7 +57,6 @@ export class ListadoUsers implements OnInit {
     this.userService.getListadoUsers(filtros).subscribe({
       next: (resp) => {
         this.users = resp.content;
-        /*
         this.totalElements = resp.totalElements ?? 0;
         this.pageSize = resp.size ?? this.pageSize;
         this.totalPages = resp.totalPages ?? 1;

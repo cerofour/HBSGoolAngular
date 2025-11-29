@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CanchaCard } from '../../../components/card/card';
-import { CanchaService, CanchaInfo } from '../../../services/cancha/cancha.service';
+import { CanchaService } from '../../../services/cancha/cancha.service';
+import { CanchaInfo } from '../../../schemas/cancha';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs';
 

@@ -14,7 +14,7 @@ import { AppStateService } from '../../../../services/app-state/app-state';
 @Component({
   selector: 'app-listado-cajas',
   standalone: true,
-  imports: [CommonModule, FormsModule, Button, BreadcrumbsComponent, AppTable, Pagination, Badge, ButtonLink, RouterModule, RouterOutlet],
+  imports: [CommonModule, FormsModule, Button, BreadcrumbsComponent, AppTable, Pagination, Badge, ButtonLink, RouterModule],
   templateUrl: './listadocajas.component.html',
 })
 export class ListadoCajasComponent implements OnInit {
