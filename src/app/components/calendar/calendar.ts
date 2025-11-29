@@ -17,7 +17,7 @@ import { ReservationService } from '../../services/reservation/reservation.servi
 import { modalType, ReservationModal } from '../modals/reservation-modal/reservation-modal';
 import { calculateEndTime } from '../../utils/general-utils';
 import { CanchaService } from '../../services/cancha/cancha.service';
-import { Reservation, ReservationFormCashier, ReservationFormUser } from '../../schemas/reservation';
+import { Reservation, ReservationForm } from '../../schemas/reservation';
 import { CanchaInfo } from '../../schemas/cancha';
 import { Page } from '../../schemas/page';
 
@@ -49,7 +49,7 @@ export class Calendar {
   @Input() allowPastDates: boolean = true;
   @Input() modalType: modalType = 'user';
   @Input() modalTitle: string = 'Nueva Reservación';
-  @Input() initialModalData?: Partial<ReservationFormUser | ReservationFormCashier>;
+  @Input() initialModalData?: Partial<ReservationForm>;
   @Input({ required: true }) canchaId!: number;
   @Input() permissions: CalendarPermissions = {
     canViewDetails: true,

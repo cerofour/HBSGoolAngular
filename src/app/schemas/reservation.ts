@@ -26,18 +26,7 @@ export interface ReservationForAdmin {
   estadoReservacion: string;
 }
 
-export interface ReservationAsUserResult {
-  usuarioId: number;
-  canchaId: number;
-  dni: string;
-  fechaInicio: string;
-  duracion: string;
-  precioTotal: string;
-  estado: string;
-  saldo: string;
-}
-
-export interface ReservationFormUser {
+export interface ReservationForm {
   canchaId: number;
   tiempoInicio: string;
   dni: string;
@@ -46,7 +35,7 @@ export interface ReservationFormUser {
   medioPago: string;
 }
 
-export interface ReservationAsCashierResult {
+export interface ReservationResult {
   usuarioId: number;
   canchaId: number;
   dni: string;
@@ -54,12 +43,5 @@ export interface ReservationAsCashierResult {
   duracion: string;
   precioTotal: string;
   estado: string;
-}
-
-export interface ReservationFormCashier {
-  canchaId: number;
-  tiempoInicio: string;
-  dni: string;
-  duracion: string;
-  medioPago: string;
+  saldo: string;
 }

@@ -11,7 +11,7 @@ import { Button } from '../../components/button/button';
 import { AppStateService } from '../../services/app-state/app-state';
 import { FormsModule, NgForm } from "@angular/forms";
 import { CommonModule } from '@angular/common';
-import { ReservationFormCashier, ReservationFormUser } from '../../schemas/reservation';
+import { ReservationForm } from '../../schemas/reservation';
 
 @Component({
   selector: 'app-reservation-page',
@@ -30,7 +30,7 @@ export class ReservationPage {
   selectedImage: File | null = null;
   previewImage: string | ArrayBuffer | null = null;
 
-  reservationData = signal<(ReservationFormUser | ReservationFormCashier) & { totalPrice?: number } | null>(null);
+  reservationData = signal<(ReservationForm) & { totalPrice?: number } | null>(null);
   paymentAmount: number = 0;
   minPaymentAmount = signal(0);
   maxPaymentAmount = signal(0);
@@ -56,7 +56,7 @@ export class ReservationPage {
     this.canchaId = Number(this.route.snapshot.paramMap.get('canchaId'));
   }
 
-  handleReservationConfirmed(data: (ReservationFormUser | ReservationFormCashier) & { totalPrice?: number }) {
+  handleReservationConfirmed(data: (ReservationForm) & { totalPrice?: number }) {
     this.reservationData.set(data);
     this.confirmed.set(true);
 
@@ -141,11 +141,12 @@ export class ReservationPage {
     if (rol === undefined) return
     
     if (this.reservationData() !== null) {
+      this.reservationData.update(prev => ({...prev!, montoInicial: this.paymentAmount}));
+
       if (rol === 'CASHIER')
-        this.reservationService.creationReservationAsCashier(this.reservationData() as ReservationFormCashier, this.selectedImage).subscribe();
-      else if (rol === 'USER' && this.selectedImage !== null){
-        this.reservationData.update(prev => ({...prev!, montoInicial: this.paymentAmount}));
-        this.reservationService.creationReservationAsUser(this.reservationData() as ReservationFormUser, this.selectedImage).subscribe();}
+        this.reservationService.creationReservationAsCashier(this.reservationData() as ReservationForm, this.selectedImage).subscribe();
+      else if (rol === 'USER' && this.selectedImage !== null)
+        this.reservationService.creationReservationAsUser(this.reservationData() as ReservationForm, this.selectedImage).subscribe();
     }
 
     this.resetReservationFlow();
