@@ -40,8 +40,7 @@ import { ListadoReviews } from './pages/listado-reviews/listado-reviews';
 import { ListadoUsers } from './pages/listado-users/listado-users';
 import { Transacciones } from './pages/admin/cajero/transacciones/transacciones';
 import { CerrarSesionCajeroComponent } from './pages/admin/cajero/cerrarsesioncajero/cerrarsesioncajero.component';
-import { Breadcrumb } from '@syncfusion/ej2-navigations';
-import { ReporteCierrePage } from './pages/reporte-cierre-page/reporte-cierre-page';
+import { MisReservaciones } from './pages/usuario/mis-reservaciones/mis-reservaciones';
 
 export const routes: Routes = [
   {
@@ -60,6 +59,17 @@ export const routes: Routes = [
     path: 'reservar/:canchaId',
     component: ReservationPage,
     canActivate: [isLoggedInGuard],
+  },
+  {
+    path: 'usuario',
+    canActivate: [isLoggedInGuard],
+    children: [
+      {
+        path: 'mis-reservaciones',
+        component: MisReservaciones,
+        data: { breadcrumb: 'Mis reservaciones' }
+      }
+    ]
   },
   {
     path: 'admin',

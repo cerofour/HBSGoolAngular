@@ -131,6 +131,7 @@ export class ProfileDropdownComponent {
 
   onMyReservations(): void {
     this.requestMyReservations.emit();
+    this.router.navigate(['/usuario', 'mis-reservaciones'])
     this.close();
   }
 
