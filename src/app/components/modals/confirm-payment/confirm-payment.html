@@ -4,15 +4,13 @@
         class="w-full h-64 border-2 border-dashed border-gray-300 rounded-2xl flex items-center justify-center overflow-hidden bg-gray-50">
         @if (imageSrc) {
             <img [src]="imageSrc" alt="Imagen subida" class="w-full h-full object-cover" />
-        } @else {
-            {{onClose.emit()}}
         }
     </div>
 
     @if (imageSrc) {
         <div class="flex m-3 justify-between items-center">
-            <app-button (click)="onClose.emit()" [variant]="'neutral'">Cancelar</app-button>
-            <app-button (click)="confirm()" [variant]="'primary'">Enviar</app-button>
+            <app-button (click)="onClose.emit()" [variant]="'neutral'" [disabled]="isProcessing()" >Cancelar</app-button>
+            <app-button (click)="confirm()" [variant]="'primary'" [disabled]="isProcessing()">{{ isProcessing() ? 'Enviando...' : 'Enviar' }}</app-button>
         </div>
     }
 </app-modal-container>

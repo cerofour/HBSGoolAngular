@@ -5,7 +5,7 @@ import { throwError } from 'rxjs';
 import { ToastService } from '../services/toast/toast.service';
 
 const SILENT_ENDPOINTS = [
-  '/auth',
+  '/auth', '/api/reviews', '/api/cierre_cajero', '/api/sesion_cajero'
 ];
 
 export const toastInterceptor: HttpInterceptorFn = (req, next) => {

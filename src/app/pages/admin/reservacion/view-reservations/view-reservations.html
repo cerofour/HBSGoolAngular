@@ -54,7 +54,7 @@
   @if (cargando) {
     <p class="text-gray-600">Cargando información...</p>
   } @else if (!cargando && reservations.length === 0) {
-    <p class="text-gray-600">No hay informaciónpara mostrar.</p>
+    <p class="text-gray-600">No hay información para mostrar.</p>
   } @else {
     <div class="overflow-x-auto rounded-lg border border-gray-200">
       <app-table>
@@ -162,7 +162,7 @@
       @if (shouldRequestEvidence()) {
       <label class="flex flex-col gap-1 text-sm text-gray-700">
         Evidencia *
-        <input type="file" (change)="onEvidenceChange($event)" accept="image/*,.pdf"
+        <input type="file" (change)="onEvidenceChange($event)" accept="image/*"
           class="rounded-md border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" />
       </label>
       }

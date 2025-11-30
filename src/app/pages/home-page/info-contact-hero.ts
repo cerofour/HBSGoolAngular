@@ -43,11 +43,15 @@ import { AppStateService } from '../../services/app-state/app-state';
         </div>
       </div>
     </section>
-    <div class="py-8 bg-gray-50">
-      <div class="max-w-7xl mx-auto px-4">
-  <app-review-form *ngIf="isUser()"></app-review-form>
+    @if(isUser()) {
+      <div class="py-8">
+        <div class="max-w-4xl mx-auto px-4">
+          <div class="rounded-2xl shadow-xl">
+            <app-review-form></app-review-form>
+          </div>
+        </div>
       </div>
-    </div>
+    }
   `,
   imports: [CommonModule, ReviewFormComponent],
 })

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
 import { Button } from '../../button/button';
 import { ModalContainer } from '../modal-container/modal-container';
 
@@ -12,7 +12,15 @@ export class ConfirmPayment {
   @Output() onClose: EventEmitter<void> = new EventEmitter<void>();
   @Output() onConfirm = new EventEmitter<void>();
 
+  isProcessing = signal(false);
+  
+  ngOnInit() {
+    if (!this.imageSrc) this.onClose.emit();
+  }
+
   confirm() {
+    if(this.isProcessing()) return;
+    this.isProcessing.set(true);
     this.onConfirm.emit();
   }
 }
