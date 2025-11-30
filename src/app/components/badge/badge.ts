@@ -1,6 +1,6 @@
 import { Component, input } from '@angular/core';
 
-type BadgeVariant = 'success' | 'danger' | 'neutral';
+type BadgeVariant = 'success' | 'danger' | 'neutral' | 'warning';
 
 interface VariantTokens {
   containerClass: string;
@@ -44,6 +44,12 @@ export class Badge {
       iconWrapperClass: `${this.baseIconWrapperClass} bg-slate-500/10 text-slate-600`,
       iconStroke: 'currentColor',
       paths: ['M12 8h.01', 'M12 12v4'],
+    },
+    warning: {
+      containerClass: `${this.baseContainerClass} bg-orange-50 text-orange-700 ring-orange-600/20`,
+      iconWrapperClass: `${this.baseIconWrapperClass} bg-orange-500/10 text-orange-600`,
+      iconStroke: 'currentColor',
+      paths: ['M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z'],
     },
   };
 
