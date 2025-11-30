@@ -3,9 +3,9 @@ import { Button } from '../../button/button';
 import { FormGroup, FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ModalContainer } from '../modal-container/modal-container';
-import { ReservationFormCashier, ReservationFormUser } from '../../../services/reservation/reservation.service';
 import { combineDateAndTime, getPostgresInterval, getDate, getTime } from '../../../utils/general-utils';
-import { CanchaInfo } from '../../../services/cancha/cancha.service';
+import { ReservationForm } from '../../../schemas/reservation';
+import { CanchaInfo } from '../../../schemas/cancha';
 
 export type modalType = 'user' | 'cashier';
 
@@ -21,7 +21,7 @@ export class ReservationModal {
   @Input() availableHours: string[] = [];
   @Input() modalType: modalType = 'user';
   @Output() onClose: EventEmitter<void> = new EventEmitter<void>();
-  @Output() onConfirm = new EventEmitter<(ReservationFormCashier | ReservationFormUser) & { totalPrice?: number }>()
+  @Output() onConfirm = new EventEmitter<(ReservationForm) & { totalPrice?: number }>()
 
   form!: FormGroup;
   duracion: string = '';
@@ -57,32 +57,22 @@ export class ReservationModal {
 
     let newData;
 
-    if(this.modalType === 'cashier') newData = this.createCashierData();
-    else newData = this.createUserData();
+    if(this.modalType === 'cashier') newData = this.createData(false);
+    else newData = this.createData(true);
 
     newData = { ...newData, totalPrice: this.totalPrice() };
     
     this.onConfirm.emit(newData);
   }
 
-  private createUserData(): ReservationFormUser {
+  private createData(isUser: boolean): ReservationForm {
     return {
       canchaId: this.cancha.canchaId,
       tiempoInicio: this.startTime,
       dni: this.dni,
       duracion: this.duracion,
       montoInicial: 0,
-      medioPago: 'REMOTO',
-    }
-  }
-
-  private createCashierData(): ReservationFormCashier {
-    return {
-      canchaId: this.cancha.canchaId,
-      tiempoInicio: this.startTime,
-      dni: this.dni,
-      duracion: this.duracion,
-      medioPago: this.medioPago
+      medioPago: isUser ? 'REMOTO' : this.medioPago,
     }
   }
 }

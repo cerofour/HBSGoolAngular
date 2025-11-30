@@ -1,27 +1,31 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { SesionCajeroService, ResumenCaja } from '../../../../services/sesion-cajero.service';
+import { SesionCajeroService, ResumenCaja } from '../../../../services/sesion-cajero/sesion-cajero.service';
 import { Button } from '../../../../components/button/button';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule, RouterOutlet } from '@angular/router';
 import { BreadcrumbsComponent } from '../../../../components/breadcrumbs/breadcrumbs';
 import { Pagination } from '../../../../components/pagination/pagination';
 import { AppTable } from '../../../../components/table/table';
+import { Badge } from '../../../../components/badge/badge';
+import { ButtonLink } from "../../../../components/button-link/button-link";
+import { AppStateService } from '../../../../services/app-state/app-state';
 
 @Component({
   selector: 'app-listado-cajas',
   standalone: true,
-  imports: [CommonModule, FormsModule, Button, BreadcrumbsComponent, AppTable, Pagination],
+  imports: [CommonModule, FormsModule, Button, BreadcrumbsComponent, AppTable, Pagination, Badge, ButtonLink, RouterModule],
   templateUrl: './listadocajas.component.html',
 })
 export class ListadoCajasComponent implements OnInit {
 
   route = inject(ActivatedRoute);
+  appState = inject(AppStateService);
 
   fechaInicio: string = '';
   fechaFin: string = '';
-  listadoCajas: ResumenCaja[] = [];
-  cargando: boolean = false;
+  summaryList: ResumenCaja[] = [];
+  loading: boolean = false;
   errorMsg: string | null = null;
 
   cajeroId!: number;
@@ -29,11 +33,15 @@ export class ListadoCajasComponent implements OnInit {
   page: number = 1;
   pageSize: number = 20;
   totalElements: number = 0;
+  totalPages: number = 1;
 
   constructor(private sesionCajeroService: SesionCajeroService) {}
 
   ngOnInit(): void {
-    this.cajeroId = Number(this.route.snapshot.paramMap.get('cajeroId'));
+
+    let cashierIdParam = this.route.snapshot.paramMap.get('cajeroId');
+
+    this.cajeroId = (cashierIdParam) ? Number(cashierIdParam) : (this.appState.getCashierSession()?.sessionId ?? 0);
     this.loadPage(this.page);
   }
 
@@ -44,20 +52,29 @@ export class ListadoCajasComponent implements OnInit {
 
   obtenerListado(): void {
     this.errorMsg = null;
-    this.cargando = true;
+    this.loading = (true);
+
+    const filters: any = {
+      idCajero: this.cajeroId ?? undefined,
+      fechaInicio: this.fechaInicio ?? undefined,
+      fechaFin: this.fechaFin ?? undefined,
+      page: this.page - 1,
+      size: this.pageSize,
+    };
 
     this.sesionCajeroService
-      .getResumenCajas(this.cajeroId, this.fechaInicio, this.fechaFin)
+      .getResumenCajas(filters)
       .subscribe({
         next: (data) => {
-          this.listadoCajas = data ?? [];
-          this.totalElements = data.length; 
-          this.cargando = false;
+          this.summaryList = data.content ?? [];
+          this.totalElements = data.content.length;
+          this.totalPages = data.totalPages;
+          this.loading = false;
         },
         error: (err) => {
           console.error(err);
           this.errorMsg = 'Ocurrió un error al obtener el listado. Intenta nuevamente.';
-          this.cargando = false;
+          this.loading = false;
         },
       });
   }
@@ -81,5 +98,9 @@ export class ListadoCajasComponent implements OnInit {
     if (newPage !== this.page) {
       this.loadPage(newPage);
     }
+  }
+
+  getTransaccionesRoute(sesionId: number): (string | number)[] {
+    return ['/admin', 'cajero', 'transacciones', sesionId];
   }
 }

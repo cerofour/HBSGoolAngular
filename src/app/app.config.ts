@@ -4,11 +4,12 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
-import { interceptor } from './interceptors/interceptor';
+import { authInterceptor } from './interceptors/auth-interceptor';
+import { toastInterceptor } from './interceptors/toast-interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideHttpClient(withInterceptors([interceptor]), withFetch()),
+    provideHttpClient(withInterceptors([authInterceptor, toastInterceptor]), withFetch()),
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes), provideClientHydration(withEventReplay())

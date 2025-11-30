@@ -1,0 +1,35 @@
+ @keyframes slideInRight {
+     from {
+         opacity: 0;
+         transform: translateX(50px);
+     }
+
+     to {
+         opacity: 1;
+         transform: translateX(0);
+     }
+ }
+
+ @keyframes slideOutRight {
+     from {
+         opacity: 1;
+         transform: translateX(0);
+     }
+
+     to {
+         opacity: 0;
+         transform: translateX(50px);
+     }
+ }
+
+ .toast-item {
+     animation-name: slideInRight, slideOutRight;
+
+     animation-duration: 250ms, 200ms;
+
+     animation-timing-function: ease-out, ease-in;
+
+     animation-delay: 0ms, 4250ms; /* 250ms (entrada) + 4000ms (espera) */
+
+     animation-fill-mode: forwards, forwards;
+ }

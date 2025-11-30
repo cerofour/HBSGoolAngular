@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ReservarPage } from './reservar-page';
+import { BovedaPage } from './boveda-page';
 
-describe('ReservarPage', () => {
-  let component: ReservarPage;
-  let fixture: ComponentFixture<ReservarPage>;
+describe('BovedaPage', () => {
+  let component: BovedaPage;
+  let fixture: ComponentFixture<BovedaPage>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ReservarPage]
+      imports: [BovedaPage]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ReservarPage);
+    fixture = TestBed.createComponent(BovedaPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

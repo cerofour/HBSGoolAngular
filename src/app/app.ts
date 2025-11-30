@@ -1,14 +1,14 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Button } from './components/button/button';
 import { Navbar } from './components/navbar/navbar';
 import { Footer } from './components/footer/footer';
-import { AuthService } from './services/auth';
+import { AuthService } from './services/auth/auth';
+import { ToastComponent } from './components/toast/toast';
 
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Navbar, Footer],
+  imports: [RouterOutlet, Navbar, Footer, ToastComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

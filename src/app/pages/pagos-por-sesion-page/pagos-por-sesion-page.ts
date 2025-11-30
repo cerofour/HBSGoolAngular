@@ -1,10 +1,12 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { PageResponse, Pago, PagoService } from '../../services/pago/pago-service';
+import { PagoService } from '../../services/pago/pago-service';
 import { AppTable } from '../../components/table/table';
 import { Pagination } from '../../components/pagination/pagination';
 import { Badge } from '../../components/badge/badge';
+import { Page } from '../../schemas/page';
+import { Pago } from '../../schemas/pago';
 
 @Component({
   selector: 'app-pagos-por-sesion-page',
@@ -42,7 +44,7 @@ export class PagosPorSesionPage implements OnInit {
     this.error = null;
 
     this.pagoService.getPagosPorSesion(this.sesionCajeroId!, p, this.pageSize).subscribe({
-      next: (resp: PageResponse<Pago>) => {
+      next: (resp: Page<Pago>) => {
         this.pagos = resp.content ?? [];
         this.totalElements = resp.totalElements ?? 0;
         this.pageSize = resp.size ?? this.pageSize;

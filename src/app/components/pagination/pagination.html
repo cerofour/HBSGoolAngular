@@ -1,7 +1,7 @@
 <nav class="flex items-center justify-between gap-3 text-sm select-none">
   <div class="text-gray-600">
     Página <span class="font-medium text-gray-900">{{ currentPage() }}</span>
-    de <span class="font-medium text-gray-900">{{ totalPages }}</span>
+    de <span class="font-medium text-gray-900">{{ totalPages() }}</span>
   </div>
 
   <div class="flex items-center gap-2">
@@ -19,7 +19,7 @@
       <input #pageInput
         type="number"
         min="1"
-        [max]="totalPages"
+        [max]="totalPages()"
         [value]="currentPage()"
         (keyup.enter)="goTo(pageInput.value)"
         (change)="goTo(pageInput.value)"

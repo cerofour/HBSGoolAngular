@@ -1,6 +1,7 @@
 import { Component, computed, inject } from '@angular/core';
 import { AppStateService } from '../../services/app-state/app-state';
-import { Route, RouterLink, RouterLinkActive } from '@angular/router';
+import { Route, Router, RouterLink, RouterLinkActive, NavigationEnd } from '@angular/router';
+import { filter, take } from 'rxjs/operators';
 import { ProfileDropdownComponent } from '../profile-dropdown/profile-dropdown';
 import { routes } from '../../app.routes';
 import { AdminNavDropdownComponent, AdminNavItem } from './admin-nav-dropdown';
@@ -22,10 +23,10 @@ import { AdminNavDropdownComponent, AdminNavItem } from './admin-nav-dropdown';
 
         <!-- Navigation Links -->
         <div class="flex items-center gap-6">
-          <a href="#" class="text-gray-700 hover:text-primary transition-colors duration-200">
+          <a href="#" (click)="scrollToContacto($event)" class="text-gray-700 hover:text-primary transition-colors duration-200">
             Contacto
           </a>
-          <a href="#" class="text-gray-700 hover:text-primary transition-colors duration-200">
+          <a href="#" (click)="scrollToVisitanos($event)" class="text-gray-700 hover:text-primary transition-colors duration-200">
             Ubícanos
           </a>
 
@@ -76,9 +77,80 @@ export class Navbar {
     return role === 'ADMIN' || role === 'CASHIER';
   });
   protected readonly adminNavItems: AdminNavItem[] = ADMIN_NAV_ITEMS;
+  private readonly router = inject(Router);
 
   constructor() {
     console.log(this.appStateService.getUserProfile());
+  }
+
+  scrollToContacto(event: Event) {
+    event.preventDefault();
+    // Intento inmediato y reintentos si no existe aún
+    const existing = document.getElementById('contacto');
+    if (existing) {
+      existing.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      return;
+    }
+
+    // Navegar al home y luego intentar hacer scroll con reintentos
+    this.router.navigate(['/'], { fragment: 'contacto' }).then(() => {
+      // Esperamos NavigationEnd y luego hacemos reintentos si hace falta
+      this.router.events.pipe(filter((e) => e instanceof NavigationEnd), take(1)).subscribe(() => {
+        this.scrollToElementWithRetry('contacto');
+      });
+    });
+  }
+
+  scrollToVisitanos(event: Event) {
+    event.preventDefault();
+    const existing = document.getElementById('visitanos');
+    if (existing) {
+      existing.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      return;
+    }
+
+    this.router.navigate(['/'], { fragment: 'visitanos' }).then(() => {
+      this.router.events.pipe(filter((e) => e instanceof NavigationEnd), take(1)).subscribe(() => {
+        this.scrollToElementWithRetry('visitanos');
+      });
+    });
+  }
+
+  private scrollToElementWithRetry(id: string, attempts = 20, delay = 150) {
+    let tries = 0;
+    let timer: number | null = null;
+
+    const tryScroll = () => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (timer !== null) {
+          clearInterval(timer);
+        }
+        return;
+      }
+
+      tries++;
+      if (tries >= attempts) {
+        if (timer !== null) {
+          clearInterval(timer);
+        }
+      }
+    };
+
+    // Iniciar interval y ejecutar inmediatamente
+    timer = window.setInterval(tryScroll, delay) as unknown as number;
+    tryScroll();
+  }
+
+  private scrollToFragment() {
+    const el = document.getElementById('contacto');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      // si no existe el elemento, navegar al home para que lo cargue
+      // (no hacemos nada más)
+    }
   }
 
   handleReservar(): void {

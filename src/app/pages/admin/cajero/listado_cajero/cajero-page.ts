@@ -1,9 +1,10 @@
 import { CommonModule, NgClass } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { RouterLink, RouterModule, RouterOutlet } from '@angular/router';
-import { CajeroService, CashierDTO } from '../../../../services/cajero.service';
+import { CajeroService } from '../../../../services/cajero-service/cajero.service';
 import { AppTable } from '../../../../components/table/table';
 import { BreadcrumbsComponent } from '../../../../components/breadcrumbs/breadcrumbs';
+import { CashierDTO } from '../../../../schemas/cajero';
 
 @Component({
   selector: 'app-cajero-page',
@@ -41,7 +42,6 @@ export class CajeroPage {}
           <ng-container table-header>
             <tr>
               <th class="px-4 py-3 font-medium">ID Cajero</th>
-              <th class="px-4 py-3 font-medium">ID Usuario</th>
               <th class="px-4 py-3 font-medium">Nombre Completo</th>
               <th class="px-4 py-3 font-medium">Email</th>
               <th class="px-4 py-3 font-medium">DNI</th>
@@ -57,10 +57,9 @@ export class CajeroPage {}
                     class="text-primary underline decoration-transparent transition hover:decoration-primary"
                     [routerLink]="['resumen', cajero.idCajero]"
                   >
-                    {{ cajero.idCajero }} (Ver Resumen)
+                    (Ver Resumen)
                   </a>
                 </td>
-                <td class="px-4 py-3">{{ cajero.idUsuario }}</td>
                 <td class="px-4 py-3">{{ cajero.nombreCompleto }}</td>
                 <td class="px-4 py-3">{{ cajero.email }}</td>
                 <td class="px-4 py-3">{{ cajero.dni }}</td>
