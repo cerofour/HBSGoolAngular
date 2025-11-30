@@ -41,6 +41,7 @@ import { ListadoUsers } from './pages/listado-users/listado-users';
 import { Transacciones } from './pages/admin/cajero/transacciones/transacciones';
 import { CerrarSesionCajeroComponent } from './pages/admin/cajero/cerrarsesioncajero/cerrarsesioncajero.component';
 import { MisReservaciones } from './pages/usuario/mis-reservaciones/mis-reservaciones';
+import { BovedaPage } from './pages/admin/boveda-page/boveda-page';
 
 export const routes: Routes = [
   {
@@ -170,6 +171,11 @@ export const routes: Routes = [
             data: { breadcrumb: 'Actualizar Cancha' },
           },
         ],
+      },
+      {
+        path: 'Boveda',
+        data: { breadcrumb: 'Bóveda' },
+        component: BovedaPage
       },
       {
         path: 'ver-reservaciones',
