@@ -10,11 +10,12 @@ import { PagoService } from '../../../../services/pago/pago-service';
 import { Modal } from '../../../../components/modal/modal';
 import { ReservationForAdmin } from '../../../../schemas/reservation';
 import { AppStateService } from '../../../../services/app-state/app-state';
+import { Pagination } from '../../../../components/pagination/pagination';
 
 @Component({
   selector: 'app-view-reservations',
   standalone: true,
-  imports: [CommonModule, FormsModule, Button, AppTable, RouterModule, BreadcrumbsComponent, Modal],
+  imports: [CommonModule, FormsModule, Button, AppTable, RouterModule, BreadcrumbsComponent, Modal, Pagination],
   templateUrl: `./view-reservations.html`,
   styleUrl: './view-reservations.css',
 })
@@ -24,11 +25,10 @@ export class ViewReservations {
   private reservationService = inject(ReservationService);
   private pagoService = inject(PagoService);
   private appState = inject(AppStateService);
-  reservations: ReservationForAdmin[] = [];
-
+  
   cargando: boolean = false;
   errorMsg: string | null = null;
-
+  
   selectedReservation: ReservationForAdmin | null = null;
   paymentForm = {
     cantidadDinero: 0,
@@ -37,18 +37,38 @@ export class ViewReservations {
   };
   completePaymentError: string | null = null;
   completePaymentLoading = false;
-
+  
+  reservations: ReservationForAdmin[] = [];
+  
   // Filtros
   usuarioId?: number;
   canchaId?: number;
   estado: string = '';
   dni: string = '';
 
+  // Pagination state
+  page = 1;
+  pageSize = 20;
+  totalElements = 0;
+  totalPages = 1;
+
   ngOnInit() {
+    this.loadPage(this.page);
+  }
+
+  loadPage(p: number): void {
+    this.page = p;
     this.obtenerListado();
   }
 
+  onPageChange(p: number): void {
+    if (p !== this.page) {
+      this.loadPage(p);
+    }
+  }
+
   filtrar(): void {
+    this.page = 1;
     this.obtenerListado();
   }
 
@@ -61,12 +81,18 @@ export class ViewReservations {
       canchaId: this.canchaId,
       estado: this.estado || undefined,
       dni: this.dni || undefined,
+      page: this.page - 1,
+      size: this.pageSize
     };
 
     this.reservationService.getListReservationAdmin(filters).subscribe({
       next: (data) => {
-        this.reservations = data.content;
+        this.reservations = data.content ?? [];
         this.cargando = false;
+        this.totalElements = data.totalElements ?? 0;
+        this.pageSize = data.size ?? this.pageSize;
+        this.totalPages = data.totalPages ?? 1;
+
       },
       error: (err) => {
         console.error(err);
@@ -78,7 +104,7 @@ export class ViewReservations {
 
   getEstadoClass(estado: string): string {
     const baseClasses = 'inline-block rounded-full px-2 py-1 text-xs font-medium';
-    
+
     switch (estado) {
       case 'CONFIRMADA':
       case 'COMPLETADA':
@@ -148,6 +174,7 @@ export class ViewReservations {
       next: () => {
         this.completePaymentLoading = false;
         this.closeCompletePaymentModal();
+        this.page = 1;
         this.obtenerListado();
       },
       error: (err) => {

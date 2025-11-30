@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Page } from '../../schemas/page';
-import { Reservation, ReservationAsCashierResult, ReservationAsUserResult, ReservationForAdmin, ReservationFormCashier, ReservationFormUser } from '../../schemas/reservation';
+import { Reservation, ReservationForAdmin, ReservationForm, ReservationResult } from '../../schemas/reservation';
 
 @Injectable({
   providedIn: 'root'
@@ -46,24 +46,24 @@ export class ReservationService {
   }
 
   //ROLE: USER
-  creationReservationAsUser(data: ReservationFormUser, file: File): Observable<ReservationAsUserResult> {
+  creationReservationAsUser(data: ReservationForm, file: File): Observable<ReservationResult> {
     const formData = new FormData();
 
     formData.append('data', new Blob([JSON.stringify(data)], { type: 'application/json'}));
     formData.append('evidencia', file, file.name);
 
-    return this.http.post<ReservationAsUserResult>(`${this.apiURLBASE}`, formData);
+    return this.http.post<ReservationResult>(`${this.apiURLBASE}`, formData);
 
   }
 
   //ROLE: ADMIN OR CASHIER
-  creationReservationAsCashier(data: ReservationFormCashier, file: File | null): Observable<ReservationAsCashierResult> {
+  creationReservationAsCashier(data: ReservationForm, file: File | null): Observable<ReservationResult> {
     const formData = new FormData();
 
     formData.append('data', new Blob([JSON.stringify(data)], { type: 'application/json'}));
     formData.append('evidencia', file ?? new Blob([]), file === null ? '' : file.name);
 
-    return this.http.post<ReservationAsCashierResult>(`${this.apiURLBASE}/cajero`, formData);
+    return this.http.post<ReservationResult>(`${this.apiURLBASE}/cajero`, formData);
 
   }
 

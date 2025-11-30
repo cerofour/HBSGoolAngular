@@ -53,16 +53,16 @@
     }
 
     <div class="flex justify-between items-center">
-      <label class="block text-gray-700 font-medium mb-1 w-1/2">Cliente (DNI)</label>
+      <label class="block text-gray-700 font-medium mb-1 w-1/2">Cliente (DNI | CE)</label>
       <input
         type="text"
         [(ngModel)]="dni"
         name="dni"
         required
         minlength="8"
-        maxlength="8"
-        pattern="[0-9]*"
-        placeholder="DNI"
+        maxlength="12"
+        pattern="^(\d{8}|\d{12})$"
+        placeholder="DNI o CE"
         class="w-1/2 border border-(--color-border-stroke) rounded-full px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
         [ngClass]="{ 'border-red-500': reservationForm.submitted && !reservationForm.controls['dni']?.valid }"
       />
