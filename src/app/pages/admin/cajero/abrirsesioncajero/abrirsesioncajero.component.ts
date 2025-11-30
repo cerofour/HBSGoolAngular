@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Button } from '../../../../components/button/button';
 import { Modal } from '../../../../components/modal/modal';
-import { SesionCajeroService } from '../../../../services/sesion-cajero/sesion-cajero.service';
+import { SesionCajeroService } from '../../../../services/sesion-cajero.service';
 
 @Component({
   selector: 'app-abrir-sesion-cajero',

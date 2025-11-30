@@ -2,7 +2,7 @@ import { Component, HostListener, inject, input, output, signal } from '@angular
 import { CommonModule } from '@angular/common';
 import { AppStateService } from '../../services/app-state/app-state';
 import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth/auth';
+import { AuthService } from '../../services/auth';
 
 @Component({
   selector: 'app-profile-dropdown',
@@ -131,7 +131,6 @@ export class ProfileDropdownComponent {
 
   onMyReservations(): void {
     this.requestMyReservations.emit();
-    this.router.navigate(['/usuario', 'mis-reservaciones'])
     this.close();
   }
 

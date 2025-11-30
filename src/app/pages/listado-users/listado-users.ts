@@ -6,8 +6,7 @@ import { AppTable } from '../../components/table/table';
 import { Pagination } from '../../components/pagination/pagination';
 import { Button } from '../../components/button/button';
 
-import { UserService } from '../../services/users/user.service';
-import { User } from '../../schemas/user';
+import { UserService, User } from '../../services/users/user.service';
 
 @Component({
   selector: 'app-listado-users',
@@ -46,22 +45,21 @@ export class ListadoUsers implements OnInit {
     this.errorMsg = null;
 
     const filtros: any = {
-      page: page - 1,
-      size: 20,
-      sort: "userId",
       name: this.name || undefined,
       dni: this.dni || undefined,
       active: this.active || undefined,
     };
 
-    this.userService.getListadoUsers(filtros).subscribe({
+    this.userService.getListadoUsers(page, filtros).subscribe({
       next: (resp) => {
-        this.users = resp.content;
+        this.users = (resp as User[]) ?? [];
+        /*
         this.totalElements = resp.totalElements ?? 0;
         this.pageSize = resp.size ?? this.pageSize;
         this.totalPages = resp.totalPages ?? 1;
 
-        this.page = resp.number + 1
+        this.page = (resp.number ?? (page - 1)) + 1;
+        */
 
         this.cargando = false;
       },

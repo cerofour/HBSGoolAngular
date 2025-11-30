@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import { Route, RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-footer',
   standalone: true,
-  imports: [RouterLink],
+  imports: [],
   template: `
     <footer class="w-full bg-primary text-white">
       <div class="max-w-7xl mx-auto px-4 py-8">
@@ -43,12 +42,12 @@ import { Route, RouterLink, RouterLinkActive } from '@angular/router';
           </div>
 
           <!-- Contacto -->
-          <div id="contacto">
+          <div>
             <h3 class="text-lg font-semibold mb-4">Contacto</h3>
             <ul class="space-y-2 text-gray-200 text-sm">
               <li>
                 <i class="fas fa-phone mr-2"></i>
-                <span>935 844 486</span>
+                <span>(01) 234-5678</span>
               </li>
               <li>
                 <i class="fas fa-envelope mr-2"></i>
@@ -56,7 +55,7 @@ import { Route, RouterLink, RouterLinkActive } from '@angular/router';
               </li>
               <li>
                 <i class="fas fa-map-marker-alt mr-2"></i>
-                <span>Av. la Agricultura KM 01, Ferreñafe 14004</span>
+                <span>Av. Principal 123, Lima</span>
               </li>
             </ul>
           </div>
@@ -69,8 +68,11 @@ import { Route, RouterLink, RouterLinkActive } from '@angular/router';
               © 2024 HBSGool. Todos los derechos reservados.
             </p>
             <div class="flex gap-6">
-              <a routerLink="/terminos" class="text-gray-200 hover:text-white transition-colors duration-200 text-sm">
-                    Términos y Condiciones
+              <a href="#" class="text-gray-200 hover:text-white transition-colors duration-200 text-sm">
+                Términos y Condiciones
+              </a>
+              <a href="#" class="text-gray-200 hover:text-white transition-colors duration-200 text-sm">
+                Política de Privacidad
               </a>
             </div>
           </div>

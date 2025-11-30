@@ -1,8 +1,43 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Page } from '../../schemas/page';
-import { Review } from '../../schemas/review';
+
+export interface Review {
+  idReview: number;
+  usuarioId: number;
+  rating: number;
+  comentario: string;
+  creado: string;
+}
+
+export interface SortInfo {
+  empty: boolean;
+  sorted: boolean;
+  unsorted: boolean;
+}
+
+export interface PageableInfo {
+  sort: SortInfo;
+  offset: number;
+  pageNumber: number;
+  pageSize: number;
+  paged: boolean;
+  unpaged: boolean;
+}
+
+export interface Page<T> {
+  content: T[];
+  pageable?: PageableInfo;
+  totalPages: number;
+  totalElements: number;
+  last: boolean;
+  first: boolean;
+  sort?: SortInfo;
+  numberOfElements?: number;
+  size: number;
+  number: number;
+  empty: boolean;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -45,10 +80,10 @@ export class ReviewService {
    * CREAR REVIEW
    */
   create(data: {
-    rating: number | string;
+    usuarioId: number;
+    rating: number;
     comentario: string;
   }): Observable<Review> {
-    // Enviar rating tal cual (aceptamos string o number para compatibilidad)
     return this.http.post<Review>(this.apiURLBASE, data);
   }
 

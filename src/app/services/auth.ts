@@ -2,9 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 
-import { LoginProfileResponse, AuthResponse, LoginResponse } from './login-response';
-import { AppStateService } from '../app-state/app-state';
-import { StorageService } from '../storage/storage.service';
+import { LoginProfileResponse, AuthResponse, LoginResponse } from './auth/login-response';
+import { AppStateService } from './app-state/app-state';
+import { StorageService } from './storage/storage.service';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -29,10 +29,6 @@ export class AuthService {
           this.lazyGetProfile(res);
         })
       )
-  }
-
-  register(data: any): Observable<any> {
-    return this.http.post(`${this.apiPath}/api/auth/register`, data);
   }
 
   /**

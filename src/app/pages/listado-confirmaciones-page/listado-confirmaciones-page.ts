@@ -1,14 +1,12 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { RemotePaymentConfirmationService } from '../../services/remote-payment-confirmation/remote-payment-confirmation';
+import { RemotePaymentConfirmation, RemotePaymentConfirmationService } from '../../services/remote-payment-confirmation/remote-payment-confirmation';
 import { AppTable } from '../../components/table/table';
 import { Pagination } from '../../components/pagination/pagination';
 import { Button } from '../../components/button/button';
 import { FormsModule } from '@angular/forms';
 import { BreadcrumbsComponent } from '../../components/breadcrumbs/breadcrumbs';
-import { RemotePaymentConfirmation } from '../../schemas/remote-payment-confirmation';
-import { Page } from '../../schemas/page';
 
 @Component({
   selector: 'app-listado-confirmaciones-page',
@@ -59,20 +57,19 @@ export class ListadoConfirmacionesPage implements OnInit {
     };
 
     this.remoteService.getConfirmations(filters).subscribe({
-      next: (resp: Page<RemotePaymentConfirmation>) => {
+      next: (resp: RemotePaymentConfirmation[]) => {
         if (!resp) {
           this.error = 'Respuesta inesperada del servidor';
           this.loading = false;
           return;
         }
 
-        this.allConfirmations = resp.content ?? [];
+        this.allConfirmations = resp ?? [];
         this.confirmations = this.allConfirmations;
-        this.totalElements = resp.content.length ?? 0;
-        //this.totalElements = resp.totalElements ?? 0;
-        this.pageSize = resp.pageable?.pageSize ?? 1;
-        this.totalPages = resp.totalPages;
-        this.page = resp.number + 1;
+        this.totalElements = resp.length ?? 0;
+        this.pageSize = 1;
+        this.totalPages = 1;
+        this.page = 1;
         this.loading = false;
       },
       error: (err: unknown) => {

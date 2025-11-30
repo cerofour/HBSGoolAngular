@@ -1,6 +1,6 @@
 import { Component, computed, Input, signal } from '@angular/core';
+import { ReservationFormCashier, ReservationFormUser } from '../../services/reservation/reservation.service';
 import { calculateEndTime, getDate, getTime } from '../../utils/general-utils';
-import { ReservationForm } from '../../schemas/reservation';
 
 @Component({
   selector: 'app-reservation-summary',
@@ -8,14 +8,14 @@ import { ReservationForm } from '../../schemas/reservation';
   templateUrl: './reservation-summary.html'
 })
 export class ReservationSummary {
-  private _data = signal<(ReservationForm) & { totalPrice?: number } | null>(null);
-  @Input() set data(value: (ReservationForm) & { totalPrice?: number } | null) {
+  private _data = signal<(ReservationFormCashier | ReservationFormUser) & { totalPrice?: number } | null>(null);
+  @Input() set data(value: (ReservationFormCashier | ReservationFormUser) & { totalPrice?: number } | null) {
     this._data.set(value);
   }
   @Input() imagen = 'cancha.png';
 
 
-  get data(): (ReservationForm) & { totalPrice?: number } | null  {
+  get data(): (ReservationFormCashier | ReservationFormUser) & { totalPrice?: number } | null  {
     return this._data();
   }
 

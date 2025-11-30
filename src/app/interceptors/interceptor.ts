@@ -8,7 +8,7 @@ import { inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AppStateService } from '../services/app-state/app-state';
 
-export const authInterceptor: HttpInterceptorFn = (
+export const interceptor: HttpInterceptorFn = (
   req: HttpRequest<any>,
   next: HttpHandlerFn
 ): Observable<HttpEvent<any>> => {

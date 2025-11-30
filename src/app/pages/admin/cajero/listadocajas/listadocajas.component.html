@@ -2,12 +2,7 @@
   <app-breadcrumbs></app-breadcrumbs>
 
   <header class="mb-6">
-    <h1 class="text-2xl font-semibold text-gray-800">Resumen de Sesiones de Cajero</h1>
-
-    @if (summaryList.length > 0) {
-      <h2 class="text-lg font-semibold text-gray-600">{{ summaryList[0].cajero.nombreCompleto }}</h2>
-    }
-
+    <h1 class="text-2xl font-semibold text-gray-800">Listado de Cajas</h1>
     <p class="text-gray-500 text-sm">
       Consulta el historial de aperturas y cierres del cajero seleccionado.
     </p>
@@ -35,7 +30,7 @@
     </label>
 
     <app-button
-      [variant]="loading || !isDateRangeValid() ? 'disabled' : 'primary'"
+      [variant]="cargando || !isDateRangeValid() ? 'disabled' : 'primary'"
       (click)="filtrar()"
     >
       Filtrar
@@ -48,10 +43,10 @@
     </div>
   }
 
-  @if (loading) {
+  @if (cargando) {
     <p class="text-gray-600">Cargando listado de cajas...</p>
 
-  } @else if (summaryList.length === 0) {
+  } @else if (listadoCajas.length === 0) {
     <p class="text-gray-600">No hay cajas para mostrar.</p>
 
   } @else {
@@ -61,34 +56,24 @@
 
         <ng-container table-header>
           <tr>
-            <th class="px-4 py-3 font-medium">Estado</th>
+            <th class="px-4 py-3 font-medium">ID Cajero</th>
             <th class="px-4 py-3 font-medium">Fecha Apertura</th>
             <th class="px-4 py-3 font-medium">Fecha Cierre</th>
             <th class="px-4 py-3 font-medium">Monto Teórico</th>
             <th class="px-4 py-3 font-medium">Monto Real</th>
             <th class="px-4 py-3 font-medium">Diferencia</th>
-            <th class="px-4 py-3 font-medium">Estado</th>
           </tr>
         </ng-container>
 
         <ng-container table-body>
-          @for (cashierSummary of summaryList; track cashierSummary.cajero.idCajero) {
+          @for (caja of listadoCajas; track caja.idCajero) {
             <tr class="hover:bg-gray-50">
-              <td class="px-4 py-3">
-                  @if (!cashierSummary.fechaCierre) {
-                    <app-badge label="Abierta" variant="success"></app-badge>
-                  } @else {
-                    <app-badge label="Cerrada" variant="neutral"></app-badge>
-                  }
-              </td>
-              <td class="px-4 py-3">{{ cashierSummary.fechaApertura | date:'short' }}</td>
-              <td class="px-4 py-3">{{ cashierSummary.fechaCierre | date:'short' }}</td>
-              <td class="px-4 py-3">{{ cashierSummary.montoTeorico | currency:'PEN' }}</td>
-              <td class="px-4 py-3 font-semibold">{{ cashierSummary.montoReal | currency:'PEN' }}</td>
-              <td class="px-4 py-3">{{ (cashierSummary.montoTeorico - cashierSummary.montoReal) | currency:'PEN' }}</td>
-              <td class="px-4 py-3">
-                  <app-button-link variant="neutral" [routerLink]="getTransaccionesRoute(cashierSummary.idSesionCajero)">Ver detalle</app-button-link>
-              </td>
+              <td class="px-4 py-3">{{ caja.idCajero }}</td>
+              <td class="px-4 py-3">{{ caja.fechaApertura | date:'short' }}</td>
+              <td class="px-4 py-3">{{ caja.fechaCierre | date:'short' }}</td>
+              <td class="px-4 py-3">{{ caja.montoTeorico | currency:'PEN' }}</td>
+              <td class="px-4 py-3 font-semibold">{{ caja.montoReal | currency:'PEN' }}</td>
+              <td class="px-4 py-3">{{ (caja.montoTeorico - caja.montoReal) | currency:'PEN' }}</td>
             </tr>
           }
         </ng-container>
@@ -101,7 +86,6 @@
       <app-pagination
         [totalItems]="totalElements"
         [pageSize]="pageSize"
-        [totalPages]="totalPages"
         [currentPage]="page"
         (pageChange)="onPageChange($event)"
       ></app-pagination>

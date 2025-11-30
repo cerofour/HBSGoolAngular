@@ -6,8 +6,7 @@ import { AppTable } from '../../components/table/table';
 import { Pagination } from '../../components/pagination/pagination';
 import { Button } from '../../components/button/button';
 
-import { ReviewService } from '../../services/review/review.service';
-import { Review } from '../../schemas/review';
+import { ReviewService, Review } from '../../services/review/review.service';
 
 @Component({
   selector: 'app-listado-reviews',

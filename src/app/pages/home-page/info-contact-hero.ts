@@ -1,7 +1,4 @@
-import { Component, Inject, computed, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ReviewFormComponent } from '../../components/review-form/review-form';
-import { AppStateService } from '../../services/app-state/app-state';
+import { Component, Inject, computed } from '@angular/core';
 
 @Component({
   selector: 'app-home-info-hero',
@@ -9,7 +6,6 @@ import { AppStateService } from '../../services/app-state/app-state';
   template: `
     <!-- Info/Contact Hero Section -->
     <section
-      id="visitanos"
       class="relative my-12 w-full h-[50vh] min-h-[500px] flex items-center justify-center overflow-hidden"
     >
       <!-- Background Image -->
@@ -34,36 +30,20 @@ import { AppStateService } from '../../services/app-state/app-state';
           ></iframe>
           <div>
             <h2 class="text-4xl md:text-5xl font-bold mb-4 drop-shadow-lg">Visítanos</h2>
-            <p class="text-lg md:text-xl mb-2 drop-shadow">Dirección: Av. la Agricultura KM 01, Ferreñafe 14004</p>
+            <p class="text-lg md:text-xl mb-2 drop-shadow">Dirección: Av. Siempre Viva 123, Lima</p>
             <p class="text-lg md:text-xl mb-2 drop-shadow">
               Horario: Lun - Dom, 8:00 AM - 11:00 PM
             </p>
-            <p class="text-lg md:text-xl drop-shadow">Contacto: +51 935 844 486</p>
+            <p class="text-lg md:text-xl drop-shadow">Contacto: +51 999 888 777</p>
           </div>
         </div>
       </div>
     </section>
-    <div class="py-8 bg-gray-50">
-      <div class="max-w-7xl mx-auto px-4">
-  <app-review-form *ngIf="isUser()"></app-review-form>
-      </div>
-    </div>
   `,
-  imports: [CommonModule, ReviewFormComponent],
 })
 export class InfoContactHero {
-  private appState = inject(AppStateService);
   private readonly placeQuery = 'HBS College';
   private readonly mapsApiKey = 'AIzaSyDkDBGSjxAQEZMDWykRbrWD6u-wfSQB-2k';
-
-  isUser(): boolean {
-    if (!this.appState.isLoggedIn()) return false;
-    const profile = this.appState.getUserProfile();
-    const role = (profile?.rol || '').toString().toUpperCase();
-    // Mostrar solo a roles de usuario/cliente. Ajusta la lista si tu backend usa otros valores.
-    const allowed = ['USUARIO', 'USER', 'CLIENTE'];
-    return allowed.includes(role);
-  }
 
   protected mapsEmbedUrl() {
     const params = new URLSearchParams({ q: this.placeQuery, key: this.mapsApiKey });

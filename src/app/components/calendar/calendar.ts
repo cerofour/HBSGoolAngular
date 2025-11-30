@@ -13,13 +13,10 @@ import {
   ActionEventArgs,
   ScheduleComponent
 } from '@syncfusion/ej2-angular-schedule';
-import { ReservationService } from '../../services/reservation/reservation.service';
+import { Page, Reservation, ReservationFormCashier, ReservationFormUser, ReservationService } from '../../services/reservation/reservation.service';
 import { modalType, ReservationModal } from '../modals/reservation-modal/reservation-modal';
 import { calculateEndTime } from '../../utils/general-utils';
-import { CanchaService } from '../../services/cancha/cancha.service';
-import { Reservation, ReservationForm } from '../../schemas/reservation';
-import { CanchaInfo } from '../../schemas/cancha';
-import { Page } from '../../schemas/page';
+import { CanchaInfo, CanchaService } from '../../services/cancha/cancha.service';
 
 export interface CalendarPermissions {
   canViewDetails: boolean;
@@ -49,7 +46,7 @@ export class Calendar {
   @Input() allowPastDates: boolean = true;
   @Input() modalType: modalType = 'user';
   @Input() modalTitle: string = 'Nueva Reservación';
-  @Input() initialModalData?: Partial<ReservationForm>;
+  @Input() initialModalData?: Partial<ReservationFormUser | ReservationFormCashier>;
   @Input({ required: true }) canchaId!: number;
   @Input() permissions: CalendarPermissions = {
     canViewDetails: true,

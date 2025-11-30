@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CanchaCard } from '../../components/card/card';
-import { CanchaInfo } from '../../schemas/cancha';
+import { CanchaInfo } from '../../services/cancha/cancha.service';
 
 @Component({
   selector: 'app-home-canchas',

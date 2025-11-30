@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { ReservationService } from '../../../../services/reservation/reservation.service';
+import { Reservation, ReservationService } from '../../../../services/reservation/reservation.service';
 import { BreadcrumbsComponent } from '../../../../components/breadcrumbs/breadcrumbs';
 import { Badge } from "../../../../components/badge/badge";
-import { Reservation } from '../../../../schemas/reservation';
 
 @Component({
   selector: 'app-reservation-details',

@@ -3,10 +3,9 @@ import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BreadcrumbsComponent } from '../../../../components/breadcrumbs/breadcrumbs';
 import { Badge } from '../../../../components/badge/badge';
-import { PagoService } from '../../../../services/pago/pago-service';
+import { PagoById, PagoService } from '../../../../services/pago/pago-service';
 import { RemotePaymentConfirmationService } from '../../../../services/remote-payment-confirmation/remote-payment-confirmation';
 import { Button } from '../../../../components/button/button';
-import { PagoById } from '../../../../schemas/pago';
 
 @Component({
   selector: 'app-pago-page',
