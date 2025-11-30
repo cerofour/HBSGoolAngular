@@ -10,7 +10,6 @@ import { Pagination } from '../../../components/pagination/pagination';
   selector: 'app-mis-reservaciones',
   imports: [ReservationCardUser, ReservationCardUserSkeleton, BreadcrumbsComponent, Pagination],
   templateUrl: './mis-reservaciones.html',
-  styleUrl: './mis-reservaciones.css',
 })
 export class MisReservaciones implements OnInit {
   private reservationService = inject(ReservationService)
