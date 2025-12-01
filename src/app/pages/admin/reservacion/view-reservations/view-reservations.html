@@ -92,7 +92,7 @@
           <td class="px-4 py-3">{{ getFormattedDuration(reservation.duracion) }}</td>
           <td class="px-4 py-3">
             <a class="text-primary underline decoration-transparent transition hover:decoration-primary"
-              [routerLink]="['/admin/cajero', reservation.cajero?.idCajero]">
+              [routerLink]="['/admin', 'cajero', 'resumen', reservation.cajero?.idCajero]">
               {{ reservation.cajero?.nombreCompleto }}
             </a>
           </td>
