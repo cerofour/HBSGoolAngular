@@ -13,112 +13,104 @@
 
     <div class="px-6 py-6 space-y-6">
       @if (loading()) {
-        <p class="text-sm text-gray-500">Cargando reservacion...</p>
+      <p class="text-sm text-gray-500">Cargando reservacion...</p>
       } @else if (error()) {
-        <div class="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-          {{ error() ?? "" }}
-        </div>
+      <div class="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+        {{ error() ?? "" }}
+      </div>
       } @else if (reservation()) {
-        <div class="grid gap-6 lg:grid-cols-2">
-          <div class="rounded-xl border border-gray-100 bg-gray-50/70 p-5">
-            <h2 class="text-lg font-semibold text-gray-800 mb-4">Datos principales</h2>
-            <dl class="space-y-4">
-              <div class="flex justify-between text-sm text-gray-500">
-                <dt class="font-medium">ID Reservacion</dt>
-                <dd class="text-base font-semibold text-gray-900">
-                  {{ reservation()?.idReservacion }}
-                </dd>
-              </div>
-              <div class="flex justify-between text-sm text-gray-500">
-                <dt class="font-medium">Usuario ID</dt>
-                <dd class="text-base font-semibold text-gray-900">
-                  {{ reservation()?.usuarioId ?? 'Reservado Por Cajero' }}
-                </dd>
-              </div>
-              <div class="flex justify-between text-sm text-gray-500">
-                <dt class="font-medium">Cajero ID</dt>
-                <dd class="text-base font-semibold text-gray-900">
-                  {{ reservation()?.cajeroId ?? 'Reservado Por Usuario' }}
-                </dd>
-              </div>
-              <div class="flex justify-between text-sm text-gray-500">
-                <dt class="font-medium">DNI</dt>
-                <dd class="text-base font-semibold text-gray-900">
-                  {{ reservation()?.dni }}
-                </dd>
-              </div>
-              <div class="flex justify-between text-sm text-gray-500">
-                <dt class="font-medium">Cancha</dt>
-                <dd class="text-base font-semibold text-gray-900">
-                  #{{ reservation()?.canchaId }}
-                </dd>
-              </div>
-              <div class="flex justify-between text-sm text-gray-500">
-                <dt class="font-medium">Estado</dt>
-                <dd class="text-base font-semibold text-gray-900">
-                  <app-badge variant="danger" [label]="reservation()?.estadoReservacion ?? '?'"/>
-                </dd>
-              </div>
-            </dl>
-          </div>
-
-          <div class="rounded-xl border border-gray-100 bg-gray-50/70 p-5">
-            <h2 class="text-lg font-semibold text-gray-800 mb-4">Horario y costos</h2>
-            <dl class="space-y-4">
-              <div class="flex justify-between text-sm text-gray-500">
-                <dt class="font-medium">Inicio</dt>
-                <dd class="text-base font-semibold text-gray-900">
-                  {{ reservation()?.tiempoInicio | date: 'longDate' }} •
-                  {{ reservation()?.tiempoInicio | date: 'shortTime' }}
-                </dd>
-              </div>
-              <div class="flex justify-between text-sm text-gray-500">
-                <dt class="font-medium">Duracion</dt>
-                <dd class="text-base font-semibold text-gray-900">
-                  {{ reservation()?.duracion }}
-                </dd>
-              </div>
-              <div class="flex justify-between text-sm text-gray-500">
-                <dt class="font-medium">Precio total</dt>
-                <dd class="text-base font-semibold text-gray-900">
-                  {{ reservation()?.precioTotal | currency: 'PEN' }}
-                </dd>
-              </div>
-            </dl>
-          </div>
+      <div class="grid gap-6 lg:grid-cols-2">
+        <div class="rounded-xl border border-gray-100 bg-gray-50/70 p-5">
+          <h2 class="text-lg font-semibold text-gray-800 mb-4">Datos principales</h2>
+          <dl class="space-y-4">
+            <div class="flex justify-between text-sm text-gray-500">
+              <dt class="font-medium">ID Reservacion</dt>
+              <dd class="text-base font-semibold text-gray-900">
+                {{ reservation()?.idReservacion }}
+              </dd>
+            </div>
+            <div class="flex justify-between text-sm text-gray-500">
+              <dt class="font-medium">Usuario ID</dt>
+              <dd class="text-base font-semibold text-gray-900">
+                {{ reservation()?.usuarioId ?? 'Reservado Por Cajero' }}
+              </dd>
+            </div>
+            <div class="flex justify-between text-sm text-gray-500">
+              <dt class="font-medium">Cajero ID</dt>
+              <dd class="text-base font-semibold text-gray-900">
+                {{ reservation()?.cajeroId ?? 'Reservado Por Usuario' }}
+              </dd>
+            </div>
+            <div class="flex justify-between text-sm text-gray-500">
+              <dt class="font-medium">DNI</dt>
+              <dd class="text-base font-semibold text-gray-900">
+                {{ reservation()?.dni }}
+              </dd>
+            </div>
+            <div class="flex justify-between text-sm text-gray-500">
+              <dt class="font-medium">Cancha</dt>
+              <dd class="text-base font-semibold text-gray-900">
+                #{{ reservation()?.canchaId }}
+              </dd>
+            </div>
+            <div class="flex justify-between text-sm text-gray-500">
+              <dt class="font-medium">Estado</dt>
+              <dd class="text-base font-semibold text-gray-900">
+                <app-badge [variant]="badgeState" [label]="reservation()?.estadoReservacion ?? '?'" />
+              </dd>
+            </div>
+          </dl>
         </div>
 
-        <div class="rounded-xl border border-dashed border-primary/30 bg-primary/5 p-5">
-          <h2 class="text-lg font-semibold text-gray-800 mb-2">Accesos rapidos</h2>
-          <p class="text-sm text-gray-500 mb-4">
-            Confirma los pagos o accede a la información de los usuarios de esta reservación.
-          </p>
-          <div class="flex flex-wrap gap-3">
-            <a
-              class="inline-flex items-center rounded-lg border border-primary/30 px-4 py-2 text-sm font-semibold text-primary transition hover:bg-primary/10"
-              [routerLink]="['/admin/pago']" [queryParams]="{ reservacionId: reservation()?.idReservacion?.toString() }"
-              (click)="$event.preventDefault()"
-            >
-              Ver pagos
-            </a>
-            <a
-              class="inline-flex items-center rounded-lg border border-primary/30 px-4 py-2 text-sm font-semibold text-primary transition hover:bg-primary/10"
-              href="#"
-              (click)="$event.preventDefault()"
-            >
-              Ver cajero
-            </a>
-            <a
-              class="inline-flex items-center rounded-lg border border-primary/30 px-4 py-2 text-sm font-semibold text-primary transition hover:bg-primary/10"
-              href="#"
-              (click)="$event.preventDefault()"
-            >
-              Ver usuario
-            </a>
-          </div>
+        <div class="rounded-xl border border-gray-100 bg-gray-50/70 p-5">
+          <h2 class="text-lg font-semibold text-gray-800 mb-4">Horario y costos</h2>
+          <dl class="space-y-4">
+            <div class="flex justify-between text-sm text-gray-500">
+              <dt class="font-medium">Inicio</dt>
+              <dd class="text-base font-semibold text-gray-900">
+                {{ reservation()?.tiempoInicio | date: 'longDate' }} •
+                {{ reservation()?.tiempoInicio | date: 'shortTime' }}
+              </dd>
+            </div>
+            <div class="flex justify-between text-sm text-gray-500">
+              <dt class="font-medium">Duracion</dt>
+              <dd class="text-base font-semibold text-gray-900">
+                {{ reservation()?.duracion }}
+              </dd>
+            </div>
+            <div class="flex justify-between text-sm text-gray-500">
+              <dt class="font-medium">Precio total</dt>
+              <dd class="text-base font-semibold text-gray-900">
+                {{ reservation()?.precioTotal | currency: 'PEN' }}
+              </dd>
+            </div>
+          </dl>
         </div>
+      </div>
+
+      <div class="rounded-xl border border-dashed border-primary/30 bg-primary/5 p-5">
+        <h2 class="text-lg font-semibold text-gray-800 mb-2">Accesos rapidos</h2>
+        <p class="text-sm text-gray-500 mb-4">
+          Confirma los pagos o accede a la información de los usuarios de esta reservación.
+        </p>
+        <div class="flex flex-wrap gap-3">
+          <a class="inline-flex items-center rounded-lg border border-primary/30 px-4 py-2 text-sm font-semibold text-primary transition hover:bg-primary/10"
+            [routerLink]="['/admin/pago']" [queryParams]="{ reservacionId: reservation()?.idReservacion?.toString() }"
+            (click)="$event.preventDefault()">
+            Ver pagos
+          </a>
+
+          @if (reservation()?.cajeroId) {
+          <a class="inline-flex items-center rounded-lg border border-primary/30 px-4 py-2 text-sm font-semibold text-primary transition hover:bg-primary/10"
+            [routerLink]="['/admin', 'cajero', 'resumen', reservation()?.cajeroId]" (click)="$event.preventDefault()">
+            Ver cajero
+          </a>
+          }
+
+        </div>
+      </div>
       } @else {
-        <p class="text-sm text-gray-500">No se encontro la reservacion solicitada.</p>
+      <p class="text-sm text-gray-500">No se encontro la reservacion solicitada.</p>
       }
     </div>
   </div>

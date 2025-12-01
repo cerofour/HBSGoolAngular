@@ -37,4 +37,23 @@ export class ReservationDetails implements OnInit {
         }
       });
   }
+
+  get badgeState() {
+
+    let state = this.reservation()?.estadoReservacion;
+
+    switch(state) {
+      case "POR CONFIRMAR":
+        return "warning";
+      case "CANCELADA":
+        return "danger";
+      case "SALDO":
+        return "warning";
+      case "CONFIRMADA": case "FINALIZADA":
+        return "success";
+      default:
+        return "neutral";
+    }
+
+  }
 }
