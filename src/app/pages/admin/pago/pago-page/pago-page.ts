@@ -23,6 +23,9 @@ export class PagoPage implements OnInit, OnDestroy {
   pago = signal<PagoById | undefined>(undefined);
   loading = signal<boolean>(true);
   error = signal<string | undefined>(undefined);
+  confirmingPayment = signal<boolean>(false);
+  rejectingPayment = signal<boolean>(false);
+  disableButtons = signal<boolean>(false);
 
   evidenciaUrl = signal<string | null>(null);
   evidenciaLoading = signal<boolean>(false);
@@ -68,20 +71,38 @@ export class PagoPage implements OnInit, OnDestroy {
   }
 
   confirmarPago(paymentId: number) {
+    if (this.confirmingPayment()) {
+      return;
+    }
+
+    this.confirmingPayment.set(true);
+
     this.remotePaymentService.confirmPayment(paymentId).subscribe({
       next: () => {
+        this.confirmingPayment.set(false);
       },
       error: () => {
+        this.confirmingPayment.set(false);
         console.error('No se pudo confirmar el pago con ID: ' + paymentId);
       },
     });
   }
 
   rejectPayment(paymentId: number) {
+    if (this.rejectingPayment()) {
+      return;
+    }
+
+    this.rejectingPayment.set(true);
+
     this.pagoService.rejectPayment(paymentId).subscribe({
       next: () => {
+        this.rejectingPayment.set(false);
+        this.disableButtons.set(true);
       },
       error: () => {
+        this.rejectingPayment.set(false);
+        this.disableButtons.set(true);
         console.error('No se pudo rechazar el pago con id: ' + paymentId);
       },
     });
@@ -112,5 +133,12 @@ export class PagoPage implements OnInit, OnDestroy {
       URL.revokeObjectURL(current);
       this.evidenciaUrl.set(null);
     }
+  }
+
+  get disableButton() {
+    if (this.disableButtons() || this.pago()?.estadoPago !== "PENDIENTE")
+      return true;
+
+    return false;
   }
 }

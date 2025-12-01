@@ -8,6 +8,7 @@ export type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'neutral' | 'di
   imports: [CommonModule],
   template: `
     <button 
+      [title]="title()"
       [class]="getButtonClasses()"
       [type]="type()"
       [class.active]="isActive"
@@ -26,6 +27,7 @@ export class Button {
   variant   = input<ButtonVariant>('primary');
   disabled  = input<boolean>(false);
   type      = input<string>('');
+  title     = input<string>('');
   click     = output<void>();
   
   isActive: boolean = false;
@@ -43,8 +45,8 @@ export class Button {
   getButtonClasses(): string {
     const isDisabled = this.variant() === 'disabled' || this.disabled();
 
-    const baseEnabled = 'px-4 py-2 rounded-md font-medium transition-all duration-200 ease-in-out transform focus:outline-none focus:ring-2 focus:ring-offset-2';
-    const baseDisabled = 'px-4 py-2 rounded-md font-medium cursor-not-allowed opacity-60';
+    const baseEnabled = 'grow px-4 py-2 rounded-md font-medium transition-all duration-200 ease-in-out transform focus:outline-none focus:ring-2 focus:ring-offset-2';
+    const baseDisabled = 'grow px-4 py-2 rounded-md font-medium cursor-not-allowed opacity-60';
 
     const variantClasses: Record<ButtonVariant, string> = {
       primary: 'bg-primary text-white hover:bg-primary-hard hover:scale-105 focus:ring-primary',

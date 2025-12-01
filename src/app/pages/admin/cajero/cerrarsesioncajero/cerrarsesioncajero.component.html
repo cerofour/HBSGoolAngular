@@ -15,7 +15,7 @@
 		<form [formGroup]="cashierSessionFormGroup"
 			class="flex flex-col gap-4 justify-center items-center h-full"
 			(submit)="onSubmit($event)">
-      <p>Sesión de Cajero Actual: {{ currentCashierSession() }}</p>
+      		<p>Sesión de Cajero Actual: {{ currentCashierSession() }}</p>
 
 			<app-input label="Monto Real de Dinero" id="montoReal" type="number" placeholder="S/100"
 				inGroupName="montoReal"></app-input>

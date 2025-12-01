@@ -62,35 +62,10 @@
                       [variant]="getEstadoVariant(pago()?.estadoPago)"
                       [label]="pago()?.estadoPago ?? 'Sin estado'"
                     />
-                    @if (pago()?.estadoPago === 'CONFIRMADO') {
-                      <a
-                        href=""
-                        (click)="$event.preventDefault()"
-                        class="text-sm font-semibold text-primary hover:underline"
-                      >
-                        Ver detalles
-                      </a>
-                    }
                   </div>
                 </dd>
               </div>
             </dl>
-            <h2 class="mb-4 text-lg font-semibold text-gray-800">Acciones</h2>
-            <dl class="space-y-4 text-sm text-gray-500">
-              <div class="flex justify-between">
-                <dt class="font-medium">Verificar Pago</dt>
-                <dd class="text-base font-semibold text-gray-900">
-                  <div class="flex gap-4 space-between">
-                    <app-button (click)="confirmarPago(pago()?.idPago ?? 0)" [variant]="pago()?.estadoPago !== 'PENDIENTE' ? 'disabled' : 'primary'">
-                      Confirmar
-                    </app-button>
-                    <app-button (click)="confirmarPago(pago()?.idPago ?? 0)" [variant]="pago()?.estadoPago !== 'PENDIENTE' ? 'disabled' : 'danger'">
-                      Rechazar
-                    </app-button>
-                  </div>
-                </dd>
-              </div>
-              </dl>
           </div>
 
           <div class="rounded-xl border border-gray-100 bg-gray-50/70 p-5">
@@ -114,14 +89,31 @@
                   {{ pago()?.sesionCajero?.montoInicial | currency: 'PEN' }}
                 </dd>
               </div>
+            </dl>
+            <h2 class="mb-4 text-lg font-semibold text-gray-800">Acciones</h2>
+            <dl class="space-y-4 text-sm text-gray-500">
               <div class="flex justify-between">
-                <dt class="font-medium">Apertura</dt>
+                <dt class="font-medium">Verificar Pago</dt>
                 <dd class="text-base font-semibold text-gray-900">
-                  {{ pago()?.sesionCajero?.fechaApertura | date: 'longDate' }} ·
-                  {{ pago()?.sesionCajero?.fechaApertura | date: 'shortTime' }}
+                  <div class="flex gap-4 space-between">
+                    <app-button
+                      (click)="confirmarPago(pago()?.idPago ?? 0)"
+                      [variant]="disableButton ? 'disabled' : 'primary'"
+                      [disabled]="confirmingPayment()"
+                    >
+                      Confirmar
+                    </app-button>
+                    <app-button
+                      (click)="rejectPayment(pago()?.idPago ?? 0)"
+                      [variant]="disableButton ? 'disabled' : 'danger'"
+                      [disabled]="rejectingPayment()"
+                    >
+                      Rechazar
+                    </app-button>
+                  </div>
                 </dd>
               </div>
-            </dl>
+              </dl>
           </div>
         </div>
 

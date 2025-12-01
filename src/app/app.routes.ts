@@ -63,6 +63,11 @@ export const routes: Routes = [
     canActivate: [isLoggedInGuard],
     children: [
       {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'mis-reservaciones',
+      },
+      {
         path: 'mis-reservaciones',
         component: MisReservaciones,
         data: { breadcrumb: 'Mis reservaciones' }

@@ -6,8 +6,6 @@ import { MyInput } from '../../../../components/input/input';
 import { AppStateService } from '../../../../services/app-state/app-state';
 import { CierreCajeroResponse, SesionCajeroService } from '../../../../services/sesion-cajero/sesion-cajero.service';
 import { ToastService } from '../../../../services/toast/toast.service';
-import { AuthService } from '../../../../services/auth/auth';
-import { Router } from '@angular/router';
 import { ReporteCierrePage } from '../../../reporte-cierre-page/reporte-cierre-page';
 
 @Component({
@@ -41,6 +39,20 @@ export class CerrarSesionCajeroComponent {
 
   onSubmit(event: Event) {
     event.preventDefault();
+
+    const montoRealRaw = this.cashierSessionFormGroup.value.montoReal ?? 0;
+    const montoReal = Number(montoRealRaw);
+    const decimalCount = montoRealRaw.toString().split('.')[1]?.length ?? 0;
+
+    if (isNaN(montoReal) || montoReal <= 0) {
+      this.toastService.error('Monto inválido', 'El monto real debe ser mayor a 0.');
+      return;
+    }
+
+    if (decimalCount > 1) {
+      this.toastService.error('Monto inválido', 'El monto real solo puede tener un decimal.');
+      return;
+    }
 
     this.sessionService.cerrarSesionCajero({
       sesionCajeroId: this.appState.getCashierSession()?.sessionId ?? 0,
