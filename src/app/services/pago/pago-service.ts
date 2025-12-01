@@ -10,7 +10,7 @@ import { Pago, PagoById } from '../../schemas/pago';
 })
 export class PagoService {
   private http = inject(HttpClient);
-  private apiPath = 'http://152.67.46.79:8080';
+  private apiPath = 'http://18.222.169.167:8080';
 
   getListadoPagos({
     reservacionId,

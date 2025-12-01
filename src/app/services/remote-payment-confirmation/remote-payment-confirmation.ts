@@ -11,7 +11,7 @@ export class RemotePaymentConfirmationService {
   // Use the backend server IP during local development / integration testing.
   // The teammate requested to point this service to the remote server host.
   // Keep it without a trailing slash so calls like `${this.apiPath}/api/...` form correct URLs.
-  private apiPath = 'http://152.67.46.79:8080';
+  private apiPath = 'http://18.222.169.167:8080';
   private readonly http = inject(HttpClient);
 
   confirmPayment(paymentId: number): Observable<void> {

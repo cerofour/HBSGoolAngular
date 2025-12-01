@@ -54,7 +54,7 @@ describe('ReviewService', () => {
       expect(resp).toEqual(mockResponse);
     });
 
-    const req = httpMock.expectOne((request) => request.url.includes('http://152.67.46.79:8080/api/reviews'));
+    const req = httpMock.expectOne((request) => request.url.includes('http://18.222.169.167:8080/api/reviews'));
 
     expect(req.request.method).toBe('GET');
     expect(req.request.params.get('page')).toBe('0');

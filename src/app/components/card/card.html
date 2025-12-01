@@ -26,7 +26,7 @@
       <div class="px-4 pb-4">
         <app-button-link 
           [routerLink]="['/reservar', canchaInfo().canchaId]"
-          variant="primary"
+          [variant]="canchaInfo().canchaState === 'Mantenimiento' ? 'disabled' : 'primary'" 
         >
           Reservar
         </app-button-link>

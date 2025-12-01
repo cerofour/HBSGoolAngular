@@ -13,9 +13,10 @@
 		@for (r of reservations; track r.idReservacion) {
 		<app-reservation-card-user [reservation]="r"></app-reservation-card-user>
 		}
-		<app-pagination [totalItems]="totalElements" [pageSize]="pageSize" [currentPage]="page"
-			[totalPages]="totalPages" (pageChange)="onPageChange($event)"></app-pagination>
 		}
 	</div>
+
+	<app-pagination [totalItems]="totalElements" [pageSize]="pageSize" [currentPage]="page" [totalPages]="totalPages"
+		(pageChange)="onPageChange($event)"></app-pagination>
 
 </div>

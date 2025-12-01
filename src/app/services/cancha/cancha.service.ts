@@ -9,9 +9,9 @@ import { tap } from 'rxjs/operators';
 })
 export class CanchaService {
   private http = inject(HttpClient);
-  private apiURLBASE = 'http://152.67.46.79:8080/api/cancha/public';
+  private apiURLBASE = 'http://18.222.169.167:8080/api/cancha/public';
   // Base para operaciones administrativas (update/patch) - endpoint correcto según backend
-  private apiAdminBase = 'http://152.67.46.79:8080/api/cancha';
+  private apiAdminBase = 'http://18.222.169.167:8080/api/cancha';
   
   // Subject para notificar a la UI cuando las canchas cambian (p. ej. después de un PATCH)
   private _refresh$ = new Subject<void>();

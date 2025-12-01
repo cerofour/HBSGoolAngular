@@ -1,6 +1,6 @@
 <nav class="flex items-center justify-between gap-3 text-sm select-none">
   <div class="text-gray-600">
-    Página <span class="font-medium text-gray-900">{{ currentPage() }}</span>
+    Página <span class="font-medium text-gray-900">{{ totalPages() === 0 ? 0 : currentPage() }}</span>
     de <span class="font-medium text-gray-900">{{ totalPages() }}</span>
   </div>
 

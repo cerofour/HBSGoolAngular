@@ -9,7 +9,7 @@ import { Reservation, ReservationForAdmin, ReservationForm, ReservationResult } 
 })
 export class ReservationService {
   private http = inject(HttpClient);
-  private apiURLBASE = 'http://152.67.46.79:8080/api/reservaciones'
+  private apiURLBASE = 'http://18.222.169.167:8080/api/reservaciones'
 
   //ROLE: USER
   getRerservationsUser(

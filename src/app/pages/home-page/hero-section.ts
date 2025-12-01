@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import { ButtonLink } from '../../components/button-link/button-link';
 
 @Component({
   selector: 'app-home-hero',
   standalone: true,
-  imports: [ButtonLink],
+  imports: [],
   template: `
 <!-- Hero Section -->
 <section class="relative w-full h-[70vh] min-h-[500px] flex items-center justify-center overflow-hidden">
@@ -23,14 +22,25 @@ import { ButtonLink } from '../../components/button-link/button-link';
       Disfruta del mejor fútbol en nuestras canchas de primera calidad
     </p>
     <div class="flex justify-center">
-      <app-button-link routerLink="#canchas" variant="primary" [fullWidth]="false" class="px-8 py-4 text-lg">
-        Reservar Ahora
-      </app-button-link>
+      <a href="#" (click)="scrollToCanchas($event)" class="bg-primary text-white hover:bg-primary-hard hover:scale-105 focus:ring-primary px-4 py-2 rounded-md font-medium transition-all duration-200 ease-in-out transform focus:outline-none focus:ring-2 focus:ring-offset-2">
+        Reservar ahora
+      </a>
     </div>
   </div>
 </section>
   `,
 })
-export class HeroSection {}
+export class HeroSection {
+
+  scrollToCanchas(event: Event) {
+    event.preventDefault();
+    const existing = document.getElementById('canchas');
+    if (existing) {
+      existing.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      return;
+    }
+  }
+
+}
 
 
