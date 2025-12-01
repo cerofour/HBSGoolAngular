@@ -27,17 +27,24 @@
   <!-- Información de Reserva -->
   <div class="space-y-2 mb-2">
     <div class="text-sm text-gray-700">
-      <span class="font-bold">Reserva ID:</span> {{ formatReservationId(reservation().idReservacion) }}
+      <span class="font-bold">DNI:</span>
+
+      @if (reservation().usuarioId) {
+      <a class="text-primary underline decoration-transparent transition hover:decoration-primary text-sm"
+        [routerLink]="['/admin', 'usuario', reservation().usuarioId]">
+        {{ reservation().dni }}
+      </a>
+      } @else {
+      {{ reservation().dni }}
+      }
     </div>
+    @if (reservation().cajero) {
     <div class="text-sm text-gray-700">
-      <span class="font-bold">DNI:</span> {{ reservation().dni }}
-    </div>
-    <div class="text-sm text-gray-700">
-      <span class="font-bold">{{ reservadoPor }}</span>
-    </div>
-    @if (cajeroInfo) {
-    <div class="text-sm text-gray-700">
-      <span class="font-bold">{{ cajeroInfo }}</span>
+      <span class="font-bold">Cajero:</span>
+      <a class="text-primary underline decoration-transparent transition hover:decoration-primary text-sm"
+        [routerLink]="['/admin', 'cajeros', reservation().cajero?.idCajero ?? 1]">
+        {{ reservation().cajero?.nombreCompleto ?? "Cajero" }}
+      </a>
     </div>
     }
   </div>
@@ -45,17 +52,13 @@
   <!-- Pagos -->
   @if (reservation().pagos && reservation().pagos.length > 0) {
   <div class="mb-2">
-    <div class="text-sm text-gray-700 mb-1">
       <span class="font-bold">Pagos:</span>
-    </div>
-    <div class="flex flex-wrap gap-2">
       @for (pago of reservation().pagos; track pago) {
       <a class="text-primary underline decoration-transparent transition hover:decoration-primary text-sm"
         [routerLink]="['/admin/pago', pago]">
         #{{ pago }}
       </a>
       }
-    </div>
   </div>
   }
 
@@ -74,7 +77,7 @@
   <!-- Footer: Acciones -->
   <div class="flex justify-between gap-4 mt-auto pt-3 border-t border-gray-200 space-y-2">
     @if (isSaldo) {
-    <app-button type="button" (click)="onCompletePayment()" style="width: 100%;">
+    <app-button type="button" variant="secondary" (click)="onCompletePayment()" style="width: 100%;">
       Completar pago
     </app-button>
     }

@@ -110,13 +110,11 @@ export class ReservationCardAdmin {
   // Determina quién reservó
   getReservadoPor(): string {
     const res = this.reservation();
-    const hasCajero = res.cajero !== undefined;
+    const hasCajero = res.cajero !== undefined && res.cajero !== null;
     const hasUsuario = res.usuarioId !== null && res.usuarioId !== undefined;
 
     if (hasCajero && !hasUsuario) {
       return `Reservado por cajero: ${res.cajero?.nombreCompleto}`;
-    } else if (!hasCajero && hasUsuario) {
-      return `Reservado por usuario con id: ${res.usuarioId}`;
     } else if (hasCajero && hasUsuario) {
       return `Reservado por usuario: ${res.usuarioId}`;
     }

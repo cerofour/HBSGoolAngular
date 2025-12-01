@@ -12,11 +12,12 @@ import { ReservationForAdmin } from '../../../../schemas/reservation';
 import { AppStateService } from '../../../../services/app-state/app-state';
 import { Pagination } from '../../../../components/pagination/pagination';
 import { ReservationCardAdmin } from '../../../../components/cards/reservation-card-admin/reservation-card-admin';
+import { ButtonLink } from '../../../../components/button-link/button-link';
 
 @Component({
   selector: 'app-view-reservations',
   standalone: true,
-  imports: [CommonModule, FormsModule, Button, AppTable, RouterModule, BreadcrumbsComponent, Modal, Pagination, ReservationCardAdmin],
+  imports: [CommonModule, FormsModule, Button, AppTable, RouterModule, BreadcrumbsComponent, Modal, Pagination, ReservationCardAdmin, ButtonLink],
   templateUrl: `./view-reservations.html`,
   styleUrl: './view-reservations.css',
 })
@@ -200,4 +201,9 @@ export class ViewReservations {
   setViewMode(mode: 'table' | 'cards'): void {
     this.viewMode = mode;
   }
+
+  public getFormattedDuration(duration: string): string {
+    return duration.slice(2);
+  }
+
 }
