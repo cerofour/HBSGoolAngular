@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Button } from '../../../../components/button/button';
 import { Modal } from '../../../../components/modal/modal';
 import { SesionCajeroService } from '../../../../services/sesion-cajero/sesion-cajero.service';
+import { ToastService } from '../../../../services/toast/toast.service';
 
 @Component({
   selector: 'app-abrir-sesion-cajero',
@@ -16,6 +17,7 @@ export class AbrirSesionCajeroComponent {
   montoInicial: number | null = null;
   blockClose = signal(true);
   private sesionCajeroService = inject(SesionCajeroService);
+  private toastService = inject(ToastService);
   submitting = false;
 
   // Abre el modal desde el padre (AdminDashboard)
@@ -34,10 +36,12 @@ export class AbrirSesionCajeroComponent {
       .abrirSesionCajero(this.montoInicial)
       .subscribe({
         next: _ => {
+          this.toastService.success('Inicio de sesión cajero exitoso!', 'Se inició con éxito su sesión.');
           this.blockClose.set(false);
           this.modal?.close();
         },
         error: _ => {
+          this.toastService.error('Inicio de sesión cajero fallido!', 'Error desconocido.');
           this.blockClose.set(true);
           this.submitting = false;
         },

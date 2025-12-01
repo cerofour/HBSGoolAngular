@@ -38,7 +38,7 @@ export class ReservationPage {
   canchaId!: number;
 
   userPermissions: CalendarPermissions = {
-    canViewDetails: true,
+    canViewDetails: false,
     canEdit: false,
     canDelete: false,
     canCreate: true
@@ -144,12 +144,15 @@ export class ReservationPage {
       this.reservationData.update(prev => ({...prev!, montoInicial: this.paymentAmount}));
 
       if (rol === 'CASHIER')
-        this.reservationService.creationReservationAsCashier(this.reservationData() as ReservationForm, this.selectedImage).subscribe();
+        this.reservationService.creationReservationAsCashier(this.reservationData() as ReservationForm, this.selectedImage).subscribe({
+          next: (_) => this.resetReservationFlow()
+        });
       else if (rol === 'USER' && this.selectedImage !== null)
-        this.reservationService.creationReservationAsUser(this.reservationData() as ReservationForm, this.selectedImage).subscribe();
+        this.reservationService.creationReservationAsUser(this.reservationData() as ReservationForm, this.selectedImage).subscribe({
+          next: (_) => this.resetReservationFlow()
+        });
     }
 
-    this.resetReservationFlow();
   }
 
   private resetReservationFlow() {

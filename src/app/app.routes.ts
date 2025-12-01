@@ -6,10 +6,7 @@ import { ReservationPage } from './pages/reservation-page/reservation-page';
 import { AdminDashboard } from './pages/admin/admin-dashboard/admin-dashboard';
 import { ListadoCajasComponent } from './pages/admin/cajero/listadocajas/listadocajas.component';
 import { CajeroListComponent, CajeroPage } from './pages/admin/cajero/listado_cajero/cajero-page';
-import { ListadoPagosPage } from './pages/admin/pago/listado-pagos-page/listado-pagos-page';
 import { PagoPage } from './pages/admin/pago/pago-page/pago-page';
-import { PagosPorSesionPage } from './pages/pagos-por-sesion-page/pagos-por-sesion-page';
-import { ListadoConfirmacionesPage } from './pages/listado-confirmaciones-page/listado-confirmaciones-page';
 import { ActualizarCanchaComponent } from './pages/admin/cajero/update-cancha/update-cancha';
 import { AdminCanchasPage } from './pages/admin/canchas/canchas';
 import { isCashierGuard } from './guards/is-cashier-guard';
@@ -136,20 +133,6 @@ export const routes: Routes = [
         path: 'pago',
         data: { breadcrumb: 'Pagos' },
         children: [
-          {
-            path: '',
-            component: ListadoPagosPage,
-          },
-          {
-            path: 'por-sesion',
-            component: PagosPorSesionPage,
-            data: { breadcrumb: 'Pagos Por Sesión' },
-          },
-          {
-            path: 'confirmaciones',
-            component: ListadoConfirmacionesPage,
-            data: { breadcrumb: 'Confirmaciones de Pago Remoto ' },
-          },
           {
             path: ':pagoId',
             component: PagoPage,

@@ -152,6 +152,11 @@ export class Calendar {
  onPopupOpen(args: PopupOpenEventArgs): void {
     const eventData = args.data as any;
 
+    if (this.canchaInfo === null || this.canchaInfo?.canchaState === 'Mantenimiento') {
+      args.cancel = true;
+      return;
+    }
+
     if (args.type === 'Editor') {
       args.cancel = true;
       return;

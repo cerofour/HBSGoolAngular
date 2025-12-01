@@ -189,7 +189,7 @@ function buildAdminNavItems(): AdminNavItem[] {
 }
 
 function hasStaticPath(route: Route): route is Route & { path: string } {
-  return typeof route.path === 'string' && route.path.length > 0 && !route.redirectTo;
+  return typeof route.path === 'string' && route.path.length > 0 && !route.redirectTo && route.path !== 'pago';
 }
 
 function getRouteLabel(route: Route): string {
