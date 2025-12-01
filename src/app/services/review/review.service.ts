@@ -9,7 +9,7 @@ import { Review } from '../../schemas/review';
 })
 export class ReviewService {
   private http = inject(HttpClient);
-  private apiURLBASE = 'http://152.67.46.79:8080/api/reviews';
+  private apiURLBASE = 'http://18.222.169.167:8080/api/reviews';
 
   /**
    * LISTADO PARA EL COMPONENTE ListadoReviews

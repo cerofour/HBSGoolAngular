@@ -28,7 +28,7 @@ export interface CreateMovimientoRequest {
 })
 export class BovedaService {
   private http = inject(HttpClient);
-  private apiPath = 'http://152.67.46.79:8080';
+  private apiPath = 'http://18.222.169.167:8080';
 
   getBoveda(): Observable<BovedaResponse> {
     return this.http.get<BovedaResponse>(`${this.apiPath}/api/boveda`);

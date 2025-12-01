@@ -39,7 +39,7 @@ export interface ResumenCaja {
 export class SesionCajeroService {
   private http = inject(HttpClient);
   private appState = inject(AppStateService);
-  private apiPath = 'http://152.67.46.79:8080';
+  private apiPath = 'http://18.222.169.167:8080';
 
   cerrarSesionCajero(data: LogoutCashierRequest): Observable<CierreCajeroResponse> {
     return this.http.post<CierreCajeroResponse>(`${this.apiPath}/api/cierre_cajero`, data);

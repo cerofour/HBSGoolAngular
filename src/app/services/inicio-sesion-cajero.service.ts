@@ -19,7 +19,7 @@ export interface SesionCajeroResponse {
 export class InicioSesionCajeroService {
 
   private http = inject(HttpClient);
-  private apiPath = 'http://152.67.46.79:8080';
+  private apiPath = 'http://18.222.169.167:8080';
 
   iniciarSesionCajero(data: CreateCashierSessionRequest): Observable<SesionCajeroResponse> {
     return this.http.post<SesionCajeroResponse>(

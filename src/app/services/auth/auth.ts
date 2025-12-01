@@ -17,7 +17,7 @@ export class AuthService {
   private storage = inject(StorageService);
   private route = inject(Router);
 
-  private apiPath = "http://152.67.46.79:8080";
+  private apiPath = "http://18.222.169.167:8080";
 
   login(email: string, password: string): Observable<LoginResponse> {
 

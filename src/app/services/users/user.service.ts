@@ -10,7 +10,7 @@ import { Page } from '../../schemas/page';
 export class UserService {
   private http = inject(HttpClient);
 
-  private apiURLBASE = 'http://152.67.46.79:8080/api/usuario/';
+  private apiURLBASE = 'http://18.222.169.167:8080/api/usuario/';
 
   getListadoUsers(
     { name, dni, active, page = 0, size = 20, sort = "fatherLastname,asc"} : {name?: string, dni?: string, active?: boolean | string, page?: number, size?: number, sort?: string}
