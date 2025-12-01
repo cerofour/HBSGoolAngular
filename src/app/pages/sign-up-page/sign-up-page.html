@@ -34,12 +34,13 @@
       </app-input>
 
       <app-input 
-        label="DNI"
+        label="DNI o CE"
         id="signup-dni"
         type="text"
         placeholder="54903278"
         inGroupName="dni"
-        [maxlength]="8"
+        pattern="^(\d{8}|\d{12})$"
+        [maxlength]="12"
         [minlength]="8">
       </app-input>
 

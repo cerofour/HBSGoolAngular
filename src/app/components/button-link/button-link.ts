@@ -2,7 +2,7 @@ import { Component, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
-export type ButtonLinkVariant = 'primary' | 'secondary' | 'danger' | 'neutral';
+export type ButtonLinkVariant = 'primary' | 'secondary' | 'danger' | 'neutral' | 'disabled';
 
 @Component({
   selector: 'app-button-link',
@@ -10,7 +10,7 @@ export type ButtonLinkVariant = 'primary' | 'secondary' | 'danger' | 'neutral';
   imports: [CommonModule, RouterLink],
   template: `
     <a 
-      [routerLink]="routerLink()"
+      [routerLink]="variant() === 'disabled' ? '' :  routerLink()"
       [class]="getAllClasses()"
     >
       <ng-content></ng-content>
@@ -28,14 +28,17 @@ export class ButtonLink {
       primary: 'bg-primary text-white hover:bg-primary-hard focus:ring-primary',
       secondary: 'bg-secondary text-white hover:bg-secondary-dark focus:ring-secondary',
       danger: 'bg-danger text-white hover:bg-danger-dark focus:ring-danger',
-      neutral: 'bg-gray-200 text-gray-800 hover:bg-gray-300 focus:ring-gray-500'
+      neutral: 'bg-gray-200 text-gray-800 hover:bg-gray-300 focus:ring-gray-500',
+      disabled: 'bg-gray-400 text-gray-600'
     };
 
     return variantClasses[this.variant()];
   }
 
   getContainerClasses(): string {
-    const baseClasses = 'block text-center px-4 py-2 rounded-md font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2';
+    let baseClasses = 'block text-center px-4 py-2 rounded-md font-medium transition-colors duration-200 focus:outline-none ';
+    if (this.variant() !== 'disabled') baseClasses += 'focus:ring-2 focus:ring-offset-2';
+
     const widthClass = this.fullWidth() ? 'w-full' : 'w-auto inline-block';
     return `${baseClasses} ${widthClass}`;
   }
