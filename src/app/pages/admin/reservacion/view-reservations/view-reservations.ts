@@ -11,11 +11,12 @@ import { Modal } from '../../../../components/modal/modal';
 import { ReservationForAdmin } from '../../../../schemas/reservation';
 import { AppStateService } from '../../../../services/app-state/app-state';
 import { Pagination } from '../../../../components/pagination/pagination';
+import { ReservationCardAdmin } from '../../../../components/cards/reservation-card-admin/reservation-card-admin';
 
 @Component({
   selector: 'app-view-reservations',
   standalone: true,
-  imports: [CommonModule, FormsModule, Button, AppTable, RouterModule, BreadcrumbsComponent, Modal, Pagination],
+  imports: [CommonModule, FormsModule, Button, AppTable, RouterModule, BreadcrumbsComponent, Modal, Pagination, ReservationCardAdmin],
   templateUrl: `./view-reservations.html`,
   styleUrl: './view-reservations.css',
 })
@@ -51,6 +52,9 @@ export class ViewReservations {
   pageSize = 20;
   totalElements = 0;
   totalPages = 1;
+
+  // View mode: 'table' or 'cards'
+  viewMode: 'table' | 'cards' = 'table';
 
   ngOnInit() {
     this.loadPage(this.page);
@@ -191,5 +195,9 @@ export class ViewReservations {
       medioPago: '',
       evidencia: null,
     };
+  }
+
+  setViewMode(mode: 'table' | 'cards'): void {
+    this.viewMode = mode;
   }
 }

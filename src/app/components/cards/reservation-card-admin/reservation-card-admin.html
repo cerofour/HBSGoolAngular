@@ -1,0 +1,85 @@
+<div class="p-4 w-full border border-gray-100 shadow rounded-2xl bg-white flex flex-col h-full">
+  <!-- Header: Fecha y Estado -->
+  <div class="flex justify-between items-center mb-3">
+    <div class="flex items-center gap-2">
+      <i class="ph ph-calendar"></i>
+      <span class="text-gray-800 font-bold">{{ formattedDate }}</span>
+    </div>
+    <app-badge [variant]="getBadgeVariant()" [label]="getEstadoLabel()"></app-badge>
+  </div>
+
+  <!-- Cancha -->
+  <div class="mb-2">
+    <div class="flex items-center gap-2">
+      <i class="ph ph-soccer-ball"></i>
+      <span class="text-gray-800 font-medium">Cancha: {{ reservation().canchaId }}</span>
+    </div>
+  </div>
+
+  <!-- Hora y Duración -->
+  <div class="mb-2 text-gray-800">
+    <p>
+      <i class="ph ph-clock"></i>
+      {{ formattedTimeRange }} ({{ formattedDuration }})
+    </p>
+  </div>
+
+  <!-- Información de Reserva -->
+  <div class="space-y-2 mb-2">
+    <div class="text-sm text-gray-700">
+      <span class="font-bold">Reserva ID:</span> {{ formatReservationId(reservation().idReservacion) }}
+    </div>
+    <div class="text-sm text-gray-700">
+      <span class="font-bold">DNI:</span> {{ reservation().dni }}
+    </div>
+    <div class="text-sm text-gray-700">
+      <span class="font-bold">{{ reservadoPor }}</span>
+    </div>
+    @if (cajeroInfo) {
+    <div class="text-sm text-gray-700">
+      <span class="font-bold">{{ cajeroInfo }}</span>
+    </div>
+    }
+  </div>
+
+  <!-- Pagos -->
+  @if (reservation().pagos && reservation().pagos.length > 0) {
+  <div class="mb-2">
+    <div class="text-sm text-gray-700 mb-1">
+      <span class="font-bold">Pagos:</span>
+    </div>
+    <div class="flex flex-wrap gap-2">
+      @for (pago of reservation().pagos; track pago) {
+      <a class="text-primary underline decoration-transparent transition hover:decoration-primary text-sm"
+        [routerLink]="['/admin/pago', pago]">
+        #{{ pago }}
+      </a>
+      }
+    </div>
+  </div>
+  }
+
+  <!-- Total y Saldo -->
+  <div class="pt-2 border-t border-gray-200 mb-3 space-y-1">
+    <div class="text-sm text-gray-700">
+      <span class="font-bold">Total:</span>
+      <span class="font-semibold text-gray-900 ml-2">{{ formattedPrice }}</span>
+    </div>
+    <div class="text-sm text-gray-700">
+      <span class="font-bold">Saldo:</span>
+      <span class="font-semibold text-gray-900 ml-2">{{ formattedSaldo }}</span>
+    </div>
+  </div>
+
+  <!-- Footer: Acciones -->
+  <div class="flex justify-between gap-4 mt-auto pt-3 border-t border-gray-200 space-y-2">
+    @if (isSaldo) {
+    <app-button type="button" (click)="onCompletePayment()" style="width: 100%;">
+      Completar pago
+    </app-button>
+    }
+    <app-button-link [routerLink]="detailRoute" variant="primary" [fullWidth]="true" style="width: 100%">
+      Ver detalle
+    </app-button-link>
+  </div>
+</div>
