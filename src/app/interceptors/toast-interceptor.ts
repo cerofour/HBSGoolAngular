@@ -95,7 +95,7 @@ export const toastInterceptor: HttpInterceptorFn = (req, next) => {
             message = 'El servicio está temporalmente no disponible. Intenta más tarde.';
             break;
           default:
-            // Si el backend envía un mensaje personalizado
+            // En caso de que el backend envie un mensaje de error
             if (error.error?.message) {
               message = error.error.message;
             }
