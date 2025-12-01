@@ -68,7 +68,7 @@ export class ActualizarCanchaComponent implements OnInit {
           nombre: cancha.name ?? '',
           descripcion: cancha.description ?? '',
           precioHora: cancha.hourlyPrice ?? 0,
-          estadoCancha: cancha.canchaState ?? ''
+          estadoCancha: 'Disponible'
         });
         this.loading = false;
       },
