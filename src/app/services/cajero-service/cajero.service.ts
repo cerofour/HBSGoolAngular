@@ -8,7 +8,7 @@ import { CashierDTO, RegisterCashierResult, RegisterRequestDTO } from '../../sch
 })
 export class CajeroService {
   private http = inject(HttpClient);
-  private apiPath = 'http://18.222.169.167:8080'; 
+  private apiPath = 'http://20.42.109.216:8080'; 
 
   createCashier(data: RegisterRequestDTO): Observable<RegisterCashierResult> {
     return this.http.post<RegisterCashierResult>(`${this.apiPath}/api/cajero`, data);
